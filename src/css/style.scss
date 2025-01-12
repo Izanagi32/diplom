@@ -1,0 +1,124 @@
+.container {
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.homepage {
+    min-height: 100vh;
+}
+
+.navbar {
+    position: static; 
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+
+    &__top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        padding: 16px 80px;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+
+    &__contact {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__mail {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__social {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 32px;
+        padding: 0px;
+
+        &__link {
+            text-decoration: none;
+            font-size: 14px;
+            fill: #fff;
+
+            &__icon {
+                width: 18px;
+                height: 18px;
+                left: 3px;
+                top: 3px;          
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+    &__bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #ccc;
+        padding: 10px 20px;
+    }
+
+    &__logo {
+        &-image {
+            width: 50px;
+            height: auto;
+        }
+    }
+
+    &__menu {
+        display: flex;
+        list-style: none;
+
+        &-item {
+            margin: 0 15px;
+
+            &-link {
+                text-decoration: none;
+                color: #000;
+                font-size: 16px;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    &__cta {
+        &-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: #444;
+            }
+        }
+    }
+}
