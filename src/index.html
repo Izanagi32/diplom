@@ -153,8 +153,291 @@
           </div>
         </div>
         </div>
-      </section>      
+        <div class="links__cont">
+          <div class="links__divider"></div>
+        </div>
+      </section>  
+      
+      <section class="cost-estimation">
+        <div class="container">
+          <div class="cost-estimation__content">
+            <!-- Лівий блок -->
+            <div class="cost-estimation__info">
+              <h2 class="cost-estimation__title">Розрахунок вартості<br> перевезення</h2>
+              <p class="cost-estimation__description">
+                Введіть дані про місце відправлення та призначення, габарити й вагу вантажу, 
+                щоб <br> отримати персональну пропозицію від логістичних послуг.Ми забезпечимо<br> швидкий та точний розрахунок, щоб ви могли прийняти інформоване рішення.
+              </p>
+              
+              <div class="cost-estimation__features">
+                <div class="cost-estimation__feature">
+                  <img src="/src/img/testimg.png" alt="Простий процес" class="cost-estimation__feature-icon">
+                  <div class="cost-estimation__feature-content">
+                    <h3 class="cost-estimation__feature-title">Простий процес</h3>
+                    <p class="cost-estimation__feature-text">Лише кілька полів для заповнення <br> — і ви отримаєте орієнтовну вартість.</p>
+                  </div>
+                </div>
+                
+                <div class="cost-estimation__feature">
+                  <img src="/src/img/testimg.png" alt="Швидка відповідь" class="cost-estimation__feature-icon">
+                  <div class="cost-estimation__feature-content">
+                    <h3 class="cost-estimation__feature-title">Швидка відповідь</h3>
+                    <p class="cost-estimation__feature-text">Ми оперативно прорахуємо ваш запит.</p>
+                  </div>
+                </div>
+      
+                <div class="cost-estimation__feature">
+                  <img src="/src/img/testimg.png" alt="Гнучкі умови" class="cost-estimation__feature-icon">
+                  <div class="cost-estimation__feature-content">
+                    <h3 class="cost-estimation__feature-title">Гнучкі умови</h3>
+                    <p class="cost-estimation__feature-text">Ми запропонуємо найкращий маршрут.</p>
+                  </div>
+                </div>
+      
+                <div class="cost-estimation__feature">
+                  <img src="/src/img/testimg.png" alt="Індивідуальний підхід" class="cost-estimation__feature-icon">
+                  <div class="cost-estimation__feature-content">
+                    <h3 class="cost-estimation__feature-title">Індивідуальний підхід</h3>
+                    <p class="cost-estimation__feature-text">Рішення, що відповідають вашим потребам.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Правий блок (Форма) -->
+            <form class="shipping-form">
+              <h1 class="shipping-form__title">Отримати пропозицію</h1>
+              
+              <div class="shipping-form__details">
+                <div class="shipping-form__location">
+                  <h2 class="shipping-form__section-title">Отримати пропозицію</h2>
+                  <div class="shipping-form__inputs shipping-form__inputs--postal">
+                    <label for="pickup-postal" class="visually-hidden">Поштовий індекс відправлення</label>
+                    <input 
+                      type="text" 
+                      id="pickup-postal" 
+                      class="shipping-form__input" 
+                      placeholder="Поштовий індекс відправлення" 
+                      required
+                    >
+                    
+                    <label for="delivery-postal" class="visually-hidden">Поштовий індекс призначення</label>
+                    <input 
+                      type="text" 
+                      id="delivery-postal" 
+                      class="shipping-form__input" 
+                      placeholder="Поштовий індекс призначення" 
+                      required
+                    >
+                  </div>
+                </div>
+            
+                <div class="shipping-form__dimensions">
+                  <h2 class="shipping-form__section-title">Інформація про вантаж</h2>
+                  <div class="shipping-form__inputs shipping-form__inputs--dimensions">
+                    <div class="shipping-form__dimension-fields">
+                      <label for="length" class="visually-hidden">Довжина</label>
+                      <input 
+                        type="number" 
+                        id="length" 
+                        class="shipping-form__input" 
+                        placeholder="Довжина" 
+                        required
+                      >
+                      
+                      <label for="width" class="visually-hidden">Ширина</label>
+                      <input 
+                        type="number" 
+                        id="width" 
+                        class="shipping-form__input" 
+                        placeholder="Ширина" 
+                        required
+                      >
+                      
+                      <label for="height" class="visually-hidden">Висота</label>
+                      <input 
+                        type="number" 
+                        id="height" 
+                        class="shipping-form__input" 
+                        placeholder="Висота" 
+                        required
+                      >
+                    </div>
+            
+                    <div class="shipping-form__radio-group">
+                      <div class="shipping-form__radio-option">
+                        <input 
+                          type="radio" 
+                          id="inches" 
+                          name="dimension-unit" 
+                          class="shipping-form__radio-input" 
+                          checked
+                        >
+                        <label for="inches">inches</label>
+                      </div>
+                      <div class="shipping-form__radio-option">
+                        <input 
+                          type="radio" 
+                          id="feet" 
+                          name="dimension-unit" 
+                          class="shipping-form__radio-input"
+                        >
+                        <label for="feet">feet</label>
+                      </div>
+                    </div>
+            
+                    <div class="shipping-form__weight">
+                      <label for="weight" class="visually-hidden">Вага</label>
+                      <input 
+                        type="number" 
+                        id="weight" 
+                        class="shipping-form__input" 
+                        placeholder="Вага" 
+                        required
+                      >
+                      
+                      <div class="shipping-form__radio-group">
+                        <div class="shipping-form__radio-option">
+                          <input 
+                            type="radio" 
+                            id="lbs" 
+                            name="weight-unit" 
+                            class="shipping-form__radio-input" 
+                            checked
+                          >
+                          <label for="lbs">lbs</label>
+                        </div>
+                        <div class="shipping-form__radio-option">
+                          <input 
+                            type="radio" 
+                            id="kg" 
+                            name="weight-unit" 
+                            class="shipping-form__radio-input"
+                          >
+                          <label for="kg">kg</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <button type="submit" class="shipping-form__submit">Отримати розрахунок</button>
+            </form>
+            
+          </div>
+        </div>
+      </section>
 
+      <div class="links__cont">
+        <div class="links__divider"></div>
+        </div>
+
+      <section class="process">
+          <h2 class="process__title">Наш процес співпраці</h2>
+          
+          <div class="process__steps">
+            <!-- Активний крок -->
+            <div class="process__step process__step--active">
+              <span class="process__step-number">01</span>
+              <span class="process__step-text">Надішліть запит</span>
+            </div>
+            
+            <!-- Неактивні кроки -->
+            <div class="process__step process__step--inactive">
+              <span class="process__step-number">02</span>
+              <span class="process__step-text">Оцінка вартості</span>
+            </div>
+            <div class="process__step process__step--inactive">
+              <span class="process__step-number">03</span>
+              <span class="process__step-text">Погодження умов</span>
+            </div>
+            <div class="process__step process__step--inactive">
+              <span class="process__step-number">04</span>
+              <span class="process__step-text">Доставка вантажу</span>
+            </div>
+          </div>
+        </section>
+        
+          <footer class="site-footer">
+            <div class="container">
+            <div class="site-footer__top">
+              <img 
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/58d965c9179396e5e750b0dd092a01b5abe29d9608be71513e3b0c83c0abf48f?apiKey=62eb40ef250c4680b7f562a59518138b&" 
+                alt="Company Logo" 
+                class="site-footer__brand-logo"
+              >
+              <nav class="site-footer__nav" role="navigation" aria-label="Footer Navigation">
+                <a href="#" class="site-footer__nav-item" tabindex="0">Головна</a>
+                <a href="#" class="site-footer__nav-item" tabindex="0">Про нас</a>
+                <a href="#" class="site-footer__nav-item" tabindex="0">Інструменти</a>
+                <a href="#" class="site-footer__nav-item" tabindex="0">Вакансії</a>
+              </nav>
+              <img 
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/58d965c9179396e5e750b0dd092a01b5abe29d9608be71513e3b0c83c0abf48f?apiKey=62eb40ef250c4680b7f562a59518138b&" 
+                alt="Company Logo" 
+                class="site-footer__brand-logo"
+              >
+            </div>
+          
+            <hr class="site-footer__divider">
+          
+            <div class="site-footer__info">
+              <div class="site-footer__info-section">
+                <h2 class="site-footer__info-heading">Графік роботи</h2>
+                <p class="site-footer__hours-text">Пн–Пт: 8:00–19:30</p>
+              </div>
+          
+              <div class="site-footer__info-section">
+                <h2 class="site-footer__info-heading">Адреса</h2>
+                <p class="site-footer__address-text">Level 1, 12 Sample St, Sydney NSW 2000</p>
+              </div>
+          
+              <div class="site-footer__info-section">
+                <h2 class="site-footer__info-heading">Контакти</h2>
+                <div class="site-footer__contact-list">
+                  <div class="site-footer__contact-item">
+                    <i class="ti ti-mail site-footer__icon" aria-hidden="true"></i>
+                    <span>Info@example.com</span>
+                  </div>
+                  <div class="site-footer__contact-item">
+                    <i class="ti ti-phone site-footer__icon" aria-hidden="true"></i>
+                    <span>1800 123 4567</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            <hr class="site-footer__divider">
+          
+            <div class="site-footer__bottom">
+              <p class="site-footer__copyright">
+                © 2024 Trucking deliver. Усі права захищено.
+              </p>
+          
+              <nav class="site-footer__policy-menu" role="navigation" aria-label="Legal Navigation">
+                <a href="#" class="site-footer__policy-link" tabindex="0">Політика конфіденційності</a>
+                <a href="#" class="site-footer__policy-link" tabindex="0">Правила та умови</a>
+              </nav>
+          
+              <nav class="site-footer__social-menu" role="navigation" aria-label="Social Media Links">
+                <a href="/src/svg/facebook.svg" class="site-footer__social-link" aria-label="Facebook" tabindex="0">
+                  <img src="/src/svg/facebook.svg" alt="Facebook">
+                </a>
+                <a href="svg/instagram.svg" class="site-footer__social-link" aria-label="Instagram" tabindex="0">
+                  <img src="/src/svg/instagram.svg" alt="Instagram">
+                </a>
+                <a href="svg/linkedin.svg" class="site-footer__social-link" aria-label="LinkedIn" tabindex="0">
+                  <img src="/src/svg/linkedin.svg" alt="LinkedIn">
+                </a>
+                <a href="svg/twitter.svg" class="site-footer__social-link" aria-label="Twitter" tabindex="0">
+                  <img src="/src/svg/twitter.svg" alt="Twitter">
+                </a>
+              </nav>
+            </div>
+          </div>
+          </footer>
+        
     </main>
   </body>
 </html>
