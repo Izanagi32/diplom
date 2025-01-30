@@ -114,6 +114,8 @@
     &-image {
       width: 50px;
       height: auto;
+      background-color: white;
+      border-radius: 20%;
     }
   }
 
@@ -292,6 +294,16 @@
     font-weight: 600;
     line-height: 32px; /* 133.333% */
     letter-spacing: 0.24px;
+    padding: 8px 16px;
+    border: 0.5px solid transparent;
+    border-radius: 15%;
+    background-color: #fff;
+    transition: background-color 1s ease, border-color 1s ease;
+
+    &:hover {
+      background-color: #f2f2f2;
+      border-color: #000;
+    }
   }
 
   &__cont {
