@@ -160,7 +160,8 @@
   display: flex;
   padding: 220px 80px;
   align-items: center;
-  background-color: #444;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/src/img/hero-photo1.png") bottom center/cover no-repeat;
+  background-position: 50% 77%;
 }
 .hero__wrap {
   display: flex;
@@ -641,6 +642,7 @@
   width: 240px;
   align-self: stretch;
   margin: auto 0;
+  border-radius: 70%;
 }
 .site-footer__nav {
   display: flex;
