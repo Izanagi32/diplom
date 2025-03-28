@@ -107,7 +107,7 @@
               <a href="#cost-estimation" class="links__link">Розрахунок</a>
             </li>
             <li class="links__item">
-              <a href="#process" class="links__link">Процес співпраці</a>
+              <a href="#tabs" class="links__link">Процес співпраці</a>
             </li>
           </ul>
           <div class="links__cont">
@@ -408,31 +408,94 @@
         <div class="links__divider"></div>
       </div>
 
-      <section class="process" id="process">
-        <h2 class="process__title">Наш процес співпраці</h2>
+      <div class="tabs" id="tabs">
+        <div class="container">
+          <div class="tabs__cont">
+            <ul class="tabs__list">
+              <li class="tabs__item">
+                <button
+                  class="tabs__button tabs__button--active"
+                  data-tab="step1"
+                >
+                  <span class="tabs__icon">📝</span>
+                  Крок 1: Заявка
+                </button>
+              </li>
+              <li class="tabs__item">
+                <button class="tabs__button" data-tab="step2">
+                  <span class="tabs__icon">📞</span>
+                  Крок 2: Підтвердження
+                </button>
+              </li>
+              <li class="tabs__item">
+                <button class="tabs__button" data-tab="step3">
+                  <span class="tabs__icon">🚚</span>
+                  Крок 3: Забір вантажу
+                </button>
+              </li>
+              <li class="tabs__item">
+                <button class="tabs__button" data-tab="step4">
+                  <span class="tabs__icon">🗺️</span>
+                  Крок 4: Перевезення
+                </button>
+              </li>
+              <li class="tabs__item">
+                <button class="tabs__button" data-tab="step5">
+                  <span class="tabs__icon">📦</span>
+                  Крок 5: Доставка
+                </button>
+              </li>
+            </ul>
 
-        <div class="process__steps">
-          <!-- Активний крок -->
-          <div class="process__step process__step--active">
-            <span class="process__step-number">01</span>
-            <span class="process__step-text">Надішліть запит</span>
-          </div>
+            <div class="tabs__content">
+              <div id="tab-step1" class="tabs__panel tabs__panel--active">
+                <h3 class="tabs__title">Крок 1: Оформлення заявки</h3>
+                <p class="tabs__info">
+                  Клієнт заповнює форму замовлення на сайті або звертається до
+                  менеджера компанії телефоном. У заявці зазначається тип
+                  вантажу, місце відправлення та доставки, бажана дата.
+                </p>
+              </div>
 
-          <!-- Неактивні кроки -->
-          <div class="process__step process__step--inactive">
-            <span class="process__step-number">02</span>
-            <span class="process__step-text">Оцінка вартості</span>
-          </div>
-          <div class="process__step process__step--inactive">
-            <span class="process__step-number">03</span>
-            <span class="process__step-text">Погодження умов</span>
-          </div>
-          <div class="process__step process__step--inactive">
-            <span class="process__step-number">04</span>
-            <span class="process__step-text">Доставка вантажу</span>
+              <div id="tab-step2" class="tabs__panel">
+                <h3 class="tabs__title">Крок 2: Підтвердження замовлення</h3>
+                <p class="tabs__info">
+                  Менеджер зв'язується з клієнтом для уточнення деталей: вага,
+                  об'єм, вимоги до транспорту. Після цього замовлення фіксується
+                  в системі та формується маршрут.
+                </p>
+              </div>
+
+              <div id="tab-step3" class="tabs__panel">
+                <h3 class="tabs__title">Крок 3: Забір вантажу</h3>
+                <p class="tabs__info">
+                  У зазначену дату водій приїжджає за адресою відправника,
+                  перевіряє вантаж, оформлює необхідні документи та завантажує
+                  його в транспортний засіб.
+                </p>
+              </div>
+
+              <div id="tab-step4" class="tabs__panel">
+                <h3 class="tabs__title">Крок 4: Перевезення</h3>
+                <p class="tabs__info">
+                  Вантаж прямує до місця призначення згідно з маршрутом. Клієнт
+                  може відстежувати статус доставки онлайн. У випадку затримок
+                  клієнт інформується.
+                </p>
+              </div>
+
+              <div id="tab-step5" class="tabs__panel">
+                <h3 class="tabs__title">Крок 5: Доставка вантажу</h3>
+                <p class="tabs__info">
+                  Вантаж доставляється за вказаною адресою, передається
+                  отримувачу, підписуються супровідні документи. Доставка
+                  вважається завершеною.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </main>
 
     <footer class="site-footer">
@@ -554,7 +617,7 @@
       </div>
     </footer>
 
-    <script src="./script.js"></script>
-    <script src="./smooth-scroll.js"></script>
+    <script src="./src/js/tabs.js"></script>
+    <script src="./src/js/smooth-scroll.js"></script>
   </body>
 </html>

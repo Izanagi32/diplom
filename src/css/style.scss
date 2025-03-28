@@ -202,7 +202,8 @@
     font-size: 64px;
     font-style: normal;
     font-weight: 700;
-    line-height: 72px; /* 112.5% */
+    line-height: 72px;
+    /* 112.5% */
     letter-spacing: 0.64px;
   }
 
@@ -212,7 +213,8 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 24px; /* 150% */
+    line-height: 24px;
+    /* 150% */
   }
 
   &__actions {
@@ -243,7 +245,8 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
-    line-height: 24px; /* 150% */
+    line-height: 24px;
+    /* 150% */
     text-transform: uppercase;
   }
 
@@ -268,7 +271,8 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
-    line-height: 24px; /* 150% */
+    line-height: 24px;
+    /* 150% */
     text-transform: uppercase;
   }
 }
@@ -294,7 +298,8 @@
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
-    line-height: 32px; /* 133.333% */
+    line-height: 32px;
+    /* 133.333% */
     letter-spacing: 0.24px;
     padding: 8px 16px;
     border: 0.5px solid transparent;
@@ -342,7 +347,8 @@
     font-size: 52px;
     font-style: normal;
     font-weight: 700;
-    line-height: 64px; /* 123.077% */
+    line-height: 64px;
+    /* 123.077% */
     letter-spacing: 0.52px;
   }
 
@@ -388,7 +394,8 @@
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
-    line-height: 32px; /* 133.333% */
+    line-height: 32px;
+    /* 133.333% */
     letter-spacing: 0.24px;
   }
 
@@ -400,7 +407,8 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 24px; /* 150% */
+    line-height: 24px;
+    /* 150% */
   }
 }
 
@@ -429,7 +437,8 @@
     font-size: 52px;
     font-style: normal;
     font-weight: 700;
-    line-height: 64px; /* 123.077% */
+    line-height: 64px;
+    /* 123.077% */
     letter-spacing: 0.52px;
   }
 
@@ -441,7 +450,8 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 24px; /* 150% */
+    line-height: 24px;
+    /* 150% */
   }
 
   &__features {
@@ -477,7 +487,8 @@
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
-    line-height: 32px; /* 133.333% */
+    line-height: 32px;
+    /* 133.333% */
     letter-spacing: 0.24px;
   }
 
@@ -489,7 +500,8 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 24px; /* 150% */
+    line-height: 24px;
+    /* 150% */
   }
 }
 
@@ -619,101 +631,88 @@
   border: 0;
 }
 
-.process {
+.tabs {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 40px 0px 40px 0px;
-  font-family: Teko, sans-serif;
+  gap: 16px;
 
-  &__title {
-    color: var(--Black-black-100, #000);
-    text-align: center;
-    font: 700 52px/1 Teko, sans-serif;
-    letter-spacing: 0.52px;
-    margin: 0 0 100px;
+  &__cont {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 0px 80px 40px 80px;
   }
 
-  &__steps {
+  &__list {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 200px;
   }
 
-  &__step {
+  &__button {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 24px 0;
-    gap: 32px;
-    border-bottom: 1px solid var(--Black-black-100, #000);
+    padding: 12px 16px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s ease;
 
-    // Якщо потрібно відрізняти колір/стиль активних або неактивних кроків
+    &:hover {
+      background-color: #e0e0e0;
+    }
+
     &--active {
-      // Наприклад, колір тексту інший чи додаткові стилі
-      .process__step-number,
-      .process__step-text {
-        color: var(--Black-black-100, #000);
-      }
-    }
-    &--inactive {
-      // Для неактивного кроку
-      .process__step-number,
-      .process__step-text {
-        color: var(--Footer-color, #b7b5b5);
-      }
+      background-color: #1e40af;
+      color: #fff;
     }
   }
 
-  &__step-number {
-    font: 600 24px/1 Teko, sans-serif;
-    letter-spacing: 0.24px;
-    color: var(--Black-black-100, #000);
+  &__icon {
+    margin-right: 8px;
+    font-size: 17.6px;
   }
 
-  &__step-text {
-    font: 700 32px/1 Teko, sans-serif;
-    letter-spacing: 0.32px;
-    color: var(--Black-black-100, #000);
+  &__content {
+    padding: 16px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
   }
 
-  // Адаптивні стилі
-  @media (max-width: 991px) {
-    padding: 30px 15px;
+  &__panel {
+    display: none;
 
-    &__title {
-      font-size: 44px;
-      margin-bottom: 60px;
-    }
-    &__step-number {
-      font-size: 20px;
-    }
-    &__step-text {
-      font-size: 28px;
+    &--active {
+      display: block;
     }
   }
 
-  @media (max-width: 640px) {
-    padding: 20px 10px;
-
-    &__title {
-      font-size: 36px;
-      margin-bottom: 40px;
-    }
-    &__step {
-      padding: 16px 0;
-      gap: 20px;
-    }
-    &__step-number {
-      font-size: 18px;
-    }
-    &__step-text {
-      font-size: 24px;
-    }
+  &__title {
+    margin-bottom: 8px;
+    font-size: 24px;
+    color: #111;
   }
+
+  &__info {
+    color: var(--Black-black-70, rgba(0, 0, 0, 0.75));
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
 }
+
 
 .site-footer {
   padding: 0 0 80px;
@@ -873,17 +872,21 @@
       gap: 30px;
       padding: 0 40px;
     }
+
     &__nav {
       gap: 16px;
     }
+
     &__info {
       gap: 30px;
       padding: 0 40px;
     }
+
     &__bottom {
       gap: 30px;
       padding: 0 40px;
     }
+
     &__social-menu {
       gap: 32px;
     }
@@ -895,11 +898,13 @@
       text-align: center;
       padding: 0 20px;
     }
+
     &__nav {
       flex-direction: column;
       align-items: center;
       gap: 16px;
     }
+
     &__info {
       justify-content: center;
       text-align: center;
@@ -907,15 +912,18 @@
       align-items: center;
       padding: 0 20px;
     }
+
     &__bottom {
       justify-content: center;
       text-align: center;
       padding: 0 20px;
     }
+
     &__policy-menu {
       flex-direction: column;
       align-items: center;
     }
+
     &__social-menu {
       gap: 24px;
       justify-content: center;
@@ -968,47 +976,6 @@
     &__subtitle {
       font-size: 14px;
     }
-  }
-}
-
-.tabs {
-  display: flex;
-  align-items: center;
-  gap: 40px 64px;
-  color: var(--Black-black-70, rgba(0, 0, 0, 0.75));
-  background-color: #fff;
-  letter-spacing: 0.24px;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  padding: 40px 80px 40px 0px;
-  max-width: 1280px;
-  margin: 0 auto;
-  font: 600 24px/1 Teko, sans-serif;
-
-  &__item {
-    align-self: stretch;
-    margin: auto 0;
-    cursor: pointer;
-    text-decoration: none;
-    transition: color 0.2s ease-in-out;
-
-    &:hover,
-    &:focus {
-      color: var(--Black-black-100, #000);
-    }
-  }
-
-  @media (max-width: 991px) {
-    gap: 30px;
-    padding: 15px;
-    font-size: 22px;
-  }
-
-  @media (max-width: 640px) {
-    gap: 20px;
-    padding: 10px;
-    font-size: 20px;
-    justify-content: space-between;
   }
 }
 
@@ -1268,6 +1235,7 @@
   }
 
   @media (max-width: 640px) {
+
     &__item,
     &__item--active {
       padding: 20px 16px;
