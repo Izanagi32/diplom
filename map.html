@@ -22,11 +22,15 @@
           <div class="navbar__info">
             <div class="navbar__contact">
               <img src="./src/svg/phone.svg" alt="Phone" />
-              <p class="navbar__phone">+380 (97) 777-75-68</p>
+              <a href="tel:+380977777568" class="navbar__phone"
+                >+380 (97) 777-75-68</a
+              >
             </div>
             <div class="navbar__mail">
               <img src="./src/svg/mail.svg" alt="Mail" />
-              <p class="navbar__email">eurotandem@ukr.net</p>
+              <a href="mailto:eurotandem@ukr.net" class="navbar__email"
+                >eurotandem@ukr.net</a
+              >
             </div>
           </div>
           <div class="navbar__social">
@@ -173,6 +177,10 @@
               </div>
           
             </div>
+            <div class="faq__cta">
+              <p class="faq__cta-text">Не знайшли відповідь на своє питання?</p>
+              <a href="#contact" class="faq__cta-button">Зв’язатись з нами</a>
+            </div>
           </section>
           
     </main>
@@ -190,12 +198,11 @@
             role="navigation"
             aria-label="Footer Navigation"
           >
-            <a href="#" class="site-footer__nav-item" tabindex="0">Головна</a>
-            <a href="#" class="site-footer__nav-item" tabindex="0">Про нас</a>
-            <a href="#" class="site-footer__nav-item" tabindex="0"
-              >Інструменти</a
+            <a href="./index.html" class="site-footer__nav-item" tabindex="0">Головна</a>
+            <a href="./aboutus.html" class="site-footer__nav-item" tabindex="0">Про нас</a>
+            <a href="./map.html" class="site-footer__nav-item" tabindex="0"
+              >Інтерактивна карта</a
             >
-            <a href="#" class="site-footer__nav-item" tabindex="0">Вакансії</a>
           </nav>
           <img
             src="./src/img/Logo-whtbg.png"
@@ -209,7 +216,7 @@
         <div class="site-footer__info">
           <div class="site-footer__info-section">
             <h2 class="site-footer__info-heading">Графік роботи</h2>
-            <p class="site-footer__hours-text">Пн–Пт: 8:00–19:30</p>
+            <p class="site-footer__hours-text">Пн–Пт: 9:00–18:00</p>
           </div>
 
           <div class="site-footer__info-section">
@@ -223,14 +230,15 @@
           <div class="site-footer__info-section">
             <h2 class="site-footer__info-heading">Контакти</h2>
             <div class="site-footer__contact-list">
-              <div class="site-footer__contact-item">
-                <i class="ti ti-mail site-footer__icon" aria-hidden="true"></i>
-                <span>eurotandem@ukr.net</span>
-              </div>
-              <div class="site-footer__contact-item">
-                <i class="ti ti-phone site-footer__icon" aria-hidden="true"></i>
-                <span>+380 (97) 777-75-68</span>
-              </div>
+              <div class="site-footer__contact-list">
+                <div class="site-footer__contact-item">
+                  <i class="ti ti-mail site-footer__icon" aria-hidden="true"></i>
+                  <a href="mailto:eurotandem@ukr.net">eurotandem@ukr.net</a>
+                </div>
+                <div class="site-footer__contact-item">
+                  <i class="ti ti-phone site-footer__icon" aria-hidden="true"></i>
+                  <a href="tel:+380977777568">+380 (97) 777-75-68</a>
+                </div>
             </div>
           </div>
         </div>
