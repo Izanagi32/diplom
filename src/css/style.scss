@@ -635,6 +635,21 @@
   display: flex;
   gap: 16px;
 
+  .tabs__main-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 32px;
+    text-align: center;
+    color: #1e293b;
+  }
+
+  .tabs__progress {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
   &__cont {
     display: flex;
     align-items: center;
@@ -711,8 +726,63 @@
     line-height: 24px;
   }
 
+  .tabs__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+
+  .tabs__next {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #1e40af;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+      background-color: #2745c2;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+
 }
 
+@keyframes tabsSlideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.tabs__panel {
+  opacity: 0;
+  transform: translateX(-20px) scale(0.98);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  display: none;
+
+  &--active {
+    display: block;
+    animation: tabsSlideFadeIn 0.4s ease forwards;
+  }
+}
 
 .site-footer {
   padding: 0 0 80px;
