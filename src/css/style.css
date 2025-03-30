@@ -1369,8 +1369,6 @@
   margin-top: 24px;
   max-width: 480px;
   position: relative;
-  z-index: 10;
-  padding-bottom: 100px;
 }
 .coverage-map__search-input-wrapper {
   display: flex;
@@ -1414,7 +1412,7 @@
   overflow-y: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   pointer-events: auto;
-  z-index: 1000;
+  z-index: 9999;
   display: none;
 }
 .coverage-map__search-suggestions li {
