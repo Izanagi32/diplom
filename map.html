@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive map</title>
+    <link rel="stylesheet" href="./src/css/nullstyle.css" />
+    <link rel="stylesheet" href="./src/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container">
+        <div class="navbar__top">
+          <div class="navbar__info">
+            <div class="navbar__contact">
+              <img src="./src/svg/phone.svg" alt="Phone" />
+              <p class="navbar__phone">+380 (97) 777-75-68</p>
+            </div>
+            <div class="navbar__mail">
+              <img src="./src/svg/mail.svg" alt="Mail" />
+              <p class="navbar__email">eurotandem@ukr.net</p>
+            </div>
+          </div>
+          <div class="navbar__social">
+            <a href="#" class="navbar__social-link">
+              <img src="./src/svg/facebook.svg" alt="Facebook" />
+            </a>
+            <a href="#" class="navbar__social-link">
+              <img src="./src/svg/instagram.svg" alt="Instagram" />
+            </a>
+            <a href="#" class="navbar__social-link">
+              <img src="./src/svg/linkedin.svg" alt="LinkedIn" />
+            </a>
+            <a href="#" class="navbar__social-link">
+              <img src="./src/svg/twitter.svg" alt="Twitter" />
+            </a>
+          </div>
+        </div>
+        <div class="navbar__bottom">
+          <div class="navbar__logo">
+            <img
+              src="./src/img/Logo.png"
+              alt="Logo"
+              class="navbar__logo-image"
+            />
+          </div>
+          <div class="navbar__block-menu">
+            <nav class="navbar__menu">
+              <ul class="navbar__menu-list">
+                <li class="navbar__menu-item">
+                  <a href="./index.html" class="navbar__menu-link">Головна</a>
+                </li>
+                <li class="navbar__menu-item">
+                  <a
+                    href="./aboutus.html"
+                    class="navbar__menu-link navbar__menu-link"
+                    >Про нас</a
+                  >
+                </li>
+                <li class="navbar__menu-item">
+                  <a href="./map.html" class="navbar__menu-link--active"">Інтерактивна карта</a>
+                </li>
+              </ul>
+            </nav>
+            <div class="navbar__cta">
+              <a href="#" class="navbar__cta-button">Зв’язатись з нами</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+        <section class="coverage-map">
+            <div class="container">
+              <div class="coverage-map__content">
+                <h2 class="coverage-map__title">Географія перевезень</h2>
+                <p class="coverage-map__description">
+                  Ми здійснюємо вантажні перевезення не лише по Україні, а й у більшість країн Європи. Нижче ви можете ознайомитись з напрямками доставки.
+                </p>
+                <div class="coverage-map__filters">
+                  <button id="filterAll">Всі</button>
+                  <button id="filterUA">Україна</button>
+                  <button id="filterEU">Європа</button>
+                </div>
+                <div class="coverage-map__search">
+                    <div class="coverage-map__search-input-wrapper">
+                      <input
+                        type="text"
+                        id="citySearch"
+                        class="coverage-map__search-input"
+                        placeholder="Пошук міста..."
+                      />
+                      <button id="searchBtn">🔍</button>
+                      <ul id="citySuggestions" class="coverage-map__search-suggestions"></ul>
+                    </div>
+                  </div>
+              </div>
+              <div id="map" class="coverage-map__map"></div>
+            </div>
+          </section>
+          
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="site-footer__top">
+          <img
+            src="./src/img/Logo-whtbg.png"
+            alt="Company Logo"
+            class="site-footer__brand-logo"
+          />
+          <nav
+            class="site-footer__nav"
+            role="navigation"
+            aria-label="Footer Navigation"
+          >
+            <a href="#" class="site-footer__nav-item" tabindex="0">Головна</a>
+            <a href="#" class="site-footer__nav-item" tabindex="0">Про нас</a>
+            <a href="#" class="site-footer__nav-item" tabindex="0"
+              >Інструменти</a
+            >
+            <a href="#" class="site-footer__nav-item" tabindex="0">Вакансії</a>
+          </nav>
+          <img
+            src="./src/img/Logo-whtbg.png"
+            alt="Company Logo"
+            class="site-footer__brand-logo"
+          />
+        </div>
+
+        <hr class="site-footer__divider" />
+
+        <div class="site-footer__info">
+          <div class="site-footer__info-section">
+            <h2 class="site-footer__info-heading">Графік роботи</h2>
+            <p class="site-footer__hours-text">Пн–Пт: 8:00–19:30</p>
+          </div>
+
+          <div class="site-footer__info-section">
+            <h2 class="site-footer__info-heading">Адреса</h2>
+            <p class="site-footer__address-text">
+              Україна, Луцький р-н, Волинська обл., місто Горохів, вулиця
+              Козацька, будинок, 23
+            </p>
+          </div>
+
+          <div class="site-footer__info-section">
+            <h2 class="site-footer__info-heading">Контакти</h2>
+            <div class="site-footer__contact-list">
+              <div class="site-footer__contact-item">
+                <i class="ti ti-mail site-footer__icon" aria-hidden="true"></i>
+                <span>eurotandem@ukr.net</span>
+              </div>
+              <div class="site-footer__contact-item">
+                <i class="ti ti-phone site-footer__icon" aria-hidden="true"></i>
+                <span>+380 (97) 777-75-68</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="site-footer__divider" />
+
+        <div class="site-footer__bottom">
+          <p class="site-footer__copyright">
+            © 2024 Trucking deliver. Усі права захищено.
+          </p>
+
+          <nav
+            class="site-footer__policy-menu"
+            role="navigation"
+            aria-label="Legal Navigation"
+          >
+            <a href="#" class="site-footer__policy-link" tabindex="0"
+              >Політика конфіденційності</a
+            >
+            <a href="#" class="site-footer__policy-link" tabindex="0"
+              >Правила та умови</a
+            >
+          </nav>
+
+          <nav
+            class="site-footer__social-menu"
+            role="navigation"
+            aria-label="Social Media Links"
+          >
+            <a
+              href="./src/svg/facebook.svg"
+              class="site-footer__social-link"
+              aria-label="Facebook"
+              tabindex="0"
+            >
+              <img src="./src/svg/facebook.svg" alt="Facebook" />
+            </a>
+            <a
+              href="svg/instagram.svg"
+              class="site-footer__social-link"
+              aria-label="Instagram"
+              tabindex="0"
+            >
+              <img src="./src/svg/instagram.svg" alt="Instagram" />
+            </a>
+            <a
+              href="svg/linkedin.svg"
+              class="site-footer__social-link"
+              aria-label="LinkedIn"
+              tabindex="0"
+            >
+              <img src="./src/svg/linkedin.svg" alt="LinkedIn" />
+            </a>
+            <a
+              href="svg/twitter.svg"
+              class="site-footer__social-link"
+              aria-label="Twitter"
+              tabindex="0"
+            >
+              <img src="./src/svg/twitter.svg" alt="Twitter" />
+            </a>
+          </nav>
+        </div>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="./src/js/map.js"></script>
+  </body>
+</html>

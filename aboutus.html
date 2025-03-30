@@ -18,11 +18,11 @@
           <div class="navbar__info">
             <div class="navbar__contact">
               <img src="./src/svg/phone.svg" alt="Phone" />
-              <p class="navbar__phone">336.904.0448</p>
+              <p class="navbar__phone">+380 (97) 777-75-68</p>
             </div>
             <div class="navbar__mail">
               <img src="./src/svg/mail.svg" alt="Mail" />
-              <p class="navbar__email">info@x-factorusa.com</p>
+              <p class="navbar__email">eurotandem@ukr.net</p>
             </div>
           </div>
           <div class="navbar__social">
@@ -62,7 +62,9 @@
                   >
                 </li>
                 <li class="navbar__menu-item">
-                  <a href="#" class="navbar__menu-link">Інструменти</a>
+                  <a href="./map.html" class="navbar__menu-link"
+                    >Інтерактивна карта</a
+                  >
                 </li>
               </ul>
             </nav>
@@ -87,22 +89,34 @@
           </div>
         </div>
       </section>
-      <div class="conttabs">
-        <div class="tabs">
-          <a href="#" class="tabs__item">Link 1</a>
-          <a href="#" class="tabs__item">Link 2</a>
-          <a href="#" class="tabs__item">Link 3</a>
-          <a href="#" class="tabs__item">Link 4</a>
+      <section class="links">
+        <div class="container">
+          <ul class="links__list">
+            <li class="links__item">
+              <a href="#" class="links__link">Послуги</a>
+            </li>
+            <li class="links__item">
+              <a href="#" class="links__link">Розрахунок</a>
+            </li>
+            <li class="links__item">
+              <a href="#" class="links__link">Процес співпраці</a>
+            </li>
+          </ul>
+          <div class="links__cont">
+            <div class="links__divider"></div>
+          </div>
         </div>
-      </div>
+      </section>
 
       <section class="trust-stats">
         <div class="trust-stats__content">
           <div class="trust-stats__title-wrapper">
             <h2 class="trust-stats__title">Чому нам довіряють</h2>
             <p class="trust-stats__description">
-              За роки роботи ми допомогли тисячам клієнтів оптимізувати
-              логістику та знизити витрати. Наша статистика говорить сама за
+              Ми — надійна логістична компанія з власним автопарком. Уже багато
+              років ми здійснюємо вантажні перевезення по Україні та Європі.
+              Дотримуємось термінів, гарантуємо безпечне транспортування і
+              постійно вдосконалюємо сервіс. Наша статистика говорить сама за
               себе:
             </p>
           </div>
@@ -110,91 +124,127 @@
           <div class="stats-grid">
             <div class="stats-grid__row">
               <div class="stat-card">
-                <div class="stat-card__number">30K+</div>
-                <div class="stat-card__label">Happy Customer</div>
+                <div
+                  class="stat-card__number"
+                  data-target="1000"
+                  data-suffix="+"
+                >
+                  0
+                </div>
+                <div class="stat-card__label">Доставок щомісяця</div>
               </div>
               <div class="stat-card">
-                <div class="stat-card__number">10m+</div>
-                <div class="stat-card__label">Hours saved</div>
+                <div class="stat-card__number" data-target="20">0</div>
+                <div class="stat-card__label">Фур у автопарку</div>
               </div>
             </div>
 
             <div class="stats-grid__row">
               <div class="stat-card">
-                <div class="stat-card__number">50%</div>
-                <div class="stat-card__label">Below national avg accident</div>
+                <div class="stat-card__number" data-target="12">0</div>
+                <div class="stat-card__label">Країн доставки</div>
               </div>
               <div class="stat-card">
-                <div class="stat-card__number">5k+</div>
-                <div class="stat-card__label">year of experience</div>
+                <div class="stat-card__number" data-target="99" data-suffix="%">
+                  0
+                </div>
+                <div class="stat-card__label">Вчасних доставок</div>
               </div>
             </div>
           </div>
         </div>
 
         <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/b826023cdcf2d0a118d2de0fab04444ccb934ee6d58061660b88529051ca10f9?apiKey=62eb40ef250c4680b7f562a59518138b&"
+          src="./src/img/daf.png"
           alt="Trust statistics visualization"
           class="trust-stats__image"
         />
       </section>
+
       <div class="links__cont">
         <div class="links__divider"></div>
       </div>
+
       <section class="employee-requirements">
         <div class="employee-requirements__header">
           <div class="employee-requirements__content">
-            <h2 class="employee-requirements__title">Link 3</h2>
+            <h2 class="employee-requirements__title">Часті запитання</h2>
             <p class="employee-requirements__description">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit. Velit
-              officia consequat duis enim velit mollit.
+              Тут ми зібрали відповіді на найпоширеніші запитання наших клієнтів
+              про доставку, документи, терміни та маршрути. Якщо не знайдете
+              відповідь — звертайтесь до нас напряму!
             </p>
           </div>
           <button class="employee-requirements__submit" type="button">
-            SUBMIT
+            Зв'язатись з менеджером
           </button>
         </div>
 
         <div class="accordion">
-          <!-- Активний елемент (два класи) -->
-          <div class="accordion__item accordion__item--active">
+          <div class="accordion__item accordion__item">
             <div class="accordion__header" tabindex="0" role="button">
-              <h3 class="accordion__title">SMALL TEXT</h3>
+              <h3 class="accordion__title">Як оформити доставку?</h3>
               <i class="ti ti-minus" aria-hidden="true"></i>
             </div>
             <div class="accordion__content">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint.
+              Ви можете залишити заявку на сайті, заповнивши просту форму, або
+              зателефонувати до нашого менеджера. Менеджер уточнить деталі:
+              місце завантаження, тип вантажу, адресу доставки, терміни, і після
+              цього оформить замовлення в системі.
             </div>
           </div>
 
-          <!-- Решта елементів неактивні (один клас) -->
-          <div class="accordion__item">
+          <div class="accordion__item accordion__item--active">
             <div class="accordion__header" tabindex="0" role="button">
-              <h3 class="accordion__title">SMALL TEXT</h3>
+              <h3 class="accordion__title">В які країни ви доставляєте?</h3>
               <i class="ti ti-plus" aria-hidden="true"></i>
             </div>
-          </div>
-
-          <div class="accordion__item">
-            <div class="accordion__header" tabindex="0" role="button">
-              <h3 class="accordion__title">SMALL TEXT</h3>
-              <i class="ti ti-plus" aria-hidden="true"></i>
-            </div>
-          </div>
-
-          <div class="accordion__item">
-            <div class="accordion__header" tabindex="0" role="button">
-              <h3 class="accordion__title">SMALL TEXT</h3>
-              <i class="ti ti-plus" aria-hidden="true"></i>
+            <div class="accordion__content">
+              Ми здійснюємо вантажні перевезення по всій території України, а
+              також у більшість країн Європи, включно з Польщею, Німеччиною,
+              Чехією, Словаччиною, Угорщиною, Румунією, Болгарією та країнами
+              Балтії.
             </div>
           </div>
 
           <div class="accordion__item">
             <div class="accordion__header" tabindex="0" role="button">
-              <h3 class="accordion__title">SMALL TEXT</h3>
+              <h3 class="accordion__title">Чи можна відстежувати вантаж?</h3>
               <i class="ti ti-plus" aria-hidden="true"></i>
+            </div>
+            <div class="accordion__content">
+              Так, усі наші транспортні засоби оснащені GPS-навігацією. Клієнти
+              мають можливість отримувати інформацію про місцезнаходження свого
+              вантажу в реальному часі через менеджера або особистий кабінет.
+            </div>
+          </div>
+
+          <div class="accordion__item">
+            <div class="accordion__header" tabindex="0" role="button">
+              <h3 class="accordion__title">
+                Який транспорт ви використовуєте?
+              </h3>
+              <i class="ti ti-plus" aria-hidden="true"></i>
+            </div>
+            <div class="accordion__content">
+              У нашому автопарку понад 20 сучасних фур з тентованими
+              напівпричепами. Ми використовуємо вантажівки DAF, MAN, Volvo, що
+              відповідають європейським стандартам екологічності та безпеки.
+            </div>
+          </div>
+
+          <div class="accordion__item">
+            <div class="accordion__header" tabindex="0" role="button">
+              <h3 class="accordion__title">
+                Чи надаєте ви документи на вантаж?
+              </h3>
+              <i class="ti ti-plus" aria-hidden="true"></i>
+            </div>
+            <div class="accordion__content">
+              Так, ми оформлюємо всі необхідні документи: ТТН
+              (товарно-транспортні накладні), митні декларації для міжнародних
+              перевезень та акти прийому-передачі. Менеджер супроводжує клієнта
+              на всіх етапах оформлення.
             </div>
           </div>
         </div>
@@ -297,7 +347,7 @@
       <div class="container">
         <div class="site-footer__top">
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/58d965c9179396e5e750b0dd092a01b5abe29d9608be71513e3b0c83c0abf48f?apiKey=62eb40ef250c4680b7f562a59518138b&"
+            src="./src/img/Logo-whtbg.png"
             alt="Company Logo"
             class="site-footer__brand-logo"
           />
@@ -314,7 +364,7 @@
             <a href="#" class="site-footer__nav-item" tabindex="0">Вакансії</a>
           </nav>
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/58d965c9179396e5e750b0dd092a01b5abe29d9608be71513e3b0c83c0abf48f?apiKey=62eb40ef250c4680b7f562a59518138b&"
+            src="./src/img/Logo-whtbg.png"
             alt="Company Logo"
             class="site-footer__brand-logo"
           />
@@ -331,7 +381,8 @@
           <div class="site-footer__info-section">
             <h2 class="site-footer__info-heading">Адреса</h2>
             <p class="site-footer__address-text">
-              Level 1, 12 Sample St, Sydney NSW 2000
+              Україна, Луцький р-н, Волинська обл., місто Горохів, вулиця
+              Козацька, будинок, 23
             </p>
           </div>
 
@@ -340,11 +391,11 @@
             <div class="site-footer__contact-list">
               <div class="site-footer__contact-item">
                 <i class="ti ti-mail site-footer__icon" aria-hidden="true"></i>
-                <span>Info@example.com</span>
+                <span>eurotandem@ukr.net</span>
               </div>
               <div class="site-footer__contact-item">
                 <i class="ti ti-phone site-footer__icon" aria-hidden="true"></i>
-                <span>1800 123 4567</span>
+                <span>+380 (97) 777-75-68</span>
               </div>
             </div>
           </div>
@@ -376,7 +427,7 @@
             aria-label="Social Media Links"
           >
             <a
-              href="/src/svg/facebook.svg"
+              href="./src/svg/facebook.svg"
               class="site-footer__social-link"
               aria-label="Facebook"
               tabindex="0"
@@ -411,5 +462,7 @@
         </div>
       </div>
     </footer>
+    <script src="./src/js/counterAnimation.js"></script>
+    <script src="./src/js/accordion.js"></script>
   </body>
 </html>
