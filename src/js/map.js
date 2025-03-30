@@ -184,3 +184,45 @@ document.addEventListener("click", (e) => {
     suggestionsList.innerHTML = "";
   }
 });
+
+fetch(
+  "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson"
+)
+  .then((res) => res.json())
+  .then((data) => {
+    L.geoJSON(data, {
+      filter: (feature) =>
+        ["Ukraine", "Germany", "Poland", "Belgium", "Netherlands"].includes(
+          feature.properties.ADMIN
+        ),
+      style: (feature) => {
+        const country = feature.properties.ADMIN;
+        let color = "#000";
+        switch (country) {
+          case "Ukraine":
+            color = "#1e40af";
+            break;
+          case "Germany":
+            color = "#dc2626";
+            break;
+          case "Poland":
+            color = "#16a34a";
+            break;
+          case "Belgium":
+            color = "#f59e0b";
+            break;
+          case "Netherlands":
+            color = "#d946ef";
+            break;
+        }
+        return {
+          color: color,
+          weight: 2,
+          fillOpacity: 0.1,
+        };
+      },
+      onEachFeature: (feature, layer) => {
+        layer.bindPopup(`<b>${feature.properties.ADMIN}</b>`);
+      },
+    }).addTo(map);
+  });
