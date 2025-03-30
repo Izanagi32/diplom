@@ -270,141 +270,167 @@
               </div>
             </div>
 
-            <!-- Правий блок (Форма) -->
-            <form class="shipping-form">
+            <form
+              class="shipping-form"
+              action="https://formspree.io/f/mkgjvkvd"
+              method="POST"
+              id="quoteForm"
+            >
               <h1 class="shipping-form__title">Отримати пропозицію</h1>
 
               <div class="shipping-form__details">
+                <!-- Локації -->
                 <div class="shipping-form__location">
-                  <h2 class="shipping-form__section-title">
-                    Отримати пропозицію
-                  </h2>
+                  <h2 class="shipping-form__section-title">Маршрут доставки</h2>
                   <div
                     class="shipping-form__inputs shipping-form__inputs--postal"
                   >
-                    <label for="pickup-postal" class="visually-hidden"
-                      >Поштовий індекс відправлення</label
-                    >
                     <input
                       type="text"
-                      id="pickup-postal"
+                      id="pickup-location"
+                      name="pickup-location"
                       class="shipping-form__input"
-                      placeholder="Поштовий індекс відправлення"
+                      placeholder="Місто або індекс відправлення"
                       required
                     />
-
-                    <label for="delivery-postal" class="visually-hidden"
-                      >Поштовий індекс призначення</label
-                    >
                     <input
                       type="text"
-                      id="delivery-postal"
+                      id="delivery-location"
+                      name="delivery-location"
                       class="shipping-form__input"
-                      placeholder="Поштовий індекс призначення"
+                      placeholder="Місто або індекс призначення"
                       required
                     />
                   </div>
                 </div>
 
+                <!-- Габарити -->
                 <div class="shipping-form__dimensions">
                   <h2 class="shipping-form__section-title">
-                    Інформація про вантаж
+                    Габарити вантажу (в метрах)
                   </h2>
                   <div
                     class="shipping-form__inputs shipping-form__inputs--dimensions"
                   >
                     <div class="shipping-form__dimension-fields">
-                      <label for="length" class="visually-hidden"
-                        >Довжина</label
-                      >
                       <input
                         type="number"
                         id="length"
+                        name="length"
                         class="shipping-form__input"
                         placeholder="Довжина"
+                        title="Вкажіть довжину вантажу в метрах"
                         required
                       />
-
-                      <label for="width" class="visually-hidden">Ширина</label>
                       <input
                         type="number"
                         id="width"
+                        name="width"
                         class="shipping-form__input"
                         placeholder="Ширина"
+                        title="Вкажіть ширину вантажу в метрах"
                         required
                       />
-
-                      <label for="height" class="visually-hidden">Висота</label>
                       <input
                         type="number"
                         id="height"
+                        name="height"
                         class="shipping-form__input"
                         placeholder="Висота"
+                        title="Вкажіть висоту вантажу в метрах"
                         required
                       />
                     </div>
-
-                    <div class="shipping-form__radio-group">
-                      <div class="shipping-form__radio-option">
-                        <input
-                          type="radio"
-                          id="inches"
-                          name="dimension-unit"
-                          class="shipping-form__radio-input"
-                          checked
-                        />
-                        <label for="inches">inches</label>
-                      </div>
-                      <div class="shipping-form__radio-option">
-                        <input
-                          type="radio"
-                          id="feet"
-                          name="dimension-unit"
-                          class="shipping-form__radio-input"
-                        />
-                        <label for="feet">feet</label>
-                      </div>
-                    </div>
-
-                    <div class="shipping-form__weight">
-                      <label for="weight" class="visually-hidden">Вага</label>
-                      <input
-                        type="number"
-                        id="weight"
-                        class="shipping-form__input"
-                        placeholder="Вага"
-                        required
-                      />
-
-                      <div class="shipping-form__radio-group">
-                        <div class="shipping-form__radio-option">
-                          <input
-                            type="radio"
-                            id="lbs"
-                            name="weight-unit"
-                            class="shipping-form__radio-input"
-                            checked
-                          />
-                          <label for="lbs">lbs</label>
-                        </div>
-                        <div class="shipping-form__radio-option">
-                          <input
-                            type="radio"
-                            id="kg"
-                            name="weight-unit"
-                            class="shipping-form__radio-input"
-                          />
-                          <label for="kg">kg</label>
-                        </div>
-                      </div>
-                    </div>
+                    <p class="shipping-form__volume-output">
+                      Обʼєм вантажу: <span id="volume">0</span> м³
+                    </p>
                   </div>
                 </div>
-              </div>
 
-              <button type="submit" class="shipping-form__submit">
-                Отримати розрахунок
-              </button>
+                <!-- Вага -->
+                <div class="shipping-form__weight">
+                  <h2 class="shipping-form__section-title">
+                    Вага вантажу (в кг)
+                  </h2>
+                  <input
+                    type="number"
+                    id="weight"
+                    name="weight"
+                    class="shipping-form__input"
+                    placeholder="Вага"
+                    required
+                  />
+                </div>
+
+                <!-- Кількість -->
+                <div class="shipping-form__quantity">
+                  <h2 class="shipping-form__section-title">
+                    Кількість одиниць
+                  </h2>
+                  <input
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    class="shipping-form__input"
+                    placeholder="Кількість палет або коробок"
+                    required
+                  />
+                </div>
+
+                <!-- Тип вантажу -->
+                <div class="shipping-form__type">
+                  <h2 class="shipping-form__section-title">Тип вантажу</h2>
+                  <select
+                    id="cargo-type"
+                    name="cargo-type"
+                    class="shipping-form__input"
+                    required
+                  >
+                    <option value="">Оберіть тип вантажу</option>
+                    <option value="standard">Звичайний</option>
+                    <option value="fragile">Крихкий</option>
+                    <option value="temperature">Температурний</option>
+                    <option value="dangerous">Небезпечний</option>
+                  </select>
+                </div>
+
+                <!-- Коментар -->
+                <div class="shipping-form__comment">
+                  <h2 class="shipping-form__section-title">Коментар</h2>
+                  <textarea
+                    class="shipping-form__input"
+                    id="comment"
+                    name="comment"
+                    rows="3"
+                    placeholder="Коментар (необов’язково)"
+                  ></textarea>
+                </div>
+
+                <!-- Email -->
+                <div class="shipping-form__email">
+                  <h2 class="shipping-form__section-title">Ваш Email</h2>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="shipping-form__input"
+                    placeholder="email@example.com"
+                    required
+                  />
+                </div>
+
+                <!-- Опціонально: редірект після надсилання -->
+                <input
+                  type="hidden"
+                  name="_redirect"
+                  value="https://твоїй-сайт.com/dyakuyu.html"
+                />
+
+                <!-- Кнопка -->
+                <button type="submit" class="shipping-form__submit">
+                  Отримати розрахунок
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -631,8 +657,17 @@
       </div>
     </footer>
 
+    <div class="modal" id="formModal">
+      <div class="modal__content">
+        <h2 class="modal__title">Дякуємо!</h2>
+        <p class="modal__text">Вашу заявку успішно надіслано.</p>
+        <button class="modal__close" id="closeModal">Закрити</button>
+      </div>
+    </div>
+
     <script src="./src/js/tabs.js"></script>
     <script src="./src/js/smooth-scroll.js"></script>
     <script src="./src/js/scroll spy.js"></script>
+    <script src="./src/js/shipping-form-script.js"></script>
   </body>
 </html>

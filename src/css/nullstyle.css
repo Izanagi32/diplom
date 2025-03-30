@@ -156,3 +156,8 @@ svg {
 *::after {
   box-sizing: border-box;
 }
+
+/*:focus {
+  outline: 2px solid blue;
+  outline-offset: 2px;
+}/*# sourceMappingURL=nullstyle.css.map */
