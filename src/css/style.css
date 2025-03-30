@@ -1314,7 +1314,7 @@
 }
 
 .coverage-map {
-  padding: 60px 0;
+  padding: 40px 0;
 }
 .coverage-map__content {
   max-width: 1280px;
@@ -1445,11 +1445,12 @@
 }
 
 .faq {
-  max-width: 800px;
+  max-width: 100%;
   margin: 60px auto;
   padding: 0 20px;
   font-family: Montserrat, sans-serif;
   color: #000;
+  max-width: 1280px;
 }
 .faq__title {
   font-size: 36px;
@@ -1457,37 +1458,64 @@
   margin-bottom: 30px;
   letter-spacing: 0.5px;
 }
+.faq__row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
 .faq__item {
-  border-bottom: 1px solid #dcdcdc;
-  margin-bottom: 10px;
+  flex: 1 1 250px;
+  min-width: 250px;
+  max-width: 300px;
   background-color: #f7f7f7;
-  transition: all 0.3s ease;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: background 0.3s ease, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  min-height: 75px;
 }
 .faq__item--active {
   background-color: #fff;
-  border-left: 4px solid #000;
+  border: 1px solid #000;
+}
+.faq__item--active .faq__icon {
+  transform: rotate(180deg);
 }
 .faq__question {
-  width: 100%;
-  padding: 20px;
+  padding: 18px 20px;
   background: transparent;
   border: none;
   font-size: 16px;
   font-weight: 600;
+  font-family: Montserrat, sans-serif;
   cursor: pointer;
-  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   transition: background 0.2s;
+  max-height: 70px;
 }
 .faq__question:hover {
   background-color: #eaeaea;
 }
+.faq__icon {
+  font-size: 14px;
+  color: #2196f3;
+  transition: transform 0.3s ease;
+}
 .faq__answer {
-  display: none;
-  padding: 0 20px 20px;
-  font-size: 20px;
-  line-height: 1.3;
-  color: #000;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
 }
 .faq__item--active .faq__answer {
-  display: block;
+  max-height: 300px;
+  opacity: 1;
+  padding: 16px 20px 20px;
 }/*# sourceMappingURL=style.css.map */
