@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
 
     emailjs
-      .sendForm("service_e5fernw", "template_7bp6e87", form)
+      .sendForm("service_e5fernw", "template_82r496h", form)
       .then(() => {
         alert("✅ Заявку надіслано успішно!");
         form.reset();
