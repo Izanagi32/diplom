@@ -270,12 +270,7 @@
               </div>
             </div>
 
-            <form
-              class="shipping-form"
-              action="https://formspree.io/f/mkgjvkvd"
-              method="POST"
-              id="quoteForm"
-            >
+            <form class="shipping-form" id="quoteForm">
               <h1 class="shipping-form__title">Отримати пропозицію</h1>
 
               <div class="shipping-form__details">
@@ -418,13 +413,6 @@
                     required
                   />
                 </div>
-
-                <!-- Опціонально: редірект після надсилання -->
-                <input
-                  type="hidden"
-                  name="_redirect"
-                  value="https://твоїй-сайт.com/dyakuyu.html"
-                />
 
                 <!-- Кнопка -->
                 <button type="submit" class="shipping-form__submit">
@@ -669,5 +657,10 @@
     <script src="./src/js/smooth-scroll.js"></script>
     <script src="./src/js/scroll spy.js"></script>
     <script src="./src/js/shipping-form-script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+      emailjs.init("Kn7auEea2CjVBdYLYj");
+    </script>
+    <script src="./src/js/sendEmail.js"></script>
   </body>
 </html>
