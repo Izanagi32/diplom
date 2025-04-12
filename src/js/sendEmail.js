@@ -3,8 +3,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!form) return;
 
+  // ✅ Ініціалізація EmailJS
+  emailjs.init("Kn7auEea2CjVBdYLj");
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+
+    // 🔍 Додатково лог для перевірки (можеш прибрати після тесту)
+    const formData = new FormData(form);
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
 
     emailjs
       .sendForm("service_e5fernw", "template_82r496h", form)
