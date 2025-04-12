@@ -274,7 +274,6 @@
               <h1 class="shipping-form__title">Отримати пропозицію</h1>
 
               <div class="shipping-form__details">
-                <!-- Локації -->
                 <div class="shipping-form__location">
                   <h2 class="shipping-form__section-title">Маршрут доставки</h2>
                   <div
@@ -298,8 +297,6 @@
                     />
                   </div>
                 </div>
-
-                <!-- Габарити -->
                 <div class="shipping-form__dimensions">
                   <h2 class="shipping-form__section-title">
                     Габарити вантажу (в метрах)
@@ -314,7 +311,6 @@
                         name="length"
                         class="shipping-form__input"
                         placeholder="Довжина"
-                        title="Вкажіть довжину вантажу в метрах"
                         required
                       />
                       <input
@@ -323,7 +319,6 @@
                         name="width"
                         class="shipping-form__input"
                         placeholder="Ширина"
-                        title="Вкажіть ширину вантажу в метрах"
                         required
                       />
                       <input
@@ -332,7 +327,6 @@
                         name="height"
                         class="shipping-form__input"
                         placeholder="Висота"
-                        title="Вкажіть висоту вантажу в метрах"
                         required
                       />
                     </div>
@@ -341,8 +335,6 @@
                     </p>
                   </div>
                 </div>
-
-                <!-- Вага -->
                 <div class="shipping-form__weight">
                   <h2 class="shipping-form__section-title">
                     Вага вантажу (в кг)
@@ -356,8 +348,6 @@
                     required
                   />
                 </div>
-
-                <!-- Кількість -->
                 <div class="shipping-form__quantity">
                   <h2 class="shipping-form__section-title">
                     Кількість одиниць
@@ -371,8 +361,6 @@
                     required
                   />
                 </div>
-
-                <!-- Тип вантажу -->
                 <div class="shipping-form__type">
                   <h2 class="shipping-form__section-title">Тип вантажу</h2>
                   <select
@@ -388,8 +376,6 @@
                     <option value="dangerous">Небезпечний</option>
                   </select>
                 </div>
-
-                <!-- Коментар -->
                 <div class="shipping-form__comment">
                   <h2 class="shipping-form__section-title">Коментар</h2>
                   <textarea
@@ -400,8 +386,6 @@
                     placeholder="Коментар (необов’язково)"
                   ></textarea>
                 </div>
-
-                <!-- Email -->
                 <div class="shipping-form__email">
                   <h2 class="shipping-form__section-title">Ваш Email</h2>
                   <input
@@ -413,8 +397,11 @@
                     required
                   />
                 </div>
-
-                <!-- Кнопка -->
+                <input
+                  type="hidden"
+                  name="title"
+                  value="Заявка з форми доставки"
+                />
                 <button type="submit" class="shipping-form__submit">
                   Отримати розрахунок
                 </button>
