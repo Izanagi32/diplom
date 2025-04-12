@@ -270,10 +270,16 @@
               </div>
             </div>
 
-            <form class="shipping-form" id="quoteForm">
+            <form
+              class="shipping-form"
+              id="quoteForm"
+              action="https://formsubmit.co/romancls94@gmail.com"
+              method="POST"
+            >
               <h1 class="shipping-form__title">Отримати пропозицію</h1>
 
               <div class="shipping-form__details">
+                <!-- Маршрут -->
                 <div class="shipping-form__location">
                   <h2 class="shipping-form__section-title">Маршрут доставки</h2>
                   <div
@@ -297,6 +303,8 @@
                     />
                   </div>
                 </div>
+
+                <!-- Габарити -->
                 <div class="shipping-form__dimensions">
                   <h2 class="shipping-form__section-title">
                     Габарити вантажу (в метрах)
@@ -335,6 +343,8 @@
                     </p>
                   </div>
                 </div>
+
+                <!-- Вага -->
                 <div class="shipping-form__weight">
                   <h2 class="shipping-form__section-title">
                     Вага вантажу (в кг)
@@ -348,6 +358,8 @@
                     required
                   />
                 </div>
+
+                <!-- Кількість -->
                 <div class="shipping-form__quantity">
                   <h2 class="shipping-form__section-title">
                     Кількість одиниць
@@ -361,6 +373,8 @@
                     required
                   />
                 </div>
+
+                <!-- Тип вантажу -->
                 <div class="shipping-form__type">
                   <h2 class="shipping-form__section-title">Тип вантажу</h2>
                   <select
@@ -376,6 +390,8 @@
                     <option value="dangerous">Небезпечний</option>
                   </select>
                 </div>
+
+                <!-- Коментар -->
                 <div class="shipping-form__comment">
                   <h2 class="shipping-form__section-title">Коментар</h2>
                   <textarea
@@ -386,6 +402,8 @@
                     placeholder="Коментар (необов’язково)"
                   ></textarea>
                 </div>
+
+                <!-- Email -->
                 <div class="shipping-form__email">
                   <h2 class="shipping-form__section-title">Ваш Email</h2>
                   <input
@@ -397,11 +415,17 @@
                     required
                   />
                 </div>
+
+                <!-- Службові поля FormSubmit -->
                 <input
                   type="hidden"
-                  name="title"
-                  value="Заявка з форми доставки"
+                  name="_subject"
+                  value="🚛 Нова заявка з форми доставки"
                 />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
+
+                <!-- Кнопка -->
                 <button type="submit" class="shipping-form__submit">
                   Отримати розрахунок
                 </button>
@@ -640,14 +664,9 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-      emailjs.init("Kn7auEea2CjVBdYLj");
-    </script>
     <script src="./src/js/tabs.js"></script>
     <script src="./src/js/smooth-scroll.js"></script>
     <script src="./src/js/scroll spy.js"></script>
     <script src="./src/js/shipping-form-script.js"></script>
-    <script src="./src/js/sendEmail.js"></script>
   </body>
 </html>
