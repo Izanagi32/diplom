@@ -185,20 +185,25 @@ document.addEventListener("click", (e) => {
   }
 });
 
-fetch(
-  "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson"
-)
+fetch("src/data/countries.geojson")
   .then((res) => res.json())
   .then((data) => {
     L.geoJSON(data, {
       filter: (feature) =>
         ["Ukraine", "Germany", "Poland", "Belgium", "Netherlands"].includes(
-          feature.properties.ADMIN
+          feature.properties.ADMIN ||
+            feature.properties.name ||
+            feature.properties.NAME
         ),
+
       style: (feature) => {
-        const country = feature.properties.ADMIN;
+        const name =
+          feature.properties.ADMIN ||
+          feature.properties.name ||
+          feature.properties.NAME;
+
         let color = "#000";
-        switch (country) {
+        switch (name) {
           case "Ukraine":
             color = "#1e40af";
             break;
@@ -215,14 +220,20 @@ fetch(
             color = "#d946ef";
             break;
         }
+
         return {
           color: color,
           weight: 2,
           fillOpacity: 0.1,
         };
       },
+
       onEachFeature: (feature, layer) => {
-        layer.bindPopup(`<b>${feature.properties.ADMIN}</b>`);
+        const name =
+          feature.properties.ADMIN ||
+          feature.properties.name ||
+          feature.properties.NAME;
+        layer.bindPopup(`<b>${name}</b>`);
       },
     }).addTo(map);
   });
