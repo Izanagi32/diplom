@@ -10,30 +10,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(form);
     const payload = {};
-
     formData.forEach((value, key) => {
       payload[key] = value;
     });
 
     try {
-      const response = await fetch(
-        "https://unstaticforms.vercel.app/api/send",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: "romancls94@gmail.com", // 🔁 Твій email
-            subject: "🚛 Нова заявка з форми доставки",
-            fields: payload,
-          }),
-        }
-      );
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
       const responseText = await response.text();
-      console.log("✅ Status:", response.status);
-      console.log("📨 Response text:", responseText);
+      console.log("✅ Статус:", response.status);
+      console.log("📨 Відповідь:", responseText);
 
       if (response.ok) {
         modal?.classList.add("modal--active");
@@ -43,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("❌ Помилка при надсиланні!\n" + responseText);
       }
     } catch (error) {
-      console.error("❌ Виникла фатальна помилка:", error);
+      console.error("❌ Фатальна помилка:", error);
       alert("❌ Виникла фатальна помилка. Спробуйте пізніше.");
     }
   });
