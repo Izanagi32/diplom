@@ -1,73 +1,107 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("quoteForm");
-  const modal = document.getElementById("formModal");
+  // === Налаштування ===
+  const botToken = "7378979804:AAGuviiwgUsrUprTP_NBm_wZn8iSH8l4a5U";
+  const chatId = "1693054209";
+
+  // === Загальна функція відправки в Telegram ===
+  async function sendToTelegram(messageText) {
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: messageText,
+          parse_mode: "HTML",
+        }),
+      });
+
+      const result = await response.json();
+      console.log("📬 Telegram API:", result);
+      return result.ok;
+    } catch (error) {
+      console.error("❗ Fetch error:", error);
+      return false;
+    }
+  }
+
+  // === Форма 1: shipping-form ===
+  const form1 = document.getElementById("quoteForm");
+  const modal1 = document.getElementById("formModal");
   const closeModalBtn = document.getElementById("closeModal");
 
-  if (!form) return;
-
-  form.addEventListener("submit", async (e) => {
+  form1?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form);
+    const formData = new FormData(form1);
     const payload = {};
     formData.forEach((value, key) => {
       payload[key] = value;
     });
 
-    try {
-      // Відправка на FormBold
-      const response = await fetch(form.action, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+    const message = `🚛 <b>Нова заявка з форми</b>\n\n📍 <b>Звідки:</b> ${
+      payload["pickup-location"]
+    }\n📍 <b>Куди:</b> ${payload["delivery-location"]}\n\n📐 <b>Габарити:</b> ${
+      payload["length"]
+    } x ${payload["width"]} x ${payload["height"]} м\n📦 <b>Кількість:</b> ${
+      payload["quantity"]
+    }\n⚖️ <b>Вага:</b> ${payload["weight"]} кг\n📂 <b>Тип вантажу:</b> ${
+      payload["cargo-type"]
+    }\n\n💬 <b>Коментар:</b> ${
+      payload["comment"] || "немає"
+    }\n📧 <b>Email:</b> ${payload["email"]}`;
 
-      if (response.ok) {
-        modal?.classList.add("modal--active");
-        form.reset();
-        document.getElementById("volume").textContent = "0";
+    const success = await sendToTelegram(message);
 
-        await fetch(
-          `https://api.telegram.org/bot7378979804:AAFLXNQ5mZJMjPM_XhHfNa8tm2mrbyaRyCQ/sendMessage`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              chat_id: "1693054209",
-              text: `
-🚛 <b>Нова заявка з форми</b>
-
-📍 <b>Звідки:</b> ${payload["pickup-location"]}
-📍 <b>Куди:</b> ${payload["delivery-location"]}
-
-📐 <b>Габарити:</b> ${payload["length"]} x ${payload["width"]} x ${
-                payload["height"]
-              } м
-📦 <b>Кількість:</b> ${payload["quantity"]}
-⚖️ <b>Вага:</b> ${payload["weight"]} кг
-📂 <b>Тип вантажу:</b> ${payload["cargo-type"]}
-
-💬 <b>Коментар:</b> ${payload["comment"] || "немає"}
-📧 <b>Email:</b> ${payload["email"]}
-            `,
-              parse_mode: "HTML",
-            }),
-          }
-        );
-      } else {
-        alert("❌ Помилка при надсиланні!");
-      }
-    } catch (error) {
-      console.error("❌ Фатальна помилка:", error);
-      alert("❌ Щось пішло не так. Спробуйте пізніше.");
+    if (success) {
+      modal1?.classList.add("modal--active");
+      form1.reset();
+      document.getElementById("volume").textContent = "0";
+    } else {
+      alert("❌ Повідомлення не відправлено.");
     }
   });
 
   closeModalBtn?.addEventListener("click", () => {
-    modal?.classList.remove("modal--active");
+    modal1?.classList.remove("modal--active");
+  });
+
+  // === Форма 2: contactForm (модалка з кнопки Зв’язатись з менеджером) ===
+  const modal2 = document.getElementById("contactModal");
+  const openBtn = document.getElementById("contactManagerBtn");
+  const closeBtn = document.querySelector(".submitModal__close");
+  const form2 = document.getElementById("contactForm");
+  const thankYouBlock = document.querySelector(".submitModal__thankyou");
+
+  openBtn?.addEventListener("click", () => {
+    modal2.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  });
+
+  closeBtn?.addEventListener("click", () => {
+    modal2.style.display = "none";
+    document.body.style.overflow = "auto";
+  });
+
+  form2?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = form2.name.value.trim();
+    const phone = form2.phone.value.trim();
+    const message = form2.message.value.trim();
+    const contactMethod = form2.contact.value;
+
+    const fullMessage = `📞 <b>Зв’язок з менеджером</b>\n\n<b>Ім’я:</b> ${name}\n<b>Телефон Viber:</b> ${phone}\n<b>Спосіб зв’язку:</b> ${contactMethod}\n<b>Коментар:</b> ${message}`;
+
+    const ok = await sendToTelegram(fullMessage);
+
+    if (ok) {
+      form2.style.display = "none";
+      thankYouBlock.style.display = "block";
+    } else {
+      alert("❌ Повідомлення не відправлено. Спробуйте пізніше.");
+    }
   });
 });
