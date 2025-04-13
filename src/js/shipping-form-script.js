@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
         form.reset();
         document.getElementById("volume").textContent = "0";
 
-        // 🔔 Відправка в Telegram
         await fetch(
           `https://api.telegram.org/bot7378979804:AAFLXNQ5mZJMjPM_XhHfNa8tm2mrbyaRyCQ/sendMessage`,
           {

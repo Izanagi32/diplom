@@ -1661,4 +1661,73 @@
 }
 .faq__cta-button:hover {
   background-color: #333;
+}
+
+.submitModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.submitModal__content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+.submitModal__close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+.submitModal__title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+.submitModal__form input, .submitModal__form textarea {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.submitModal__form button {
+  background: #0387FC;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+}
+.submitModal__form button:hover {
+  background: #026ed0;
+}
+.submitModal__contact-method {
+  margin-bottom: 15px;
+}
+.submitModal__contact-method label {
+  display: block;
+  margin-top: 5px;
+}
+.submitModal__schedule {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+.submitModal__thankyou {
+  text-align: center;
+}
+.submitModal__thankyou h3 {
+  color: green;
 }/*# sourceMappingURL=style.css.map */

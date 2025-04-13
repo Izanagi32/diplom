@@ -1906,3 +1906,84 @@
     }
   }
 }
+
+.submitModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  &__content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+  }
+
+  &__close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  &__title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+  }
+
+  &__form input,
+  &__form textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  &__form button {
+    background: #0387FC;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+
+    &:hover {
+      background: #026ed0;
+    }
+  }
+
+  &__contact-method {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-top: 5px;
+    }
+  }
+
+  &__schedule {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+  }
+
+  &__thankyou {
+    text-align: center;
+
+    h3 {
+      color: green;
+    }
+  }
+}

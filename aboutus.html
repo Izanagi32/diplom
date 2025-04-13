@@ -179,7 +179,11 @@
               відповідь — звертайтесь до нас напряму!
             </p>
           </div>
-          <button class="employee-requirements__submit" type="button">
+          <button
+            class="employee-requirements__submit"
+            id="contactManagerBtn"
+            type="button"
+          >
             Зв'язатись з менеджером
           </button>
         </div>
@@ -469,7 +473,57 @@
         </div>
       </div>
     </footer>
+
+    <div class="submitModal" id="contactModal">
+      <div class="submitModal__content">
+        <button class="submitModal__close">&times;</button>
+        <h2 class="submitModal__title">Запис на консультацію</h2>
+
+        <form id="contactForm" class="submitModal__form">
+          <input type="text" name="name" placeholder="Ваше ім’я" required />
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Ваш Viber номер"
+            required
+          />
+          <textarea
+            name="message"
+            placeholder="Ваше питання або коментар"
+            required
+          ></textarea>
+
+          <fieldset class="submitModal__contact-method">
+            <legend>Обраний спосіб зв’язку:</legend>
+            <label
+              ><input type="radio" name="contact" value="дзвінок" checked /> Я
+              хочу, щоб мені зателефонували</label
+            >
+            <label
+              ><input type="radio" name="contact" value="email" /> Напишіть мені
+              на пошту</label
+            >
+            <label
+              ><input type="radio" name="contact" value="месенджер" /> Напишіть
+              у месенджер</label
+            >
+          </fieldset>
+
+          <p class="submitModal__schedule">
+            Графік роботи: Пн–Пт, 9:00 – 18:00
+          </p>
+          <button type="submit">Надіслати</button>
+        </form>
+
+        <div class="submitModal__thankyou" style="display: none">
+          <h3>Дякуємо!</h3>
+          <p>Ми отримали ваше повідомлення і зв’яжемось найближчим часом.</p>
+        </div>
+      </div>
+    </div>
+
     <script src="./src/js/counterAnimation.js"></script>
     <script src="./src/js/accordion.js"></script>
+    <script src="./src/js/maneger-modal.js"></script>
   </body>
 </html>
