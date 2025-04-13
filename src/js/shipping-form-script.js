@@ -2,16 +2,31 @@ const form = document.querySelector(".shipping-form");
 const modal = document.getElementById("formModal");
 const closeModalBtn = document.getElementById("closeModal");
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault(); // зупиняємо стандартну дію
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  // Тут можна зробити валідацію / відправку
+  const formData = new FormData(form);
 
-  modal.classList.add("modal--active");
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
 
-  // Очистити форму
-  form.reset();
-  document.getElementById("volume").textContent = "0";
+    if (response.ok) {
+      modal.classList.add("modal--active");
+      form.reset();
+      document.getElementById("volume").textContent = "0";
+    } else {
+      alert("❌ Помилка під час відправки форми.");
+    }
+  } catch (error) {
+    console.error("Помилка при надсиланні:", error);
+    alert("❌ Виникла помилка. Спробуйте пізніше.");
+  }
 });
 
 closeModalBtn.addEventListener("click", () => {
