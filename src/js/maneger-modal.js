@@ -14,7 +14,8 @@ closeBtn.addEventListener("click", () => {
   document.body.style.overflow = "auto";
 });
 
-form.addEventListener("submit", (e) => {
+// Відправка повідомлення через Telegram Bot API
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const name = form.name.value.trim();
@@ -22,18 +23,33 @@ form.addEventListener("submit", (e) => {
   const message = form.message.value.trim();
   const contactMethod = form.contact.value;
 
-  const fullMessage = `Заявка з сайту:
+  const fullMessage = `📥 Нова заявка з сайту:
 Ім’я: ${name}
 Телефон Viber: ${phone}
 Спосіб зв’язку: ${contactMethod}
 Коментар: ${message}`;
 
-  // заміни USERNAME на свого Telegram-бота або користувача, якщо використовуєш сервіс типу t.me/share/url
-  const tgUrl = `https://t.me/share/url?url=&text=${encodeURIComponent(
-    fullMessage
-  )}`;
-  window.open(tgUrl, "_blank");
+  const botToken = "7378979804:AAFLXNQ5mZJMjPM_XhFNa8tm2mrbyaRyCQ";
+  const chatId = "1693054209";
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-  form.style.display = "none";
-  thankYouBlock.style.display = "block";
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: fullMessage,
+      }),
+    });
+
+    // Успішно — показуємо подяку
+    form.style.display = "none";
+    thankYouBlock.style.display = "block";
+  } catch (error) {
+    alert("Помилка відправлення. Спробуйте пізніше.");
+    console.error("Telegram API error:", error);
+  }
 });
