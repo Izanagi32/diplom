@@ -24,23 +24,27 @@ document.addEventListener("DOMContentLoaded", () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: "romancls94@gmail.com",
+            email: "romancls94@gmail.com", // 🔁 Твій email
             subject: "🚛 Нова заявка з форми доставки",
             fields: payload,
           }),
         }
       );
 
+      const responseText = await response.text();
+      console.log("✅ Status:", response.status);
+      console.log("📨 Response text:", responseText);
+
       if (response.ok) {
         modal?.classList.add("modal--active");
         form.reset();
         document.getElementById("volume").textContent = "0";
       } else {
-        alert("❌ Помилка при надсиланні!");
+        alert("❌ Помилка при надсиланні!\n" + responseText);
       }
     } catch (error) {
-      console.error("❌ Помилка:", error);
-      alert("❌ Виникла помилка. Спробуйте пізніше.");
+      console.error("❌ Виникла фатальна помилка:", error);
+      alert("❌ Виникла фатальна помилка. Спробуйте пізніше.");
     }
   });
 
