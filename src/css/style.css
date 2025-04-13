@@ -176,8 +176,8 @@
   display: flex;
   padding: 220px 80px;
   align-items: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../src/img/hero-photo1.png") bottom center/cover no-repeat;
-  background-position: 50% 77%;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/daf prew.png") center/cover no-repeat;
+  background-position: center;
 }
 .hero__wrap {
   display: flex;
