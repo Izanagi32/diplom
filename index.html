@@ -128,9 +128,7 @@
             <h2 class="services__title">Наші Послуги</h2>
             <div class="services__first-block">
               <div class="services__item">
-                <h3 class="services__item-title">
-                  Міжнародні вантажоперевезення
-                </h3>
+                <h3 class="services__item-title">Міжнародні перевезення</h3>
                 <p class="services__item-description">
                   Здійснюємо регулярні перевезення з України до країн
                   Європейського Союзу: Німеччини, Бельгії та Нідерландів.
@@ -446,7 +444,9 @@
       <div class="tabs" id="tabs">
         <div class="container">
           <h2 class="tabs__main-title">Як проходить процес доставки вантажу</h2>
+
           <div class="tabs__cont">
+            <!-- Sidebar Tabs -->
             <ul class="tabs__list">
               <li class="tabs__item">
                 <button
@@ -483,7 +483,12 @@
               </li>
             </ul>
 
+            <!-- Content Area -->
             <div class="tabs__content">
+              <div class="tabs__progress">
+                Крок <span id="currentStep">1</span> з 5
+              </div>
+
               <div id="tab-step1" class="tabs__panel tabs__panel--active">
                 <h3 class="tabs__title">Крок 1: Оформлення заявки</h3>
                 <p class="tabs__info">
@@ -492,7 +497,6 @@
                   вантажу, місце відправлення та доставки, бажана дата.
                 </p>
               </div>
-
               <div id="tab-step2" class="tabs__panel">
                 <h3 class="tabs__title">Крок 2: Підтвердження замовлення</h3>
                 <p class="tabs__info">
@@ -501,7 +505,6 @@
                   в системі та формується маршрут.
                 </p>
               </div>
-
               <div id="tab-step3" class="tabs__panel">
                 <h3 class="tabs__title">Крок 3: Забір вантажу</h3>
                 <p class="tabs__info">
@@ -510,7 +513,6 @@
                   його в транспортний засіб.
                 </p>
               </div>
-
               <div id="tab-step4" class="tabs__panel">
                 <h3 class="tabs__title">Крок 4: Перевезення</h3>
                 <p class="tabs__info">
@@ -519,7 +521,6 @@
                   клієнт інформується.
                 </p>
               </div>
-
               <div id="tab-step5" class="tabs__panel">
                 <h3 class="tabs__title">Крок 5: Доставка вантажу</h3>
                 <p class="tabs__info">
@@ -528,9 +529,11 @@
                   вважається завершеною.
                 </p>
               </div>
-            </div>
-            <div class="tabs__footer">
-              <button class="tabs__next">Наступний крок →</button>
+
+              <!-- Footer button -->
+              <div class="tabs__footer">
+                <button class="tabs__next">Наступний крок →</button>
+              </div>
             </div>
           </div>
         </div>
