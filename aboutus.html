@@ -258,94 +258,28 @@
         </div>
       </section>
 
-      <section class="testimonials">
+      <section class="testimonials" id="testimonialApp">
         <div class="testimonials__header">
-          <h2 class="testimonials__title">Link 4</h2>
+          <h2 class="testimonials__title">Відгуки</h2>
           <p class="testimonials__description">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-            sint. Velit officia consequat duis enim velit mollit. Velit officia
-            consequat duis enim velit mollit.
+            Наші клієнти діляться враженнями від співпраці з нами.
           </p>
         </div>
 
-        <div class="testimonials__content">
-          <div class="testimonials__cards">
-            <article class="testimonials__card">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/0e964d54-2b8e-4e8a-9318-81183c0859f8?apiKey=62eb40ef250c4680b7f562a59518138b&"
-                alt="Michael's testimonial"
-                class="testimonials__card-image"
-              />
-              <div class="testimonials__card-content">
-                <p class="testimonials__card-text">
-                  Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-                  amet sint. Velit officia consequat duis enim velit mollit.
-                </p>
-                <div class="testimonials__card-footer">
-                  <h3 class="testimonials__card-name">Person name</h3>
-                  <p class="testimonials__card-location">Place name</p>
-                </div>
-              </div>
-            </article>
-
-            <article class="testimonials__card">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/819b7484-2dc7-4326-9237-a3e88b224db0?apiKey=62eb40ef250c4680b7f562a59518138b&"
-                alt="Devon's testimonial"
-                class="testimonials__card-image"
-              />
-              <div class="testimonials__card-content">
-                <p class="testimonials__card-text">
-                  Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-                  amet sint. Velit officia consequat duis enim velit mollit.
-                </p>
-                <div class="testimonials__card-footer">
-                  <h3 class="testimonials__card-name">Person name</h3>
-                  <p class="testimonials__card-location">Place name</p>
-                </div>
-              </div>
-            </article>
-
-            <article class="testimonials__card">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/2dc04551-3a00-4a5f-bc74-dd0b9f4c4985?apiKey=62eb40ef250c4680b7f562a59518138b&"
-                alt="Floyd's testimonial"
-                class="testimonials__card-image"
-              />
-              <div class="testimonials__card-content">
-                <p class="testimonials__card-text">
-                  Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-                  amet sint. Velit officia consequat duis enim velit mollit.
-                </p>
-                <div class="testimonials__card-footer">
-                  <h3 class="testimonials__card-name">Person name</h3>
-                  <p class="testimonials__card-location">Place name</p>
-                </div>
-              </div>
-            </article>
-          </div>
-
-          <div class="testimonials__navigation">
-            <button
-              class="testimonials__nav-button"
-              aria-label="Previous testimonial"
+        <div class="testimonials__wrapper">
+          <div class="testimonials__carousel" ref="carousel">
+            <article
+              class="testimonials__card"
+              v-for="(item, index) in testimonials"
+              :key="item.name + index"
             >
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/733d6c5a3089825127a608941f40988c721b7931e118cf39cf5530102b42f13b?apiKey=62eb40ef250c4680b7f562a59518138b&"
-                alt=""
-                class="testimonials__nav-icon"
-              />
-            </button>
-            <button
-              class="testimonials__nav-button"
-              aria-label="Next testimonial"
-            >
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/42b1dd95c98e06233b3774cc11e3a67093e8fe8e83d9bc6bd425a98832dde7a1?apiKey=62eb40ef250c4680b7f562a59518138b&"
-                alt=""
-                class="testimonials__nav-icon"
-              />
-            </button>
+              <div class="testimonials__card-avatar">
+                <img :src="item.image" :alt="item.name" />
+              </div>
+              <p class="testimonials__card-text">“{{ item.text }}”</p>
+              <h3 class="testimonials__card-name">{{ item.name }}</h3>
+              <p class="testimonials__card-location">{{ item.place }}</p>
+            </article>
           </div>
         </div>
       </section>
@@ -525,5 +459,8 @@
     <script src="./src/js/counterAnimation.js"></script>
     <script src="./src/js/accordion.js"></script>
     <script src="./src/js/shipping-form-script.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="./src/js/testimonials.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </body>
 </html>
