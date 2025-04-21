@@ -1,6 +1,0 @@
----
-description: 
-globs: 
-alwaysApply: true
----
-Ми не змініюємо файл css адже в нас прерпроцесор scss і він називається style.scss в нього вносимо стилізацію
