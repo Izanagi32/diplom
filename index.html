@@ -380,7 +380,7 @@
                       />
                     </div>
                     <p class="shipping-form__volume-output">
-                      Обʼєм вантажу: <span id="volume">0</span> м³
+                      Об'єм вантажу: <span id="volume">0</span> м³
                     </p>
                   </div>
                 </div>
@@ -523,7 +523,7 @@
             <!-- Content Area -->
             <div class="tabs__content">
               <div class="tabs__progress">
-                Крок <span id="currentStep">1</span> з 5
+                Прогрес: Крок <span id="currentStep">1</span> з 5
               </div>
 
               <div id="tab-step1" class="tabs__panel tabs__panel--active">
@@ -567,14 +567,97 @@
                 </p>
               </div>
 
+              <!-- Progress bar -->
+              <div class="tabs__progress-bar" style="width: 20%"></div>
+
               <!-- Footer button -->
               <div class="tabs__footer">
-                <button class="tabs__next">Наступний крок →</button>
+                <button class="tabs__back" id="prevButton" disabled>Попередній крок</button>
+                <button class="tabs__next" id="nextButton">Наступний крок</button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Відгуки клієнтів -->
+      <section class="testimonials-section">
+        <div class="container">
+          <h2 class="testimonials-section__title">Відгуки наших клієнтів</h2>
+          <p class="testimonials-section__subtitle">
+            Що про нас говорять клієнти, які вже скористалися нашими послугами
+          </p>
+          
+          <div class="testimonials-section__grid">
+            <!-- Відгук 1 -->
+            <div class="testimonial-card">
+              <div class="testimonial-card__header">
+                <div class="testimonial-card__avatar">
+                  <img src="./src/img/cargo-logo2.png" alt="Фото клієнта">
+                </div>
+                <div class="testimonial-card__rating">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+              </div>
+              <div class="testimonial-card__content">
+                <p class="testimonial-card__text">
+                  "Користуємося послугами компанії вже другий рік. Задоволені якістю сервісу та пунктуальністю. Завжди тримають у курсі щодо статусу доставки. Рекомендую!"
+                </p>
+              </div>
+              <div class="testimonial-card__footer">
+                <h4 class="testimonial-card__name">Ірина Петренко</h4>
+                <p class="testimonial-card__company">ТОВ "Євростиль"</p>
+              </div>
+            </div>
+            
+            <!-- Відгук 2 -->
+            <div class="testimonial-card">
+              <div class="testimonial-card__header">
+                <div class="testimonial-card__avatar">
+                  <img src="./src/img/cargo-logo1.png" alt="Фото клієнта">
+                </div>
+                <div class="testimonial-card__rating">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+              </div>
+              <div class="testimonial-card__content">
+                <p class="testimonial-card__text">
+                  "Швидка та надійна доставка. Мали складний вантаж, який потребував особливих умов транспортування. Все було доставлено вчасно і в ідеальному стані."
+                </p>
+              </div>
+              <div class="testimonial-card__footer">
+                <h4 class="testimonial-card__name">Олег Коваленко</h4>
+                <p class="testimonial-card__company">ПП "Технобуд"</p>
+              </div>
+            </div>
+            
+            <!-- Відгук 3 -->
+            <div class="testimonial-card">
+              <div class="testimonial-card__header">
+                <div class="testimonial-card__avatar">
+                  <img src="./src/img/cargo-logo.png" alt="Фото клієнта">
+                </div>
+                <div class="testimonial-card__rating">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+              </div>
+              <div class="testimonial-card__content">
+                <p class="testimonial-card__text">
+                  "Співпрацюємо з компанією вже понад рік. Жодних затримок, прозорий процес і професійний підхід. Окрема подяка менеджерам за оперативність у вирішенні питань."
+                </p>
+              </div>
+              <div class="testimonial-card__footer">
+                <h4 class="testimonial-card__name">Марія Ковальчук</h4>
+                <p class="testimonial-card__company">ТОВ "Агропром"</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="testimonials-section__cta">
+            <a href="#" class="testimonials-section__button">Залишити відгук</a>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -720,10 +803,10 @@
       </div>
     </div>
 
-    <script src="./src/js/tabs.js"></script>
     <script src="./src/js/smooth-scroll.js"></script>
     <script src="./src/js/scroll spy.js"></script>
     <script src="./src/js/shipping-form-script.js"></script>
     <script src="./src/js/navbar.js"></script>
+    <script src="./src/js/script.js"></script>
   </body>
 </html>
