@@ -15,20 +15,6 @@
     <header class="navbar">
       <div class="container">
         <div class="navbar__top">
-          <div class="navbar__info">
-            <div class="navbar__contact">
-              <img src="./src/svg/phone.svg" alt="Phone" />
-              <a href="tel:+380977777568" class="navbar__phone"
-                >+380 (97) 777-75-68</a
-              >
-            </div>
-            <div class="navbar__mail">
-              <img src="./src/svg/mail.svg" alt="Mail" />
-              <a href="mailto:eurotandem@ukr.net" class="navbar__email"
-                >eurotandem@ukr.net</a
-              >
-            </div>
-          </div>
           <div class="navbar__social">
             <a href="#" class="navbar__social-link">
               <img src="./src/svg/facebook.svg" alt="Facebook" />
@@ -43,11 +29,25 @@
               <img src="./src/svg/twitter.svg" alt="Twitter" />
             </a>
           </div>
+          <div class="navbar__info">
+            <div class="navbar__contact">
+              <img src="./src/svg/phone.svg" alt="Phone" />
+              <a href="tel:+380977777568" class="navbar__phone"
+                >+380 (97) 777-75-68</a
+              >
+            </div>
+            <div class="navbar__mail">
+              <img src="./src/svg/mail.svg" alt="Mail" />
+              <a href="mailto:eurotandem@ukr.net" class="navbar__email"
+                >eurotandem@ukr.net</a
+              >
+            </div>
+          </div>
         </div>
         <div class="navbar__bottom">
           <div class="navbar__logo">
             <img
-              src="./src/img/Logo.png"
+              src="./src/img/Logo-act.jpg"
               alt="Logo"
               class="navbar__logo-image"
             />
@@ -73,7 +73,7 @@
               </ul>
             </nav>
             <div class="navbar__cta">
-              <a href="#" class="navbar__cta-button">Зв’язатись з нами</a>
+              <a href="#" class="navbar__cta-button">Зв'язатись з нами</a>
             </div>
           </div>
         </div>
@@ -414,7 +414,7 @@
         <h2 class="submitModal__title">Запис на консультацію</h2>
 
         <form id="contactForm" class="submitModal__form">
-          <input type="text" name="name" placeholder="Ваше ім’я" required />
+          <input type="text" name="name" placeholder="Ваше ім'я" required />
           <input
             type="tel"
             name="phone"
@@ -428,7 +428,7 @@
           ></textarea>
 
           <fieldset class="submitModal__contact-method">
-            <legend>Обраний спосіб зв’язку:</legend>
+            <legend>Обраний спосіб зв'язку:</legend>
             <label
               ><input type="radio" name="contact" value="дзвінок" checked /> Я
               хочу, щоб мені зателефонували</label
@@ -451,7 +451,7 @@
 
         <div class="submitModal__thankyou" style="display: none">
           <h3>Дякуємо!</h3>
-          <p>Ми отримали ваше повідомлення і зв’яжемось найближчим часом.</p>
+          <p>Ми отримали ваше повідомлення і зв'яжемось найближчим часом.</p>
         </div>
       </div>
     </div>
@@ -462,5 +462,6 @@
     <script src="https://unpkg.com/vue@3"></script>
     <script src="./src/js/testimonials.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="./src/js/navbar.js"></script>
   </body>
 </html>
