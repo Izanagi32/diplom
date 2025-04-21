@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (ctaButton) {
       const ctaClone = ctaButton.cloneNode(true);
       ctaClone.style.display = 'inline-block';
-      ctaClone.style.marginTop = '20px';
       mobileMenu.appendChild(ctaClone);
     }
     
@@ -49,9 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (mobileMenu.classList.contains('active')) {
       // Анімація "X"
-      spans[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+      spans[0].style.transform = 'rotate(45deg) translateY(8px)';
       spans[1].style.opacity = '0';
-      spans[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
+      spans[2].style.transform = 'rotate(-45deg) translateY(-8px)';
     } else {
       // Повернення до стандартного вигляду
       spans[0].style.transform = 'none';
@@ -91,25 +90,31 @@ document.addEventListener('DOMContentLoaded', function() {
   // Функція для додавання активного класу до поточного пункту меню
   function setActiveMenuItem() {
     const currentPath = window.location.pathname;
-    const menuItems = document.querySelectorAll('.navbar__menu-link, .navbar__mobile-menu a');
+    const menuItems = document.querySelectorAll('.navbar__menu-link');
+    const mobileMenuItems = document.querySelectorAll('.navbar__mobile-menu .navbar__menu-link');
     
-    menuItems.forEach(item => {
-      // Видаляємо активний клас з усіх елементів
-      item.classList.remove('navbar__menu-link--active');
-      
-      // Порівнюємо шлях з href елемента
-      const itemPath = item.getAttribute('href');
-      if (itemPath) {
-        const itemPathBase = itemPath.split('/').pop();
-        const currentPathBase = currentPath.split('/').pop() || 'index.html';
+    function checkAndSetActive(items) {
+      items.forEach(item => {
+        // Видаляємо активний клас з усіх елементів
+        item.classList.remove('navbar__menu-link--active');
         
-        if (itemPathBase === currentPathBase ||
-            (currentPathBase === 'index.html' && itemPathBase === './index.html') ||
-            (currentPathBase === '' && itemPathBase === './index.html')) {
-          item.classList.add('navbar__menu-link--active');
+        // Порівнюємо шлях з href елемента
+        const itemPath = item.getAttribute('href');
+        if (itemPath) {
+          const itemPathBase = itemPath.split('/').pop();
+          const currentPathBase = currentPath.split('/').pop() || 'index.html';
+          
+          if (itemPathBase === currentPathBase ||
+              (currentPathBase === 'index.html' && itemPathBase === './index.html') ||
+              (currentPathBase === '' && itemPathBase === './index.html')) {
+            item.classList.add('navbar__menu-link--active');
+          }
         }
-      }
-    });
+      });
+    }
+    
+    checkAndSetActive(menuItems);
+    checkAndSetActive(mobileMenuItems);
   }
   
   // Встановлюємо активний пункт меню при завантаженні сторінки
@@ -121,16 +126,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const logo = document.querySelector('.navbar__logo');
     
     if (window.scrollY > 100) {
-      navbar.style.padding = '0';
-      navbar.style.backgroundColor = 'rgba(59, 59, 59, 0.95)';
+      navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+      navbar.style.backdropFilter = 'blur(10px)';
       
       // Змінюємо стиль логотипу при прокрутці
       if (logo) {
         logo.classList.add('navbar__logo--scrolled');
       }
     } else {
-      navbar.style.padding = '';
-      navbar.style.backgroundColor = '#3b3b3b';
+      navbar.style.backgroundColor = '';
+      navbar.style.backdropFilter = '';
       
       // Повертаємо оригінальний стиль
       if (logo) {
@@ -145,43 +150,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Додаємо ефект світіння при наведенні
     logo.addEventListener('mouseenter', function() {
       this.style.transform = 'scale(1.05) translateY(-5px) rotateY(10deg)';
-      
-      // Додаємо м'яке світіння
-      const glow = document.createElement('div');
-      glow.className = 'logo-glow';
-      glow.style.position = 'absolute';
-      glow.style.top = '50%';
-      glow.style.left = '50%';
-      glow.style.transform = 'translate(-50%, -50%)';
-      glow.style.width = '160%';
-      glow.style.height = '160%';
-      glow.style.borderRadius = '50%';
-      glow.style.background = 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%)';
-      glow.style.zIndex = '-1';
-      glow.style.opacity = '0';
-      glow.style.transition = 'opacity 0.5s ease';
-      
-      this.appendChild(glow);
-      
-      // Затримка для анімації
-      setTimeout(() => {
-        glow.style.opacity = '1';
-      }, 50);
     });
     
     logo.addEventListener('mouseleave', function() {
       this.style.transform = '';
-      
-      // Видаляємо ефект світіння
-      const glow = this.querySelector('.logo-glow');
-      if (glow) {
-        glow.style.opacity = '0';
-        setTimeout(() => {
-          if (glow.parentNode === this) {
-            this.removeChild(glow);
-          }
-        }, 400);
-      }
     });
     
     // Додаємо тривимірний ефект обертання при русі миші
@@ -193,55 +165,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
       
-      const moveX = (x - centerX) / centerX * 15; // -15..15 градусів
-      const moveY = (y - centerY) / centerY * 10; // -10..10 градусів
+      const moveX = (x - centerX) / centerX * 10; // -10..10 градусів
+      const moveY = (y - centerY) / centerY * 7; // -7..7 градусів
       
       // Застосовуємо 3D ефект
       this.style.transform = `scale(1.05) rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
-      
-      // Ефект паралаксу для псевдоелементів
-      const shineEffect = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.2), transparent 80px)`;
-      this.style.backgroundImage = shineEffect;
     });
-    
-    // Повертаємо до початкового стану при виході миші
-    logo.addEventListener('mouseleave', function() {
-      this.style.transform = '';
-      this.style.backgroundImage = '';
-    });
-    
-    // Додаємо стилі для анімації
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes logoPulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
-      }
-    `;
-    document.head.appendChild(style);
-    
-    // Додаємо пульсуючу анімацію після завантаження сторінки
-    if (document.readyState === 'complete') {
-      setTimeout(() => {
-        logo.style.animation = 'logoPulse 1.5s ease';
-        
-        // Видаляємо анімацію після виконання
-        setTimeout(() => {
-          logo.style.animation = '';
-        }, 1500);
-      }, 500);
-    } else {
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          logo.style.animation = 'logoPulse 1.5s ease';
-          
-          // Видаляємо анімацію після виконання
-          setTimeout(() => {
-            logo.style.animation = '';
-          }, 1500);
-        }, 500);
-      });
-    }
   }
 }); 

@@ -188,11 +188,13 @@
     <footer class="site-footer">
       <div class="container">
         <div class="site-footer__top">
-          <img
-            src="./src/img/Logo-act.jpg"
-            alt="Company Logo"
-            class="site-footer__brand-logo"
-          />
+          <div class="site-footer__logo-wrapper">
+            <img
+              src="./src/img/Logo-act.jpg"
+              alt="Company Logo"
+              class="site-footer__brand-logo"
+            />
+          </div>
           <nav
             class="site-footer__nav"
             role="navigation"
@@ -204,11 +206,14 @@
               >Інтерактивна карта</a
             >
           </nav>
-          <img
-            src="./src/img/Logo-act.jpg"
-            alt="Company Logo"
-            class="site-footer__brand-logo"
-          />
+          <div class="site-footer__subscribe">
+            <h3 class="site-footer__subscribe-title">Слідкуйте за новинами</h3>
+            <p class="site-footer__subscribe-text">Отримуйте актуальні новини про наші послуги</p>
+            <div class="site-footer__subscribe-form">
+              <input type="email" placeholder="Ваш email" class="site-footer__subscribe-input">
+              <button class="site-footer__subscribe-button">Підписатись</button>
+            </div>
+          </div>
         </div>
 
         <hr class="site-footer__divider" />
@@ -217,28 +222,34 @@
           <div class="site-footer__info-section">
             <h2 class="site-footer__info-heading">Графік роботи</h2>
             <p class="site-footer__hours-text">Пн–Пт: 9:00–18:00</p>
+            <p class="site-footer__hours-text">Сб: 9:00–16:00</p>
+            <p class="site-footer__hours-text">Нд: Вихідний</p>
           </div>
 
           <div class="site-footer__info-section">
             <h2 class="site-footer__info-heading">Адреса</h2>
             <p class="site-footer__address-text">
               Україна, Луцький р-н, Волинська обл., місто Горохів, вулиця
-              Козацька, будинок, 23
+              Козацька, будинок 23
             </p>
+            <a href="https://maps.google.com" target="_blank" class="site-footer__map-link">Переглянути на карті</a>
           </div>
 
           <div class="site-footer__info-section">
             <h2 class="site-footer__info-heading">Контакти</h2>
             <div class="site-footer__contact-list">
-              <div class="site-footer__contact-list">
-                <div class="site-footer__contact-item">
-                  <i class="ti ti-mail site-footer__icon" aria-hidden="true"></i>
-                  <a href="mailto:eurotandem@ukr.net">eurotandem@ukr.net</a>
-                </div>
-                <div class="site-footer__contact-item">
-                  <i class="ti ti-phone site-footer__icon" aria-hidden="true"></i>
-                  <a href="tel:+380977777568">+380 (97) 777-75-68</a>
-                </div>
+              <div class="site-footer__contact-item">
+                <img src="./src/svg/mail.svg" alt="Email" />
+                <a href="mailto:eurotandem@ukr.net">eurotandem@ukr.net</a>
+              </div>
+              <div class="site-footer__contact-item">
+                <img src="./src/svg/phone.svg" alt="Phone" />
+                <a href="tel:+380977777568">+380 (97) 777-75-68</a>
+              </div>
+              <div class="site-footer__contact-item">
+                <img src="./src/svg/phone.svg" alt="Phone" />
+                <a href="tel:+380965556677">+380 (96) 555-66-77</a>
+              </div>
             </div>
           </div>
         </div>
@@ -269,7 +280,7 @@
             aria-label="Social Media Links"
           >
             <a
-              href="./src/svg/facebook.svg"
+              href="#"
               class="site-footer__social-link"
               aria-label="Facebook"
               tabindex="0"
@@ -277,7 +288,7 @@
               <img src="./src/svg/facebook.svg" alt="Facebook" />
             </a>
             <a
-              href="svg/instagram.svg"
+              href="#"
               class="site-footer__social-link"
               aria-label="Instagram"
               tabindex="0"
@@ -285,7 +296,7 @@
               <img src="./src/svg/instagram.svg" alt="Instagram" />
             </a>
             <a
-              href="svg/linkedin.svg"
+              href="#"
               class="site-footer__social-link"
               aria-label="LinkedIn"
               tabindex="0"
@@ -293,7 +304,7 @@
               <img src="./src/svg/linkedin.svg" alt="LinkedIn" />
             </a>
             <a
-              href="svg/twitter.svg"
+              href="#"
               class="site-footer__social-link"
               aria-label="Twitter"
               tabindex="0"

@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modal1?.classList.remove("modal--active");
   });
 
-  // === Форма 2: contactForm (модалка з кнопки Зв’язатись з менеджером) ===
+  // === Форма 2: contactForm (модалка з кнопки Зв'язатись з менеджером) ===
   const modal2 = document.getElementById("contactModal");
   const openBtn = document.getElementById("contactManagerBtn");
   const closeBtn = document.querySelector(".submitModal__close");
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = form2.message.value.trim();
     const contactMethod = form2.contact.value;
 
-    const fullMessage = `📞 <b>Зв’язок з менеджером</b>\n\n<b>Ім’я:</b> ${name}\n<b>Телефон Viber:</b> ${phone}\n<b>Спосіб зв’язку:</b> ${contactMethod}\n<b>Коментар:</b> ${message}`;
+    const fullMessage = `📞 <b>Зв'язок з менеджером</b>\n\n<b>Ім'я:</b> ${name}\n<b>Телефон Viber:</b> ${phone}\n<b>Спосіб зв'язку:</b> ${contactMethod}\n<b>Коментар:</b> ${message}`;
 
     const ok = await sendToTelegram(fullMessage);
 
@@ -104,4 +104,55 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("❌ Повідомлення не відправлено. Спробуйте пізніше.");
     }
   });
+
+  // === Форма підписки на новини в футері ===
+  const subscribeButtons = document.querySelectorAll('.site-footer__subscribe-button');
+  
+  subscribeButtons.forEach(button => {
+    button.addEventListener('click', async function() {
+      const inputField = this.parentNode.querySelector('.site-footer__subscribe-input');
+      const email = inputField.value.trim();
+      
+      if (!email) {
+        alert('Будь ласка, введіть ваш email');
+        return;
+      }
+      
+      if (!validateEmail(email)) {
+        alert('Будь ласка, введіть коректний email');
+        return;
+      }
+      
+      const message = `📧 <b>Новий підписник</b>\n\n<b>Email:</b> ${email}`;
+      const success = await sendToTelegram(message);
+      
+      if (success) {
+        inputField.value = '';
+        
+        // Відображаємо повідомлення про успіх
+        const formElement = this.parentNode;
+        const successMessage = document.createElement('div');
+        successMessage.className = 'site-footer__subscribe-success';
+        successMessage.textContent = 'Дякуємо за підписку!';
+        successMessage.style.color = '#3a97e8';
+        successMessage.style.fontSize = '14px';
+        successMessage.style.marginTop = '8px';
+        formElement.appendChild(successMessage);
+        
+        // Видаляємо повідомлення через 3 секунди
+        setTimeout(() => {
+          if (successMessage.parentNode === formElement) {
+            formElement.removeChild(successMessage);
+          }
+        }, 3000);
+      } else {
+        alert('Не вдалося підписатися. Спробуйте пізніше.');
+      }
+    });
+  });
+  
+  function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email.toLowerCase());
+  }
 });
