@@ -11,6 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pIuI1XBHhFKZ9r/lPurpaFUOTOM1ziWg+W/1Nsy5K4s9EZZbQ6JN5r0wgH3+qCNE0ObAzgncxcnD/uU9F8j2FA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
     <header class="navbar">
@@ -271,28 +272,71 @@
         </div>
       </section>
 
-      <section class="testimonials" id="testimonialApp">
-        <div class="testimonials__header">
-          <h2 class="testimonials__title">Відгуки</h2>
-          <p class="testimonials__description">
-            Наші клієнти діляться враженнями від співпраці з нами.
-          </p>
-        </div>
-
-        <div class="testimonials__wrapper">
-          <div class="testimonials__carousel" ref="carousel">
-            <article
-              class="testimonials__card"
-              v-for="(item, index) in testimonials"
-              :key="item.name + index"
-            >
-              <div class="testimonials__card-avatar">
-                <img :src="item.image" :alt="item.name" />
+      <section class="services">
+        <div class="container">
+          <h2 class="services__title">Наші послуги</h2>
+          <div class="services__grid">
+            <div class="service-card">
+              <i class="fas fa-truck service-card__icon"></i>
+              <h3 class="service-card__name">Швидка доставка</h3>
+              <p class="service-card__desc">Миттєве відправлення вашого вантажу у будь-яку точку світу.</p>
+            </div>
+            <div class="service-card">
+              <i class="fas fa-shield-alt service-card__icon"></i>
+              <h3 class="service-card__name">Страхування вантажу</h3>
+              <p class="service-card__desc">Повне покриття ризиків при транспортуванні грузу.</p>
+            </div>
+            <div class="service-card">
+              <i class="fas fa-box-open service-card__icon"></i>
+              <h3 class="service-card__name">Упаковка</h3>
+              <p class="service-card__desc">Професійна упаковка для збереження товару при доставці.</p>
+            </div>
+            <div class="service-card">
+              <i class="fas fa-file-invoice service-card__icon"></i>
+              <h3 class="service-card__name">Митне оформлення</h3>
+              <p class="service-card__desc">Повний спектр послуг з митного оформлення вантажів.</p>
+            </div>
+            <div class="service-card">
+              <i class="fas fa-headset service-card__icon"></i>
+              <h3 class="service-card__name">Підтримка 24/7</h3>
+              <p class="service-card__desc">Круглосонний супровід клієнтів на кожному етапі перевезення.</p>
+            </div>
+            <div class="service-card">
+              <div class="service-card__inner">
+                <div class="service-card__front">
+                  <i class="fas fa-route service-card__icon"></i>
+                  <h3 class="service-card__name">Оптимізація маршрутів</h3>
+                  <p class="service-card__desc">Ефективні маршрути для швидкої та безпечної доставки.</p>
+                </div>
+                <div class="service-card__back">
+                  <p class="service-card__back-desc">Наша команда професіоналів надає найкращі маршрути для швидкої та безпечної доставки вашого товару.</p>
+                </div>
               </div>
-              <p class="testimonials__card-text">“{{ item.text }}”</p>
-              <h3 class="testimonials__card-name">{{ item.name }}</h3>
-              <p class="testimonials__card-location">{{ item.place }}</p>
-            </article>
+            </div>
+            <div class="service-card">
+              <div class="service-card__inner">
+                <div class="service-card__front">
+                  <i class="fas fa-thermometer-half service-card__icon"></i>
+                  <h3 class="service-card__name">Моніторинг температури</h3>
+                  <p class="service-card__desc">Контроль температурного режиму під час перевезення.</p>
+                </div>
+                <div class="service-card__back">
+                  <p class="service-card__back-desc">Наші датчики забезпечують постійний моніторинг та миттєві сповіщення про відхилення температури.</p>
+                </div>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-card__inner">
+                <div class="service-card__front">
+                  <i class="fas fa-warehouse service-card__icon"></i>
+                  <h3 class="service-card__name">Складування</h3>
+                  <p class="service-card__desc">Надійне зберігання вантажу на наших складах.</p>
+                </div>
+                <div class="service-card__back">
+                  <p class="service-card__back-desc">Сучасні складські приміщення з контролем вологості та безпеки вашого товару.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -485,8 +529,6 @@
     <script src="./src/js/accordion.js"></script>
     <script src="./src/js/shipping-form-script.js"></script>
     <script src="https://unpkg.com/vue@3"></script>
-    <script src="./src/js/testimonials.js"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="./src/js/navbar.js"></script>
   </body>
 </html>
