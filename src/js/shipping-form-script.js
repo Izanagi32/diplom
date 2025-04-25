@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // === Налаштування ===
   const botToken = "7378979804:AAGuviiwgUsrUprTP_NBm_wZn8iSH8l4a5U";
   const chatId = "1693054209";
 
-  // === Загальна функція відправки в Telegram ===
   async function sendToTelegram(messageText) {
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
@@ -27,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // === Форма 1: shipping-form ===
   const form1 = document.getElementById("quoteForm");
   const modal1 = document.getElementById("formModal");
   const closeModalBtn = document.getElementById("closeModal");
@@ -68,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
     modal1?.classList.remove("modal--active");
   });
 
-  // === Форма 2: contactForm (модалка з кнопки Зв'язатись з менеджером) ===
   const modal2 = document.getElementById("contactModal");
   const openBtn = document.getElementById("contactManagerBtn");
   const closeBtn = document.querySelector(".submitModal__close");
@@ -105,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // === Форма підписки на новини в футері ===
   const subscribeButtons = document.querySelectorAll('.site-footer__subscribe-button');
   
   subscribeButtons.forEach(button => {
@@ -129,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (success) {
         inputField.value = '';
         
-        // Відображаємо повідомлення про успіх
         const formElement = this.parentNode;
         const successMessage = document.createElement('div');
         successMessage.className = 'site-footer__subscribe-success';
@@ -139,7 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
         successMessage.style.marginTop = '8px';
         formElement.appendChild(successMessage);
         
-        // Видаляємо повідомлення через 3 секунди
         setTimeout(() => {
           if (successMessage.parentNode === formElement) {
             formElement.removeChild(successMessage);

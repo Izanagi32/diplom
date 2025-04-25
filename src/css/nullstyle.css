@@ -114,11 +114,10 @@ blockquote,
 q {
   quotes: none;
 }
-
 blockquote::before, blockquote::after,
 q::before,
 q::after {
-  content: '';
+  content: "";
   content: none;
 }
 
@@ -154,11 +153,9 @@ svg {
 *,
 *::before,
 *::after {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 :focus {
   outline: none;
-}
-/*# sourceMappingURL=nullstyle.css.map */
+}/*# sourceMappingURL=nullstyle.css.map */
