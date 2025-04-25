@@ -1,8 +1,62 @@
-const map = L.map("map").setView([49.8397, 24.0297], 5);
+// Define base tile layers
+const osmStandard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: "&copy; OpenStreetMap contributors"
+});
+const satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+  attribution: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, Aerogrid, IGN, and GIS User Community"
+});
+const dark = L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png", {
+  attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+});
+const topo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'
+});
 
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "&copy; OpenStreetMap contributors",
+// Base layers object for switching themes
+const baseLayers = {
+  "OSM Standard": osmStandard,
+  "Satellite": satellite,
+  "Dark Matter": dark,
+  "Topo": topo
+};
+
+// Initialize map with default base layer
+const map = L.map("map", {
+  center: [49.8397, 24.0297],
+  zoom: 5,
+  layers: [osmStandard]
+});
+
+// Initialize marker cluster group for clustering markers
+const markerClusterGroup = L.markerClusterGroup();
+map.addLayer(markerClusterGroup);
+
+// Add geocoder search control for street/address lookup
+const geocoderControl = L.Control.geocoder({
+  collapsed: true,
+  placeholder: 'Пошук вулиці або адреси...'
 }).addTo(map);
+
+// Ensure clicking the geocoder icon expands the control
+{
+  const container = geocoderControl.getContainer();
+  const icon = container.querySelector('.leaflet-control-geocoder-icon');
+  if (icon && geocoderControl.expand) {
+    icon.addEventListener('click', () => geocoderControl.expand());
+  }
+}
+
+// Zoom to the search result bounding box when selected
+geocoderControl.on('markgeocode', (e) => {
+  map.fitBounds(e.geocode.bbox);
+  // Collapse the geocoder control after search
+  if (geocoderControl.collapse) geocoderControl.collapse();
+});
+
+// Define additional empty overlay layers for routes, warehouses, offices
+const routesLayer = L.layerGroup();
+const warehouseLayer = L.layerGroup();
+const officeLayer = L.layerGroup();
 
 const deliveryLocations = [
   //Україна
@@ -85,19 +139,16 @@ const deliveryLocations = [
   { city: "Генк", coords: [50.9631, 5.5003], region: "eu" },
 ];
 
-const markers = [];
-
 function renderMarkers(region) {
-  markers.forEach((m) => map.removeLayer(m));
-  markers.length = 0;
+  // Clear existing markers from the cluster
+  markerClusterGroup.clearLayers();
 
   deliveryLocations
     .filter((loc) => region === "all" || loc.region === region)
     .forEach((loc) => {
       const marker = L.marker(loc.coords)
-        .addTo(map)
         .bindPopup(`<b>${loc.city}</b>`);
-      markers.push(marker);
+      markerClusterGroup.addLayer(marker);
     });
 }
 
@@ -188,7 +239,8 @@ document.addEventListener("click", (e) => {
 fetch("src/data/countries.geojson")
   .then((res) => res.json())
   .then((data) => {
-    L.geoJSON(data, {
+    // Create regions layer for GeoJSON polygons
+    const regionsLayer = L.geoJSON(data, {
       filter: (feature) =>
         ["Ukraine", "Germany", "Poland", "Belgium", "Netherlands"].includes(
           feature.properties.ADMIN ||
@@ -235,5 +287,17 @@ fetch("src/data/countries.geojson")
           feature.properties.NAME;
         layer.bindPopup(`<b>${name}</b>`);
       },
-    }).addTo(map);
+    });
+    // Add default layers to map
+    markerClusterGroup.addTo(map);
+    regionsLayer.addTo(map);
+    // Initialize layer control for toggling layers
+    const overlays = {
+      "Міста": markerClusterGroup,
+      "Регіони": regionsLayer,
+      "Маршрути": routesLayer,
+      "Склади": warehouseLayer,
+      "Офіси": officeLayer
+    };
+    L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map);
   });
