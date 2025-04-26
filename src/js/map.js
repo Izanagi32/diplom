@@ -22,14 +22,64 @@ const baseLayers = {
 
 // Initialize map with default base layer
 const map = L.map("map", {
-  center: [49.8397, 24.0297],
-  zoom: 5,
+  // center and zoom will be set after loading Ukraine GeoJSON
   layers: [osmStandard]
 });
 
 // Initialize marker cluster group for clustering markers
 const markerClusterGroup = L.markerClusterGroup();
-map.addLayer(markerClusterGroup);
+
+// Track currently selected region to handle async geo loading
+let currentRegion = 'all';
+
+// Prepare Ukraine boundary layer (ADM0)
+let ukrGeoLayer;
+fetch('src/data/geoBoundaries-UKR-ADM0.geojson')
+  .then(res => res.json())
+  .then(geojson => {
+    ukrGeoLayer = L.geoJSON(geojson, { style: { color: '#005bbb', weight: 2, fillOpacity: 0.1 }}).addTo(map);
+    // Fit bounds on initial load or if UA filter active
+    if (currentRegion === 'all' || currentRegion === 'ua') {
+      map.fitBounds(ukrGeoLayer.getBounds());
+    }
+  })
+  .catch(err => console.error('Error loading Ukraine GeoJSON:', err));
+
+// Prepare Germany boundary layer (ADM0)
+let deuGeoLayer;
+fetch('src/data/geoBoundaries-DEU-ADM0.geojson')
+  .then(res => res.json())
+  .then(geojson => {
+    deuGeoLayer = L.geoJSON(geojson, { style: { color: '#dc2626', weight: 2, fillOpacity: 0.1 }});
+  })
+  .catch(err => console.error('Error loading Germany GeoJSON:', err));
+
+// Prepare Poland boundary layer (ADM0)
+let polGeoLayer;
+fetch('src/data/geoBoundaries-POL-ADM0.geojson')
+  .then(res => res.json())
+  .then(geojson => {
+    polGeoLayer = L.geoJSON(geojson, { style: { color: '#16a34a', weight: 2, fillOpacity: 0.1 }});
+  })
+  .catch(err => console.error('Error loading Poland GeoJSON:', err));
+
+// Prepare Belgium boundary layer (ADM0)
+let belGeoLayer;
+fetch('src/data/geoBoundaries-BEL-ADM0.geojson')
+  .then(res => res.json())
+  .then(geojson => {
+    belGeoLayer = L.geoJSON(geojson, { style: { color: '#f59e0b', weight: 2, fillOpacity: 0.1 }});
+  })
+  .catch(err => console.error('Error loading Belgium GeoJSON:', err));
+
+// Prepare Netherlands boundary layer (ADM0)
+let nldGeoLayer;
+fetch('src/data/geoBoundaries-NLD-ADM0.geojson')
+  .then(res => res.json())
+  .then(geojson => {
+    nldGeoLayer = L.geoJSON(geojson, { style: { color: '#d946ef', weight: 2, fillOpacity: 0.1 }});
+  })
+  .catch(err => console.error('Error loading Netherlands GeoJSON:', err));
 
 // Add geocoder search control for street/address lookup
 const geocoderControl = L.Control.geocoder({
@@ -140,16 +190,49 @@ const deliveryLocations = [
 ];
 
 function renderMarkers(region) {
-  // Clear existing markers from the cluster
-  markerClusterGroup.clearLayers();
+  // Update active state for filter buttons
+  document.getElementById('filterAll').classList.toggle('active', region === 'all');
+  document.getElementById('filterUA').classList.toggle('active', region === 'ua');
+  document.getElementById('filterEU').classList.toggle('active', region === 'eu');
 
-  deliveryLocations
-    .filter((loc) => region === "all" || loc.region === region)
-    .forEach((loc) => {
-      const marker = L.marker(loc.coords)
-        .bindPopup(`<b>${loc.city}</b>`);
-      markerClusterGroup.addLayer(marker);
-    });
+  // Update currentRegion for async geo callbacks
+  currentRegion = region;
+  // Remove any existing polygon layers
+  if (ukrGeoLayer && map.hasLayer(ukrGeoLayer)) map.removeLayer(ukrGeoLayer);
+  if (deuGeoLayer && map.hasLayer(deuGeoLayer)) map.removeLayer(deuGeoLayer);
+  if (polGeoLayer && map.hasLayer(polGeoLayer)) map.removeLayer(polGeoLayer);
+  if (belGeoLayer && map.hasLayer(belGeoLayer)) map.removeLayer(belGeoLayer);
+  if (nldGeoLayer && map.hasLayer(nldGeoLayer)) map.removeLayer(nldGeoLayer);
+
+  // Show appropriate polygon and adjust view
+  if (region === 'ua' && ukrGeoLayer) {
+    ukrGeoLayer.addTo(map);
+    map.fitBounds(ukrGeoLayer.getBounds());
+  } else if (region === 'eu') {
+    if (deuGeoLayer) deuGeoLayer.addTo(map);
+    if (polGeoLayer) polGeoLayer.addTo(map);
+    if (belGeoLayer) belGeoLayer.addTo(map);
+    if (nldGeoLayer) nldGeoLayer.addTo(map);
+    const euBounds = L.latLngBounds([]);
+    if (deuGeoLayer) euBounds.extend(deuGeoLayer.getBounds());
+    if (polGeoLayer) euBounds.extend(polGeoLayer.getBounds());
+    if (belGeoLayer) euBounds.extend(belGeoLayer.getBounds());
+    if (nldGeoLayer) euBounds.extend(nldGeoLayer.getBounds());
+    if (euBounds.isValid()) map.fitBounds(euBounds);
+  } else if (region === 'all') {
+    if (ukrGeoLayer) ukrGeoLayer.addTo(map);
+    if (deuGeoLayer) deuGeoLayer.addTo(map);
+    if (polGeoLayer) polGeoLayer.addTo(map);
+    if (belGeoLayer) belGeoLayer.addTo(map);
+    if (nldGeoLayer) nldGeoLayer.addTo(map);
+    const allBounds = L.latLngBounds([]);
+    if (ukrGeoLayer) allBounds.extend(ukrGeoLayer.getBounds());
+    if (deuGeoLayer) allBounds.extend(deuGeoLayer.getBounds());
+    if (polGeoLayer) allBounds.extend(polGeoLayer.getBounds());
+    if (belGeoLayer) allBounds.extend(belGeoLayer.getBounds());
+    if (nldGeoLayer) allBounds.extend(nldGeoLayer.getBounds());
+    if (allBounds.isValid()) map.fitBounds(allBounds);
+  }
 }
 
 renderMarkers("all");
@@ -288,12 +371,10 @@ fetch("src/data/countries.geojson")
         layer.bindPopup(`<b>${name}</b>`);
       },
     });
-    // Add default layers to map
-    markerClusterGroup.addTo(map);
+    // Add default layers to map (markers removed)
     regionsLayer.addTo(map);
-    // Initialize layer control for toggling layers
+
     const overlays = {
-      "Міста": markerClusterGroup,
       "Регіони": regionsLayer,
       "Маршрути": routesLayer,
       "Склади": warehouseLayer,
