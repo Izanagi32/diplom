@@ -163,6 +163,7 @@
 
     @media (max-width: 991px) {
         padding: 180px 40px 70px;
+        min-height: 70vh;
 
         &__title {
             font-size: 56px;
@@ -174,18 +175,28 @@
 
         &__description {
             font-size: 16px;
+            max-width: 100%;
+        }
+
+        &__actions {
+            gap: 15px;
         }
     }
 
     @media (max-width: 768px) {
         padding: 160px 30px 60px;
+        min-height: 60vh;
 
         &__title {
             font-size: 48px;
+
+            &::after {
+                width: 80px;
+            }
         }
 
         &__description {
-            max-width: 100%;
+            font-size: 15px;
         }
 
         &__actions {
@@ -202,18 +213,19 @@
 
     @media (max-width: 576px) {
         padding: 140px 20px 50px;
+        min-height: 50vh;
 
         &__title {
             font-size: 40px;
 
             &::after {
-                width: 80px;
+                width: 60px;
                 height: 3px;
             }
         }
 
         &__description {
-            font-size: 15px;
+            font-size: 14px;
         }
     }
 }
@@ -426,6 +438,10 @@
 
         @media (max-width: 768px) {
             gap: 50px;
+
+            &::after {
+                display: none;
+            }
         }
 
         &::before {
@@ -915,6 +931,53 @@
         font-weight: 600;
         vertical-align: middle;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .benefits__container {
+            display: flex;
+            flex-direction: column;
+            padding: 0 20px;
+        }
+
+        .benefits__item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+        }
+
+        .benefits__icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .benefits__subtitle {
+            font-size: 16px;
+        }
+
+        .benefits__desc {
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .benefits__container {
+            padding: 0 10px;
+        }
+
+        .benefits__item {
+            padding: 12px;
+            gap: 8px;
+        }
+
+        .benefits__subtitle {
+            font-size: 15px;
+        }
+
+        .benefits__desc {
+            font-size: 13px;
+        }
     }
 }
 
@@ -1862,6 +1925,299 @@
 
         &__text {
             font-size: 15px;
+        }
+    }
+}
+
+/* Responsive styles for all sections */
+@media (max-width: 991px) {
+    .services {
+        &__cont-grid {
+            gap: 50px;
+            padding: 15px;
+        }
+
+        &__title {
+            font-size: 54px;
+            margin-bottom: 25px;
+        }
+
+        &__carousel-container {
+            padding: 0 15px;
+        }
+
+        &__item {
+            min-height: 240px;
+            padding: 30px 25px;
+        }
+
+        &__item-title {
+            font-size: 24px;
+        }
+    }
+
+    .cost-estimation {
+        padding: 60px 0;
+
+        &__content {
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+        }
+
+        &__info {
+            max-width: 100%;
+            padding: 0 20px;
+        }
+
+        &__title {
+            font-size: 46px;
+        }
+    }
+
+    .benefits {
+        margin-top: 20px;
+
+        &__container {
+            padding: 0 20px;
+        }
+
+        &__item {
+            padding: 20px;
+        }
+    }
+
+    .shipping-form {
+        padding: 35px 30px;
+    }
+
+    .tabs {
+        padding: 60px 20px;
+
+        &__main-title {
+            font-size: 44px;
+            margin-bottom: 40px;
+        }
+
+        &__content {
+            padding: 30px;
+        }
+    }
+
+    .testimonials-section {
+        padding: 70px 0;
+
+        &__title {
+            font-size: 44px;
+        }
+
+        &__subtitle {
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        &__grid {
+            gap: 25px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .services {
+        &__cont-grid {
+            gap: 40px;
+        }
+
+        &__title {
+            font-size: 42px;
+        }
+
+        &__item {
+            min-height: 220px;
+            padding: 25px 20px;
+        }
+
+        &__item-title {
+            font-size: 22px;
+        }
+
+        &__item-description {
+            font-size: 14px;
+        }
+    }
+
+    .cost-estimation {
+        padding: 50px 0;
+
+        &__title {
+            font-size: 40px;
+        }
+
+        &__description {
+            font-size: 15px;
+        }
+    }
+
+    .benefits {
+        &__container {
+            padding: 0 15px;
+        }
+
+        &__item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+        }
+
+        &__icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        &__subtitle {
+            font-size: 16px;
+        }
+
+        &__desc {
+            font-size: 14px;
+        }
+    }
+
+    .shipping-form {
+        padding: 30px 20px;
+    }
+
+    .tabs {
+        padding: 50px 15px;
+
+        &__main-title {
+            font-size: 36px;
+        }
+
+        &__button {
+            padding: 15px 20px;
+        }
+
+        &__title {
+            font-size: 28px;
+        }
+
+        &__footer {
+            flex-direction: column;
+            gap: 15px;
+
+            .tabs__back {
+                order: 2;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .tabs__next {
+                order: 1;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+
+    .testimonials-section {
+        padding: 60px 0;
+
+        &__title {
+            font-size: 36px;
+        }
+
+        &__subtitle {
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        &__grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .services {
+        &__cont-grid {
+            gap: 30px;
+            padding: 10px;
+        }
+
+        &__title {
+            font-size: 36px;
+        }
+
+        &__item {
+            min-height: 200px;
+            padding: 20px 15px;
+        }
+
+        &__item-title {
+            font-size: 20px;
+        }
+    }
+
+    .cost-estimation {
+        padding: 40px 0;
+
+        &__title {
+            font-size: 36px;
+        }
+
+        &__description {
+            font-size: 14px;
+        }
+    }
+
+    .benefits {
+        &__container {
+            padding: 0 10px;
+        }
+
+        &__item {
+            padding: 12px;
+            gap: 8px;
+        }
+
+        &__subtitle {
+            font-size: 15px;
+        }
+
+        &__desc {
+            font-size: 13px;
+        }
+    }
+
+    .shipping-form {
+        padding: 25px 15px;
+    }
+
+    .tabs {
+        padding: 40px 10px;
+
+        &__main-title {
+            font-size: 32px;
+        }
+
+        &__content {
+            padding: 20px;
+        }
+    }
+
+    .testimonials-section {
+        padding: 50px 0;
+
+        &__title {
+            font-size: 32px;
+        }
+
+        &__subtitle {
+            font-size: 14px;
+            margin-bottom: 25px;
         }
     }
 }

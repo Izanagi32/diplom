@@ -102,36 +102,38 @@
     }
 
     @media (max-width: 991px) {
-        padding: 160px 20px 100px;
+        padding: 60px 20px;
+        gap: 40px;
 
         &__title {
             font-size: 40px;
-            line-height: 50px;
         }
 
-        &__button {
-            margin-top: 24px;
-            padding: 12px 28px;
-            font-size: 16px;
+        &__description {
+            font-size: 15px;
+        }
+
+        &__collage {
+            grid-template-columns: 1fr;
+            max-width: 500px;
+            margin: 0 auto;
         }
     }
 
     @media (max-width: 640px) {
-        padding: 140px 16px 80px;
+        padding: 40px 16px;
+        gap: 30px;
 
         &__title {
-            font-size: 32px;
-            line-height: 40px;
+            font-size: 36px;
         }
 
-        &__subtitle {
+        &__description {
             font-size: 14px;
         }
 
-        &__button {
-            margin-top: 20px;
-            padding: 10px 24px;
-            font-size: 14px;
+        &__collage {
+            gap: 12px;
         }
     }
 
@@ -317,7 +319,7 @@
 
 @media (max-width: 640px) {
     .trust-stats {
-        padding: 30px 20px;
+        padding: 30px 16px;
 
         &__content {
             width: 100%;
@@ -330,6 +332,7 @@
 
     .stat-card {
         width: 100%;
+        padding: 20px;
     }
 
     .trust-stats__image {
@@ -1105,4 +1108,203 @@
 .partner-card:hover .partner-card__logo {
     filter: grayscale(0%);
     transform: scale(1.1);
+}
+
+/* Responsive styles for all sections */
+@media (max-width: 991px) {
+    .heroab {
+        padding: 60px 20px;
+        gap: 40px;
+
+        &__title {
+            font-size: 40px;
+        }
+
+        &__description {
+            font-size: 15px;
+        }
+
+        &__collage {
+            grid-template-columns: 1fr;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    }
+
+    .trust-stats {
+        padding: 40px 20px;
+        gap: 40px;
+
+        &__title {
+            font-size: 40px;
+        }
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .employee-requirements {
+        padding: 60px 0;
+
+        &__wrapper {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        &__title {
+            font-size: 40px;
+        }
+
+        &__description {
+            font-size: 16px;
+        }
+    }
+
+    .services {
+        padding: 60px 20px;
+
+        &__title {
+            font-size: 40px;
+        }
+
+        &__grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .heroab {
+        padding: 40px 16px;
+        gap: 30px;
+
+        &__title {
+            font-size: 36px;
+        }
+
+        &__description {
+            font-size: 14px;
+        }
+
+        &__collage {
+            gap: 12px;
+        }
+    }
+
+    .trust-stats {
+        padding: 30px 16px;
+
+        &__content {
+            width: 100%;
+        }
+
+        &__title {
+            font-size: 36px;
+        }
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .stat-card {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .employee-requirements {
+        padding: 40px 0;
+
+        &__title {
+            font-size: 36px;
+        }
+
+        &__description {
+            font-size: 15px;
+            margin: 12px 0 24px;
+        }
+
+        &__submit {
+            padding: 12px 28px;
+            font-size: 15px;
+        }
+    }
+
+    .services {
+        padding: 40px 16px;
+
+        &__title {
+            font-size: 36px;
+        }
+
+        &__grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+
+    .service-card {
+        padding: 24px 20px;
+
+        &__icon {
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        &__name {
+            font-size: 18px;
+        }
+
+        &__desc {
+            font-size: 14px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .heroab {
+        padding: 30px 12px;
+
+        &__title {
+            font-size: 32px;
+        }
+
+        &__description {
+            font-size: 13px;
+        }
+    }
+
+    .trust-stats {
+        padding: 24px 12px;
+
+        &__title {
+            font-size: 32px;
+        }
+    }
+
+    .employee-requirements {
+        padding: 30px 0;
+
+        &__title {
+            font-size: 32px;
+        }
+
+        &__description {
+            font-size: 14px;
+        }
+    }
+
+    .services {
+        padding: 30px 12px;
+
+        &__title {
+            font-size: 32px;
+        }
+    }
 }
