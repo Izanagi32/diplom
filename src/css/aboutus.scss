@@ -213,6 +213,9 @@
     &__description {
         color: rgba(0, 0, 0, 0.65);
         font: 600 16px/24px Montserrat, sans-serif;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
     }
 
     &__image {
@@ -320,6 +323,7 @@
 @media (max-width: 640px) {
     .trust-stats {
         padding: 30px 16px;
+        grid-template-columns: 1fr;
 
         &__content {
             width: 100%;
@@ -327,6 +331,15 @@
 
         &__title {
             font-size: 36px;
+        }
+
+        &__description {
+            font-size: 14px;
+            line-height: 20px;
+            text-align: center;
+            max-width: 100%;
+            text-align: justify;
+            padding: 0 8px;
         }
     }
 
@@ -337,6 +350,15 @@
 
     .trust-stats__image {
         width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .trust-stats {
+        &__description {
+            font-size: 12px;
+            line-height: 18px;
+        }
     }
 }
 
@@ -1196,6 +1218,7 @@
 
     .trust-stats {
         padding: 30px 16px;
+        grid-template-columns: 1fr;
 
         &__content {
             width: 100%;
@@ -1276,7 +1299,11 @@
         }
 
         &__description {
+            width: 100%;
             font-size: 13px;
+            line-height: 18px;
+            text-align: center;
+            word-break: break-word;
         }
     }
 

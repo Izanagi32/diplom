@@ -521,7 +521,7 @@
         overflow: hidden;
         border-radius: 8px;
         will-change: transform;
-        
+
         &::before {
             content: "";
             position: absolute;
@@ -533,7 +533,7 @@
             z-index: 5;
             pointer-events: none;
         }
-        
+
         &::after {
             content: "";
             position: absolute;
@@ -545,8 +545,9 @@
             z-index: 5;
             pointer-events: none;
         }
-        
+
         @media (max-width: 768px) {
+
             &::before,
             &::after {
                 width: 30px;
@@ -559,7 +560,7 @@
         margin: 0 auto;
         position: relative;
         will-change: transform;
-        
+
         .slick-track {
             display: flex !important;
             margin-left: 0;
@@ -568,7 +569,7 @@
             transition: transform 800ms linear !important;
             will-change: transform;
         }
-        
+
         .slick-slide {
             padding: 10px;
             height: auto;
@@ -577,41 +578,41 @@
             transition: all 400ms linear;
             float: left !important;
             will-change: transform, opacity;
-            
+
             &.slick-active {
                 opacity: 1;
                 transform: scale(1);
             }
-            
+
             &.slick-current {
                 z-index: 2;
             }
-            
-            & > div {
+
+            &>div {
                 height: 100%;
             }
         }
-        
+
         .slick-list {
             margin: 0;
             overflow: hidden !important;
             padding: 20px 0;
         }
-        
+
         &.slick-initialized {
             overflow: visible;
         }
-        
+
         @media (max-width: 768px) {
             .slick-list {
                 overflow: hidden !important;
                 padding: 10px 0;
             }
-            
+
             .slick-slide {
                 opacity: 0.9;
                 transform: scale(0.98);
-                
+
                 &.slick-active {
                     opacity: 1;
                     transform: scale(1);
@@ -619,7 +620,7 @@
             }
         }
     }
-    
+
     &__item {
         display: flex;
         width: 100%;
@@ -1009,6 +1010,15 @@
         top: -50px;
         right: -50px;
         z-index: 0;
+    }
+
+    @media (max-width: 425px) {
+        &::before {
+            width: 100px;
+            height: 100px;
+            top: -30px;
+            right: -30px;
+        }
     }
 
     &__title {
