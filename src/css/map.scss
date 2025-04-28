@@ -279,3 +279,25 @@ $box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     }
 }
+
+// Highlight TomTom traffic tiles with a red glow
+.traffic-layer {
+    /* static base glow */
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+    /* pulsating glow */
+    animation: traffic-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes traffic-glow {
+    0% {
+        filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 1));
+    }
+
+    100% {
+        filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+    }
+}

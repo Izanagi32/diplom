@@ -1,51 +1,70 @@
-// Define base tile layers
+
+const map = L.map("map").setView([50.4501, 30.5234], 6);
+
 const osmStandard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: "&copy; OpenStreetMap contributors"
-});
-const satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-  attribution: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, Aerogrid, IGN, and GIS User Community"
-});
-const dark = L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png", {
-  attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>'
-});
-const topo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
-  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'
+}).addTo(map);
+
+const trafficLayer = L.tileLayer(
+  'https://api.tomtom.com/traffic/map/4/flow/absolute/tile/{z}/{x}/{y}.png?key=7TAXesmpLl4EdNU3ErwvQMcHRbbyMAMD',
+  { attribution: 'Traffic © TomTom', minZoom: 6, zIndex: 650, className: 'traffic-layer' }
+);
+
+const cloudsLayer = L.tileLayer(
+  'https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=09135cbec6c864d2ebe7a013d74d45ce',
+  { opacity: 0.5, attribution: 'Clouds © OpenWeatherMap' }
+);
+
+const precipitationLayer = L.tileLayer(
+  'https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=09135cbec6c864d2ebe7a013d74d45ce',
+  { opacity: 0.5, attribution: 'Rain © OpenWeatherMap' }
+);
+
+const trafficIncidentsLayer = L.tileLayer(
+  'https://api.tomtom.com/traffic/map/4/incidents/s1/{z}/{x}/{y}.png?key=7TAXesmpLl4EdNU3ErwvQMcHRbbyMAMD',
+  { attribution: 'Traffic Incidents © TomTom', minZoom: 6, zIndex: 650 }
+);
+
+const temperatureLayer = L.tileLayer(
+  'https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=09135cbec6c864d2ebe7a013d74d45ce',
+  { opacity: 0.5, attribution: 'Temperature © OpenWeatherMap' }
+);
+
+L.control.layers({
+  "OSM Standard": osmStandard
+}, {
+  "Трафік (TomTom)": trafficLayer,
+  "Інциденти на дорогах (TomTom)": trafficIncidentsLayer,
+  "Хмари (OWM)": cloudsLayer,
+  "Опади (OWM)": precipitationLayer,
+  "Температура (OWM)": temperatureLayer
+}, { collapsed: false }).addTo(map);
+
+const geocoderControl = L.Control.geocoder({
+  collapsed: true,
+  placeholder: 'Пошук вулиці або адреси...'
+}).addTo(map);
+
+geocoderControl.on('markgeocode', (e) => {
+  map.fitBounds(e.geocode.bbox);
+  if (geocoderControl.collapse) geocoderControl.collapse();
 });
 
-// Base layers object for switching themes
-const baseLayers = {
-  "OSM Standard": osmStandard,
-  "Satellite": satellite,
-  "Dark Matter": dark,
-  "Topo": topo
-};
-
-// Initialize map with default base layer
-const map = L.map("map", {
-  // center and zoom will be set after loading Ukraine GeoJSON
-  layers: [osmStandard]
-});
-
-// Initialize marker cluster group for clustering markers
 const markerClusterGroup = L.markerClusterGroup();
 
-// Track currently selected region to handle async geo loading
 let currentRegion = 'all';
 
-// Prepare Ukraine boundary layer (ADM0)
 let ukrGeoLayer;
 fetch('src/data/geoBoundaries-UKR-ADM0.geojson')
   .then(res => res.json())
   .then(geojson => {
     ukrGeoLayer = L.geoJSON(geojson, { style: { color: '#005bbb', weight: 2, fillOpacity: 0.1 }}).addTo(map);
-    // Fit bounds on initial load or if UA filter active
     if (currentRegion === 'all' || currentRegion === 'ua') {
       map.fitBounds(ukrGeoLayer.getBounds());
     }
   })
   .catch(err => console.error('Error loading Ukraine GeoJSON:', err));
 
-// Prepare Germany boundary layer (ADM0)
 let deuGeoLayer;
 fetch('src/data/geoBoundaries-DEU-ADM0.geojson')
   .then(res => res.json())
@@ -54,7 +73,6 @@ fetch('src/data/geoBoundaries-DEU-ADM0.geojson')
   })
   .catch(err => console.error('Error loading Germany GeoJSON:', err));
 
-// Prepare Poland boundary layer (ADM0)
 let polGeoLayer;
 fetch('src/data/geoBoundaries-POL-ADM0.geojson')
   .then(res => res.json())
@@ -63,7 +81,6 @@ fetch('src/data/geoBoundaries-POL-ADM0.geojson')
   })
   .catch(err => console.error('Error loading Poland GeoJSON:', err));
 
-// Prepare Belgium boundary layer (ADM0)
 let belGeoLayer;
 fetch('src/data/geoBoundaries-BEL-ADM0.geojson')
   .then(res => res.json())
@@ -72,7 +89,6 @@ fetch('src/data/geoBoundaries-BEL-ADM0.geojson')
   })
   .catch(err => console.error('Error loading Belgium GeoJSON:', err));
 
-// Prepare Netherlands boundary layer (ADM0)
 let nldGeoLayer;
 fetch('src/data/geoBoundaries-NLD-ADM0.geojson')
   .then(res => res.json())
@@ -81,29 +97,6 @@ fetch('src/data/geoBoundaries-NLD-ADM0.geojson')
   })
   .catch(err => console.error('Error loading Netherlands GeoJSON:', err));
 
-// Add geocoder search control for street/address lookup
-const geocoderControl = L.Control.geocoder({
-  collapsed: true,
-  placeholder: 'Пошук вулиці або адреси...'
-}).addTo(map);
-
-// Ensure clicking the geocoder icon expands the control
-{
-  const container = geocoderControl.getContainer();
-  const icon = container.querySelector('.leaflet-control-geocoder-icon');
-  if (icon && geocoderControl.expand) {
-    icon.addEventListener('click', () => geocoderControl.expand());
-  }
-}
-
-// Zoom to the search result bounding box when selected
-geocoderControl.on('markgeocode', (e) => {
-  map.fitBounds(e.geocode.bbox);
-  // Collapse the geocoder control after search
-  if (geocoderControl.collapse) geocoderControl.collapse();
-});
-
-// Define additional empty overlay layers for routes, warehouses, offices
 const routesLayer = L.layerGroup();
 const warehouseLayer = L.layerGroup();
 const officeLayer = L.layerGroup();
@@ -190,21 +183,17 @@ const deliveryLocations = [
 ];
 
 function renderMarkers(region) {
-  // Update active state for filter buttons
   document.getElementById('filterAll').classList.toggle('active', region === 'all');
   document.getElementById('filterUA').classList.toggle('active', region === 'ua');
   document.getElementById('filterEU').classList.toggle('active', region === 'eu');
 
-  // Update currentRegion for async geo callbacks
   currentRegion = region;
-  // Remove any existing polygon layers
   if (ukrGeoLayer && map.hasLayer(ukrGeoLayer)) map.removeLayer(ukrGeoLayer);
   if (deuGeoLayer && map.hasLayer(deuGeoLayer)) map.removeLayer(deuGeoLayer);
   if (polGeoLayer && map.hasLayer(polGeoLayer)) map.removeLayer(polGeoLayer);
   if (belGeoLayer && map.hasLayer(belGeoLayer)) map.removeLayer(belGeoLayer);
   if (nldGeoLayer && map.hasLayer(nldGeoLayer)) map.removeLayer(nldGeoLayer);
 
-  // Show appropriate polygon and adjust view
   if (region === 'ua' && ukrGeoLayer) {
     ukrGeoLayer.addTo(map);
     map.fitBounds(ukrGeoLayer.getBounds());
@@ -320,9 +309,8 @@ document.addEventListener("click", (e) => {
 });
 
 fetch("src/data/countries.geojson")
-  .then((res) => res.json())
-  .then((data) => {
-    // Create regions layer for GeoJSON polygons
+  .then(res => res.json())
+  .then(data => {
     const regionsLayer = L.geoJSON(data, {
       filter: (feature) =>
         ["Ukraine", "Germany", "Poland", "Belgium", "Netherlands"].includes(
@@ -371,14 +359,29 @@ fetch("src/data/countries.geojson")
         layer.bindPopup(`<b>${name}</b>`);
       },
     });
-    // Add default layers to map (markers removed)
     regionsLayer.addTo(map);
 
     const overlays = {
       "Регіони": regionsLayer,
       "Маршрути": routesLayer,
       "Склади": warehouseLayer,
-      "Офіси": officeLayer
+      "Офіси": officeLayer,
+      "Трафік (TomTom)": trafficLayer,
+      "Інциденти на дорогах (TomTom)": trafficIncidentsLayer,
+      "Хмари (OWM)": cloudsLayer,
+      "Опади (OWM)": precipitationLayer,
+      "Температура (OWM)": temperatureLayer
     };
-    L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map);
+
+    cloudsLayer.addTo(map);
+    precipitationLayer.addTo(map);
+    trafficLayer.addTo(map);
+
+    L.control.layers(baseLayers, {
+      "Трафік (TomTom)": trafficLayer,
+      "Інциденти на дорогах (TomTom)": trafficIncidentsLayer,
+      "Хмари (OWM)": cloudsLayer,
+      "Опади (OWM)": precipitationLayer,
+      "Температура (OWM)": temperatureLayer
+    }, { collapsed: false }).addTo(map);
   });

@@ -310,4 +310,43 @@
   -webkit-transform: translateY(-2px);
           transform: translateY(-2px);
 }
+
+.traffic-layer {
+  /* static base glow */
+  -webkit-filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+          filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+  /* pulsating glow */
+  -webkit-animation: traffic-glow 1.5s ease-in-out infinite;
+          animation: traffic-glow 1.5s ease-in-out infinite;
+}
+
+@-webkit-keyframes traffic-glow {
+  0% {
+    -webkit-filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+  }
+  50% {
+    -webkit-filter: drop-shadow(0 0 20px red);
+            filter: drop-shadow(0 0 20px red);
+  }
+  100% {
+    -webkit-filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+  }
+}
+
+@keyframes traffic-glow {
+  0% {
+    -webkit-filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+  }
+  50% {
+    -webkit-filter: drop-shadow(0 0 20px red);
+            filter: drop-shadow(0 0 20px red);
+  }
+  100% {
+    -webkit-filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+  }
+}
 /*# sourceMappingURL=map.css.map */
