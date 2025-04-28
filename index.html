@@ -806,6 +806,89 @@
       </div>
     </div>
 
+    <!-- Feedback Modal -->
+    <div class="feedback-modal" id="feedbackModal">
+      <div class="feedback-modal__content">
+        <!-- Company Logo -->
+        <div class="feedback-modal__logo">
+          <img src="./src/img/Logo-act.jpg" alt="Euro Tandem Logo" class="feedback-modal__logo-img" />
+        </div>
+        <button class="feedback-modal__close" id="modalClose">
+          <span class="feedback-modal__close-icon">×</span>
+        </button>
+        <h2 class="feedback-modal__title">
+          Залишити відгук для компанії Euro Tandem
+        </h2>
+        <p class="feedback-modal__subtitle">
+          Наш менеджер обов'язково розгляне ваш відгук та опублікує його на сайті.
+        </p>
+        <form class="feedback-form" id="feedbackForm">
+          <div class="feedback-form__group">
+            <label class="feedback-form__label" for="companyName">Назва компанії</label>
+            <input
+              type="text"
+              class="feedback-form__input"
+              id="companyName"
+              name="companyName"
+              required
+            />
+          </div>
+          <div class="feedback-form__group">
+            <span class="feedback-form__label">Рейтинг</span>
+            <div class="feedback-form__rating">
+              <input type="radio" id="star5" name="rating" value="5" class="feedback-form__rating-input" required />
+              <label for="star5" class="feedback-form__rating-label">★</label>
+              <input type="radio" id="star4" name="rating" value="4" class="feedback-form__rating-input" />
+              <label for="star4" class="feedback-form__rating-label">★</label>
+              <input type="radio" id="star3" name="rating" value="3" class="feedback-form__rating-input" />
+              <label for="star3" class="feedback-form__rating-label">★</label>
+              <input type="radio" id="star2" name="rating" value="2" class="feedback-form__rating-input" />
+              <label for="star2" class="feedback-form__rating-label">★</label>
+              <input type="radio" id="star1" name="rating" value="1" class="feedback-form__rating-input" />
+              <label for="star1" class="feedback-form__rating-label">★</label>
+            </div>
+          </div>
+          <div class="feedback-form__group">
+            <label class="feedback-form__label" for="userName">Ваше ім'я</label>
+            <input
+              type="text"
+              class="feedback-form__input"
+              id="userName"
+              name="userName"
+              required
+            />
+          </div>
+          <div class="feedback-form__group">
+            <label class="feedback-form__label" for="userFeedback">Ваш відгук</label>
+            <textarea
+              class="feedback-form__textarea"
+              id="userFeedback"
+              name="userFeedback"
+              maxlength="300"
+              required
+            ></textarea>
+            <span class="feedback-form__hint">Максимум 300 символів</span>
+            <span class="feedback-form__counter" id="charCounter">0/300</span>
+          </div>
+          <button
+            type="submit"
+            class="feedback-form__submit"
+            id="submitFeedback"
+            disabled
+          >
+            Надіслати відгук
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Success Message Modal -->
+    <div class="feedback-success" id="successModal">
+      <div class="feedback-success__content">
+        <p class="feedback-success__message">Дякуємо за ваш відгук!</p>
+      </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="./src/js/smooth-scroll.js"></script>
@@ -814,5 +897,6 @@
     <script src="./src/js/navbar.js"></script>
     <script src="./src/js/script.js"></script>
     <script src="./src/js/services-carousel.js"></script>
+    <script src="./src/js/feedback-modal.js"></script>
   </body>
 </html>
