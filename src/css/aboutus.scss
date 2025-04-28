@@ -1081,3 +1081,28 @@
         transform: scale(1) rotate(0deg);
     }
 }
+
+/* Partner cards styling */
+.partner-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.partner-card__logo {
+    max-height: 80px;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: grayscale(100%);
+}
+
+.partner-card:hover .partner-card__logo {
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}
