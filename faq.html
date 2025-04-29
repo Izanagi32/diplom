@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Euro Tandem - База знань (FAQ)</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link rel="stylesheet" href="./src/css/faq.css">
+  <link rel="stylesheet" href="./src/css/nullstyle.css">
+  <link rel="stylesheet" href="./src/css/header&footer.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+          <div class="navbar__top">
+            <div class="navbar__social">
+              <a href="#" class="navbar__social-link">
+                <img src="./src/svg/facebook.svg" alt="Facebook" />
+              </a>
+              <a href="#" class="navbar__social-link">
+                <img src="./src/svg/instagram.svg" alt="Instagram" />
+              </a>
+              <a href="#" class="navbar__social-link">
+                <img src="./src/svg/linkedin.svg" alt="LinkedIn" />
+              </a>
+              <a href="#" class="navbar__social-link">
+                <img src="./src/svg/twitter.svg" alt="Twitter" />
+              </a>
+            </div>
+            <div class="navbar__info">
+              <div class="navbar__contact">
+                <img src="./src/svg/phone.svg" alt="Phone" />
+                <a href="tel:+380977777568" class="navbar__phone"
+                  >+380 (97) 777-75-68</a
+                >
+              </div>
+              <div class="navbar__mail">
+                <img src="./src/svg/mail.svg" alt="Mail" />
+                <a href="mailto:eurotandem@ukr.net" class="navbar__email"
+                  >eurotandem@ukr.net</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="navbar__bottom">
+            <div class="navbar__logo">
+              <img
+                src="./src/img/Logo-act.jpg"
+                alt="Logo"
+                class="navbar__logo-image"
+              />
+            </div>
+            <div class="navbar__block-menu">
+              <nav class="navbar__menu">
+                <ul class="navbar__menu-list">
+                  <li class="navbar__menu-item">
+                    <a
+                      href="./index.html"
+                      class="navbar__menu-link navbar__menu-link--active"
+                      >Головна</a
+                    >
+                  </li>
+                  <li class="navbar__menu-item">
+                    <a href="./aboutus.html" class="navbar__menu-link">Про нас</a>
+                  </li>
+                  <li class="navbar__menu-item">
+                    <a href="./map.html" class="navbar__menu-link"
+                      >Інтерактивна карта</a
+                    >
+                  </li>
+                </ul>
+              </nav>
+              <div class="navbar__cta">
+                <a href="#" class="navbar__cta-button">Зв'язатись з нами</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+  <div class="container" id="faqApp">
+    <h1>База знань (FAQ)</h1>
+    <div class="faq-controls">
+      <div class="faq-filters">
+        <button
+          v-for="cat in categories"
+          :key="cat"
+          :class="{ 'active-filter': selectedCategory === cat }"
+          @click="selectCategory(cat)"
+        >{{ cat }}</button>
+      </div>
+      <input type="text" v-model="searchText" class="faq-search" placeholder="Пошук питання..." />
+    </div>
+    <div v-for="(faq, index) in filteredFaqs" :key="index" class="faq-item">
+      <div class="question" :class="{ active: activeIndex === index }" @click="toggle(index)">
+        {{ faq.question }}
+      </div>
+      <div class="answer" :class="{ active: activeIndex === index }">
+        <p>{{ faq.answer }}</p>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__top">
+        <div class="site-footer__logo-wrapper">
+          <img
+            src="./src/img/Logo-act.jpg"
+            alt="Company Logo"
+            class="site-footer__brand-logo"
+          />
+        </div>
+        <nav
+          class="site-footer__nav"
+          role="navigation"
+          aria-label="Footer Navigation"
+        >
+          <a href="./index.html" class="site-footer__nav-item" tabindex="0"
+            >Головна</a
+          >
+          <a href="./aboutus.html" class="site-footer__nav-item" tabindex="0"
+            >Про нас</a
+          >
+          <a href="./map.html" class="site-footer__nav-item" tabindex="0"
+            >Інтерактивна карта</a
+          >
+        </nav>
+        <div class="site-footer__subscribe">
+          <h3 class="site-footer__subscribe-title">Слідкуйте за новинами</h3>
+          <p class="site-footer__subscribe-text">Отримуйте актуальні новини про наші послуги</p>
+          <div class="site-footer__subscribe-form">
+            <input type="email" placeholder="Ваш email" class="site-footer__subscribe-input">
+            <button class="site-footer__subscribe-button">Підписатись</button>
+          </div>
+        </div>
+      </div>
+
+      <hr class="site-footer__divider" />
+
+      <div class="site-footer__info">
+        <div class="site-footer__info-section">
+          <h2 class="site-footer__info-heading">Графік роботи</h2>
+          <p class="site-footer__hours-text">Пн–Пт: 8:00–19:30</p>
+          <p class="site-footer__hours-text">Сб: 9:00–16:00</p>
+          <p class="site-footer__hours-text">Нд: Вихідний</p>
+        </div>
+
+        <div class="site-footer__info-section">
+          <h2 class="site-footer__info-heading">Адреса</h2>
+          <p class="site-footer__address-text">
+            Україна, Луцький р-н, Волинська обл., місто Горохів, вулиця
+            Козацька, будинок 23
+          </p>
+          <a href="https://maps.google.com" target="_blank" class="site-footer__map-link">Переглянути на карті</a>
+        </div>
+
+        <div class="site-footer__info-section">
+          <h2 class="site-footer__info-heading">Контакти</h2>
+          <div class="site-footer__contact-list">
+            <div class="site-footer__contact-item">
+              <img src="./src/svg/mail.svg" alt="Email" />
+              <a href="mailto:eurotandem@ukr.net">eurotandem@ukr.net</a>
+            </div>
+            <div class="site-footer__contact-item">
+              <img src="./src/svg/phone.svg" alt="Phone" />
+              <a href="tel:+380977777568">+380 (97) 777-75-68</a>
+            </div>
+            <div class="site-footer__contact-item">
+              <img src="./src/svg/phone.svg" alt="Phone" />
+              <a href="tel:+380977770758">+380 (97) 777-07-58</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="site-footer__divider" />
+
+      <div class="site-footer__bottom">
+        <p class="site-footer__copyright">
+          © 2025 Euro Tandem LLC. Усі права захищено.
+        </p>
+
+        <nav
+          class="site-footer__policy-menu"
+          role="navigation"
+          aria-label="Legal Navigation"
+        >
+          <a href="./privacy-policy.html" class="site-footer__policy-link" tabindex="0"
+            >Політика конфіденційності</a
+          >
+          <a href="./terms.html" class="site-footer__policy-link" tabindex="0"
+            >Правила та умови</a
+          >
+        </nav>
+
+        <nav
+          class="site-footer__social-menu"
+          role="navigation"
+          aria-label="Social Media Links"
+        >
+          <a
+            href="#"
+            class="site-footer__social-link"
+            aria-label="Facebook"
+            tabindex="0"
+          >
+            <img src="./src/svg/facebook.svg" alt="Facebook" />
+          </a>
+          <a
+            href="#"
+            class="site-footer__social-link"
+            aria-label="Instagram"
+            tabindex="0"
+          >
+            <img src="./src/svg/instagram.svg" alt="Instagram" />
+          </a>
+          <a
+            href="#"
+            class="site-footer__social-link"
+            aria-label="LinkedIn"
+            tabindex="0"
+          >
+            <img src="./src/svg/linkedin.svg" alt="LinkedIn" />
+          </a>
+          <a
+            href="#"
+            class="site-footer__social-link"
+            aria-label="Twitter"
+            tabindex="0"
+          >
+            <img src="./src/svg/twitter.svg" alt="Twitter" />
+          </a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          activeIndex: -1,
+          faqs: [
+            { question: 'Питання 1: Як оформити доставку?', answer: 'Відповідь: Ви можете оформити доставку через нашу онлайн-форму або звернутися за телефоном.', category: 'Доставка' },
+            { question: 'Питання 2: Які терміни доставки?', answer: 'Відповідь: Строки доставки залежать від маршруту та завантаженості. Зазвичай це 2-5 днів.', category: 'Доставка' },
+            { question: 'Питання 3: Які документи потрібні?', answer: 'Відповідь: Для відправки вантажу потрібен паспорт або інший документ, що посвідчує особу.', category: 'Документи' },
+            { question: 'Питання 4: Як оплатити послуги?', answer: 'Відповідь: Оплата можлива готівкою при отриманні або онлайн-банком.', category: 'Оплата' }
+          ],
+          selectedCategory: 'Всі',
+          searchText: ''
+        };
+      },
+      computed: {
+        categories() {
+          const cats = this.faqs.map(faq => faq.category);
+          return ['Всі', ...new Set(cats)];
+        },
+        filteredFaqs() {
+          return this.faqs.filter(faq => {
+            const matchCat = this.selectedCategory === 'Всі' || faq.category === this.selectedCategory;
+            const matchText = this.searchText === '' || faq.question.toLowerCase().includes(this.searchText.toLowerCase());
+            return matchCat && matchText;
+          });
+        }
+      },
+      methods: {
+        toggle(index) {
+          this.activeIndex = this.activeIndex === index ? -1 : index;
+        },
+        selectCategory(category) {
+          this.selectedCategory = category;
+        }
+      }
+    }).mount('#faqApp');
+  </script>
+</body>
+</html>
