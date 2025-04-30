@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Euro Tandem - База знань (FAQ)</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <link rel="stylesheet" href="./src/css/faq.css">
   <link rel="stylesheet" href="./src/css/nullstyle.css">
   <link rel="stylesheet" href="./src/css/header&footer.css">
+  <link rel="stylesheet" href="./src/css/faq.css">
   <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" href="./src/img/fav.png" type="image/png">
 </head>
 <body>
     <header class="navbar">
@@ -99,14 +100,24 @@
       </div>
       <input type="text" v-model="searchText" class="faq-search" placeholder="Пошук питання..." />
     </div>
+    <div class="faq-counter" v-if="filteredFaqs.length">
+      Знайдено: {{ filteredFaqs.length }} відповідей
+    </div>
+    <div class="faq-counter" v-else>
+      Нічого не знайдено за вашим запитом.
+    </div>
     <div v-for="(faq, index) in filteredFaqs" :key="index" class="faq-item">
       <div class="question" :class="{ active: activeIndex === index }" @click="toggle(index)">
         {{ formatQuestion(faq.question) }}
       </div>
       <div class="answer" :class="{ active: activeIndex === index }">
         <p>{{ faq.answer }}</p>
+        <div class="faq-views">Переглядів: {{ faq.views }}</div>
       </div>
     </div>
+    <button class="scroll-top-btn" :class="{ visible: showScroll }" @click="scrollToTop" aria-label="Прокрутити вгору">
+      &#9650;
+    </button>
   </div>
   <footer class="site-footer">
     <div class="container">
@@ -132,6 +143,9 @@
           <a href="./map.html" class="site-footer__nav-item" tabindex="0"
             >Інтерактивна карта</a
           >
+          <a href="faq.html" class="site-footer__nav-item" tabindex="0"
+          >FAQ</a
+        >
         </nav>
         <div class="site-footer__subscribe">
           <h3 class="site-footer__subscribe-title">Слідкуйте за новинами</h3>
@@ -376,7 +390,8 @@
             { question: 'Питання 136: Чи є обмеження на перевезення небезпечних матеріалів?', answer: 'Відповідь: Так, ми не перевозимо ADR-вантажі.', category: 'Спеціальні умови' }
           ],
           selectedCategory: 'Всі',
-          searchText: ''
+          searchText: '',
+          showScroll: false
         };
       },
       computed: {
@@ -392,8 +407,27 @@
           });
         }
       },
+      created() {
+        const stored = localStorage.getItem('faqViews');
+        if (stored) {
+          const arr = JSON.parse(stored);
+          this.faqs.forEach((faq, idx) => {
+            faq.views = arr[idx] || 0;
+          });
+        } else {
+          this.faqs.forEach(faq => { faq.views = 0; });
+        }
+      },
+      mounted() {
+        window.addEventListener('scroll', this.handleScroll);
+        this.handleScroll();
+      },
       methods: {
         toggle(index) {
+          if (this.activeIndex !== index) {
+            this.faqs[index].views++;
+            localStorage.setItem('faqViews', JSON.stringify(this.faqs.map(faq => faq.views)));
+          }
           this.activeIndex = this.activeIndex === index ? -1 : index;
         },
         selectCategory(category) {
@@ -401,6 +435,12 @@
         },
         formatQuestion(text) {
           return text.replace(/^Питання\s*\d+:?\s*/, '');
+        },
+        handleScroll() {
+          this.showScroll = window.pageYOffset > 200;
+        },
+        scrollToTop() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
     }).mount('#faqApp');
