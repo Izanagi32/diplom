@@ -725,14 +725,17 @@
 
 .benefits {
   padding: 0;
-  display: flex;
-  justify-content: center;
   font-family: "Montserrat", sans-serif;
   margin-top: 30px;
 }
 .benefits__container {
-  max-width: 600px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
   width: 100%;
+  margin: 0 auto 40px;
+  padding: 0 20px;
 }
 .benefits__item {
   display: flex;
@@ -812,8 +815,8 @@
 }
 @media (max-width: 768px) {
   .benefits .benefits__container {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    gap: 16px;
     padding: 0 20px;
   }
   .benefits .benefits__item {
@@ -1032,6 +1035,100 @@
 .shipping-form__submit:active {
   transform: translateY(0);
   box-shadow: 0 5px 10px rgba(0, 70, 148, 0.2);
+}
+.shipping-form__section--route, .shipping-form__section--cargo-info, .shipping-form__section--datetime, .shipping-form__section--contacts, .shipping-form__section--additional {
+  margin-top: 24px;
+}
+.shipping-form__section-subtitle {
+  color: #000;
+  font: 600 16px/1.4 Montserrat, sans-serif;
+  margin: 12px 0 8px;
+  position: relative;
+}
+.shipping-form__route-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 10px;
+}
+.shipping-form__route-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.shipping-form__input--country, .shipping-form__input--city, .shipping-form__input--address, .shipping-form__input--route-type {
+  flex: 1 1 calc(50% - 10px);
+  min-width: 140px;
+  margin-bottom: 0;
+}
+.shipping-form__button--add-route {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #005bbb;
+  color: #fff;
+  font: 600 14px Montserrat, sans-serif;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+.shipping-form__button--add-route:hover {
+  background: #004694;
+}
+.shipping-form__adr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.shipping-form__adr .shipping-form__input--adr-class {
+  flex: 1;
+  min-width: 80px;
+}
+.shipping-form .shipping-form__inputs--datetime {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.shipping-form .shipping-form__inputs--datetime input {
+  flex: 1;
+  min-width: 100px;
+  margin-bottom: 0;
+}
+.shipping-form__section--contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+.shipping-form__attachment {
+  margin-bottom: 16px;
+}
+.shipping-form__attachment .shipping-form__label {
+  margin-bottom: 6px;
+  display: block;
+  font-size: 14px;
+}
+.shipping-form__attachment input[type=file] {
+  padding: 8px;
+}
+.shipping-form__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+}
+.shipping-form__consent .shipping-form__checkbox {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+.shipping-form__consent .shipping-form__label {
+  font-size: 14px;
+  margin: 0;
 }
 
 :root {

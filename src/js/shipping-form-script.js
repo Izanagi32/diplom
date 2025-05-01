@@ -29,33 +29,83 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal1 = document.getElementById("formModal");
   const closeModalBtn = document.getElementById("closeModal");
 
+  const lengthInput = document.getElementById('length');
+  const widthInput = document.getElementById('width');
+  const heightInput = document.getElementById('height');
+  const quantityInput = document.getElementById('quantity');
+  const volumeOutput = document.getElementById('volume');
+  function updateVolume() {
+    const l = parseFloat(lengthInput.value) || 0;
+    const w = parseFloat(widthInput.value) || 0;
+    const h = parseFloat(heightInput.value) || 0;
+    const q = parseInt(quantityInput.value) || 0;
+    const vol = (l * w * h * q) || 0;
+    volumeOutput.textContent = parseFloat(vol.toFixed(2));
+  }
+  [lengthInput, widthInput, heightInput, quantityInput].forEach(el =>
+    el.addEventListener('input', updateVolume)
+  );
+  updateVolume();
+
+  const adrCheckbox = document.getElementById('adr');
+  const adrSelect = document.getElementById('adr-class');
+  adrCheckbox.addEventListener('change', () => {
+    adrSelect.hidden = !adrCheckbox.checked;
+    adrSelect.disabled = !adrCheckbox.checked;
+  });
+
   form1?.addEventListener("submit", async (e) => {
     e.preventDefault();
+    // Static pickup and delivery locations
+    const pickup = document.getElementById('pickup-location').value.trim();
+    const delivery = document.getElementById('delivery-location').value.trim();
+    // Add basic validation
+    if (!pickup || !delivery) {
+      alert('Будь ласка, заповніть поля Звідки та Куди.');
+      return;
+    }
 
-    const formData = new FormData(form1);
-    const payload = {};
-    formData.forEach((value, key) => {
-      payload[key] = value;
-    });
+    const l = parseFloat(lengthInput.value) || 0;
+    const w = parseFloat(widthInput.value) || 0;
+    const h = parseFloat(heightInput.value) || 0;
+    const q = parseInt(quantityInput.value) || 0;
+    const weight = parseFloat(document.getElementById('weight').value) || 0;
+    const volume = (l * w * h * q).toFixed(2);
 
-    const message = `🚛 <b>Нова заявка з форми</b>\n\n📍 <b>Звідки:</b> ${
-      payload["pickup-location"]
-    }\n📍 <b>Куди:</b> ${payload["delivery-location"]}\n\n📐 <b>Габарити:</b> ${
-      payload["length"]
-    } x ${payload["width"]} x ${payload["height"]} м\n📦 <b>Кількість:</b> ${
-      payload["quantity"]
-    }\n⚖️ <b>Вага:</b> ${payload["weight"]} кг\n📂 <b>Тип вантажу:</b> ${
-      payload["cargo-type"]
-    }\n\n💬 <b>Коментар:</b> ${
-      payload["comment"] || "немає"
-    }\n📧 <b>Email:</b> ${payload["email"]}`;
+    const date = document.getElementById('pickup-date').value;
+
+    const cargoType = document.getElementById('cargo-type').value.trim();
+    if (!cargoType) {
+      alert('Будь ласка, введіть тип вантажу.');
+      return;
+    }
+    const isAdr = adrCheckbox.checked;
+    const adrClassVal = adrSelect.value;
+
+    const comment = document.getElementById('comment').value.trim() || 'немає';
+    const contactName = document.getElementById('contact-name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    const attachmentInput = document.getElementById('attachment');
+    const fileName = attachmentInput.files.length > 0 ? attachmentInput.files[0].name : 'немає';
+
+    let message = `🚛 <b>Нова заявка з форми</b>\n\n📍 <b>Звідки:</b> ${pickup}\n📍 <b>Куди:</b> ${delivery}\n\n`;
+    message += `🗓️ <b>Дата подачі:</b> ${date}\n`;
+    message += `\n📐 <b>Габарити:</b> ${l} x ${w} x ${h} м\n📦 <b>Кількість:</b> ${q}\n⚖️ <b>Вага:</b> ${weight} кг\n`;
+    message += `\n<b>Об'єм:</b> ${volume} м³\n📂 <b>Тип вантажу:</b> ${cargoType}`;
+    if (isAdr) message += `\n🚨 <b>ADR вантаж. Клас ADR:</b> ${adrClassVal}`;
+    message += `\n\n💬 <b>Коментар:</b> ${comment}`;
+    message += `\n\n📞 <b>Контакт:</b> ${contactName}, ${phone}\n📧 <b>Email:</b> ${email}`;
+    message += `\n📎 <b>Файл:</b> ${fileName}`;
 
     const success = await sendToTelegram(message);
-
     if (success) {
       modal1?.classList.add("modal--active");
       form1.reset();
-      document.getElementById("volume").textContent = "0";
+      volumeOutput.textContent = '0';
+      adrSelect.hidden = true;
+      adrSelect.disabled = true;
     } else {
       alert("❌ Повідомлення не відправлено.");
     }
