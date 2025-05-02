@@ -23,21 +23,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const imagesCount = images.length;
   const firstClone = slides.children[0].cloneNode(true);
   slides.appendChild(firstClone);
+  const totalSlides = imagesCount + 1;
+  slides.style.width = `${totalSlides * 100}%`;
+  Array.from(slides.children).forEach(slide => {
+    slide.style.width = `${100 / totalSlides}%`;
+  });
 
   const content = hero.querySelector('.hero__wrap');
   if (content) content.classList.add('hero__content');
 
-  slides.addEventListener('transitionend', () => {
+  slides.style.transition = 'transform 1s ease';
+  slides.addEventListener('transitionend', (e) => {
+    if (e.propertyName !== 'transform') return;
     if (index === imagesCount) {
       slides.style.transition = 'none';
-      slides.style.transform = 'translateX(0)';
+      slides.style.transform = 'translateX(0%)';
       index = 0;
+      requestAnimationFrame(() => {
+        slides.style.transition = 'transform 1s ease';
+      });
+    }
+  });
+  // Auto carousel slide every 6 seconds
+  setInterval(() => {
+    index++;
+    const translatePercent = (100 / totalSlides) * index;
+    slides.style.transform = `translateX(-${translatePercent}%)`;
+  }, 6000);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      const translatePercent = (100 / totalSlides) * index;
+      slides.style.transition = 'none';
+      slides.style.transform = `translateX(-${translatePercent}%)`;
       slides.offsetHeight;
       slides.style.transition = 'transform 1s ease';
     }
   });
-  setInterval(() => {
-    index++;
-    slides.style.transform = `translateX(-${index * 100}%)`;
-  }, 6000);
 }); 
