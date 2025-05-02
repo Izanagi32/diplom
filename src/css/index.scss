@@ -4,10 +4,36 @@
     padding: 220px 80px 80px;
     align-items: center;
     overflow: hidden;
-    background: linear-gradient(rgba(0, 91, 187, 0.85), rgba(0, 91, 187, 0.6)),
-        url("../img/daf\ prew.png") center / cover no-repeat;
-    background-position: center;
+    background: none;
     min-height: 80vh;
+    transition: background 1s ease, opacity 1s ease;
+
+    // Carousel slides container
+    &__slides {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: transform 1s ease;
+        z-index: 1;
+    }
+
+    // Individual slide
+    &__slide {
+        flex-shrink: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
+
+    // Content above slides
+    &__content, &__wrap {
+        position: relative;
+        z-index: 2;
+    }
 
     &::before {
         content: '';
@@ -2843,6 +2869,13 @@
 
     &__content {
         animation: wowIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+    }
+}
+
+.hero {
+    &::before,
+    &::after {
+        display: none;
     }
 }
 
