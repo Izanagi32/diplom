@@ -19,8 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.comment || '' }));
       tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.pickupDate }));
       tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.contactName}, ${req.phone}, ${req.email}` }));
-      const rawTime = req.createdAt; // e.g., '2024-05-06 12:34:56'
-      // Parse as UTC and convert to local string
+      const rawTime = req.createdAt;
       const utcString = rawTime.replace(' ', 'T') + 'Z';
       const dateObj = new Date(utcString);
       const formattedTime = dateObj.toLocaleString('uk-UA', {
