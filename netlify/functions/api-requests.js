@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const Database = require('better-sqlite3');
+const initSqlJs = require('sql.js');
 const fetch = require('node-fetch');
 const os = require('os');
 
@@ -8,38 +8,48 @@ const os = require('os');
 const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
 const TELEGRAM_CHAT_ID = 'YOUR_TELEGRAM_CHAT_ID';
 
-// Ensure data directory exists in writable tmp
+// Prepare data directory in writable tmp and DB file path
 const dataDir = path.join(os.tmpdir(), 'netlify-data');
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
-}
-const dbPath = path.join(dataDir, 'data.db');
-const db = new Database(dbPath);
+fs.mkdirSync(dataDir, { recursive: true });
+const dbFilePath = path.join(dataDir, 'data.db');
 
-// Create table if it doesn't exist
-db.prepare(`
-  CREATE TABLE IF NOT EXISTS requests (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    pickupLocation TEXT,
-    deliveryLocation TEXT,
-    length REAL,
-    width REAL,
-    height REAL,
-    weight REAL,
-    quantity INTEGER,
-    cargoType TEXT,
-    adr BOOLEAN,
-    adrClass TEXT,
-    comment TEXT,
-    pickupDate TEXT,
-    contactName TEXT,
-    phone TEXT,
-    email TEXT,
-    createdAt TEXT
-  )
-`).run();
+// Initialize SQL.js (WASM) and load or create the SQLite database
+const dbPromise = initSqlJs({
+  // Locate wasm file locally in node_modules
+  locateFile: file => path.join(__dirname, '../../node_modules/sql.js/dist/', file)
+}).then(SQL => {
+  const buffer = fs.existsSync(dbFilePath) ? fs.readFileSync(dbFilePath) : null;
+  const db = new SQL.Database(buffer);
+  // Create table if not exists
+  db.run(`
+    CREATE TABLE IF NOT EXISTS requests (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      pickupLocation TEXT,
+      deliveryLocation TEXT,
+      length REAL,
+      width REAL,
+      height REAL,
+      weight REAL,
+      quantity INTEGER,
+      cargoType TEXT,
+      adr BOOLEAN,
+      adrClass TEXT,
+      comment TEXT,
+      pickupDate TEXT,
+      contactName TEXT,
+      phone TEXT,
+      email TEXT,
+      createdAt TEXT
+    )
+  `);
+  // Persist DB file
+  fs.writeFileSync(dbFilePath, Buffer.from(db.export()));
+  return db;
+});
 
 exports.handler = async (event) => {
+  // Wait for DB initialization
+  const db = await dbPromise;
   try {
     if (event.httpMethod === 'POST') {
       const data = JSON.parse(event.body || '{}');
@@ -62,41 +72,26 @@ exports.handler = async (event) => {
       } = data;
       const createdAt = new Date().toISOString();
 
-      const stmt = db.prepare(`
-        INSERT INTO requests (
+      // Insert new request
+      db.run(
+        `INSERT INTO requests (
           pickupLocation, deliveryLocation, length, width, height,
           weight, quantity, cargoType, adr, adrClass, comment,
           pickupDate, contactName, phone, email, createdAt
-        ) VALUES (
-          @pickupLocation, @deliveryLocation, @length, @width, @height,
-          @weight, @quantity, @cargoType, @adr, @adrClass, @comment,
-          @pickupDate, @contactName, @phone, @email, @createdAt
-        )
-      `);
-      const result = stmt.run({
-        pickupLocation,
-        deliveryLocation,
-        length,
-        width,
-        height,
-        weight,
-        quantity,
-        cargoType,
-        adr: adr ? 1 : 0,
-        adrClass,
-        comment,
-        pickupDate,
-        contactName,
-        phone,
-        email,
-        createdAt
-      });
-      console.log('Inserted successfully:', result.lastInsertRowid);
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+        [
+          pickupLocation, deliveryLocation, length, width, height,
+          weight, quantity, cargoType, adr ? 1 : 0, adrClass, comment,
+          pickupDate, contactName, phone, email, createdAt
+        ]
+      );
+      // Persist DB changes
+      fs.writeFileSync(dbFilePath, Buffer.from(db.export()));
 
       // Send Telegram notification
       const message = `
 📦 New Delivery Request
-🆔 ID: ${result.lastInsertRowid}
+🆔 ID: ${db.get(`SELECT last_insert_rowid() AS id`).get().id}
 👤 Name: ${contactName}
 📍 Pickup: ${pickupLocation}
 📍 Delivery: ${deliveryLocation}
@@ -114,14 +109,22 @@ exports.handler = async (event) => {
 
       return {
         statusCode: 201,
-        body: JSON.stringify({ success: true, id: result.lastInsertRowid })
+        body: JSON.stringify({ success: true })
       };
     }
 
     if (event.httpMethod === 'GET') {
-      const rows = db.prepare(`
-        SELECT * FROM requests ORDER BY createdAt DESC
-      `).all();
+      // Query all requests
+      const resArr = db.exec('SELECT * FROM requests ORDER BY createdAt DESC');
+      let rows = [];
+      if (resArr.length) {
+        const { columns, values } = resArr[0];
+        rows = values.map(row => {
+          const obj = {};
+          row.forEach((val, idx) => { obj[columns[idx]] = val; });
+          return obj;
+        });
+      }
       return {
         statusCode: 200,
         body: JSON.stringify(rows)
