@@ -2,7 +2,6 @@ require('dotenv').config();
 const { createClient } = require('@libsql/client');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-// Initialize Turso client using environment variables
 const db = createClient({
   url: process.env.TURSO_DATABASE_URL,
   authToken: process.env.TURSO_AUTH_TOKEN,
@@ -10,7 +9,6 @@ const db = createClient({
 
 exports.handler = async function(event, context) {
   try {
-    // Ensure the requests table exists
     await db.execute({
       sql: `
         CREATE TABLE IF NOT EXISTS requests (
@@ -57,7 +55,6 @@ exports.handler = async function(event, context) {
         email,
       } = body;
 
-      // Insert new request with logging
       let insertResult;
       try {
         insertResult = await db.execute({
@@ -91,7 +88,6 @@ exports.handler = async function(event, context) {
       }
       const insertedId = insertResult.lastInsertRowid;
 
-      // Send a Telegram notification
       const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
       const chatId = process.env.TELEGRAM_CHAT_ID;
       const message = `New logistics request received (ID: ${insertedId}):
@@ -119,7 +115,6 @@ Comment: ${comment}`;
       };
 
     } else if (event.httpMethod === 'GET') {
-      // Retrieve all requests
       const result = await db.execute({
         sql: 'SELECT * FROM requests ORDER BY createdAt DESC',
         args: []

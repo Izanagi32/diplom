@@ -56,10 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form1?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    // Collect form values
     const pickup = document.getElementById('pickup-location').value.trim();
     const delivery = document.getElementById('delivery-location').value.trim();
-    // Add basic validation
     if (!pickup || !delivery) {
       alert('Будь ласка, заповніть поля Звідки та Куди.');
       return;
@@ -90,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const attachmentInput = document.getElementById('attachment');
     const fileName = attachmentInput.files.length > 0 ? attachmentInput.files[0].name : 'немає';
 
-    // Prepare payload for Netlify Function
     const formData = {
       pickupLocation: pickup,
       deliveryLocation: delivery,
