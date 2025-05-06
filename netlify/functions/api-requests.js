@@ -90,8 +90,6 @@ exports.handler = async function(event, context) {
       }
       const insertedId = insertResult.lastInsertRowid;
 
-      const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
-      const chatId = process.env.TELEGRAM_CHAT_ID;
       const message = `New logistics request received (ID: ${insertedId}):
 Pickup: ${pickupLocation}
 Delivery: ${deliveryLocation}
@@ -105,20 +103,23 @@ Pickup Date: ${pickupDate}
 Contact: ${contactName}, ${phone}, ${email}
 Comment: ${comment}`;
 
-      // Send a Telegram notification with logging
+      // Send Telegram notification via POST to avoid URL length issues
       try {
-        console.log('Sending Telegram notification to chat:', chatId);
-        console.log('Telegram message:', message);
-        const telegramResponse = await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: chatId, text: message }),
-        });
+        console.log('Sending Telegram via POST');
+        const telegramResponse = await fetch(
+          'https://api.telegram.org/bot7378979804:AAGuviiwgUsrUprTP_NBm_wZn8iSH8l4a5U/sendMessage',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: 1693054209,
+              text: message
+            }),
+          }
+        );
         const telegramResult = await telegramResponse.json();
-        console.log('Telegram API response:', telegramResult);
-        if (!telegramResult.ok) {
-          console.error('Telegram API error:', telegramResult);
-        }
+        console.log('Telegram API result:', telegramResult);
+        if (!telegramResult.ok) console.error('Telegram send error:', telegramResult);
       } catch (err) {
         console.error('Error sending Telegram notification:', err);
       }
