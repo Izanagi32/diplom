@@ -541,7 +541,7 @@
     z-index: 1000;
 
     &__content {
-        background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
         border-radius: 20px;
         padding: 48px;
         max-width: 520px;
@@ -741,17 +741,21 @@
         flex: 0 0 auto;
         position: relative;
         text-align: center;
+
         @media (max-width: 768px) {
             flex: 0 0 auto;
             margin: 5px;
         }
+
         @media (max-width: 480px) {
             flex: 0 0 100%;
             margin: 5px 0;
         }
+
         &::after {
             display: none;
         }
+
         &:last-child::after {
             display: none;
         }
