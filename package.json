@@ -1,0 +1,13 @@
+{
+  "name": "netlify-sqlite-requests",
+  "version": "1.0.0",
+  "description": "Netlify Function with SQLite storage and Telegram notifications",
+  "main": "netlify/functions/api-requests.js",
+  "scripts": {
+    "start": "netlify dev"
+  },
+  "dependencies": {
+    "better-sqlite3": "^8.0.0",
+    "node-fetch": "^2.6.1"
+  }
+} 
