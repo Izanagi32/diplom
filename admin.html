@@ -1,82 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Delivery Requests</title>
+  <title>Адмін - Заявки</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { text-align: center; }
+    #error { color: red; margin-bottom: 20px; }
     table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ddd; padding: 8px; }
-    th { background-color: #f2f2f2; text-align: left; }
-    tr:nth-child(even) { background-color: #fafafa; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f4f4f4; }
   </style>
 </head>
 <body>
-  <h1>Delivery Requests</h1>
+  <h1>Список заявок</h1>
+  <div id="error"></div>
   <table id="requests-table">
     <thead>
       <tr>
         <th>ID</th>
-        <th>Pickup Location</th>
-        <th>Delivery Location</th>
-        <th>Length</th>
-        <th>Width</th>
-        <th>Height</th>
-        <th>Weight</th>
-        <th>Quantity</th>
-        <th>Cargo Type</th>
-        <th>ADR</th>
-        <th>ADR Class</th>
-        <th>Comment</th>
-        <th>Pickup Date</th>
-        <th>Contact Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Created At</th>
+        <th>Звідки / Куди</th>
+        <th>Розміри (Д×Ш×В)</th>
+        <th>Вага / Кількість</th>
+        <th>Тип вантажу / ADR / Клас ADR</th>
+        <th>Коментар</th>
+        <th>Дата подачі</th>
+        <th>Контактні дані</th>
+        <th>Створено</th>
       </tr>
     </thead>
     <tbody></tbody>
   </table>
 
-  <pre id="debug" style="background:#f9f9f9;padding:10px;margin:10px 0;white-space: pre-wrap;border:1px solid #ddd;"></pre>
-
   <script>
-    async function loadRequests() {
+    document.addEventListener('DOMContentLoaded', async () => {
+      const errorDiv = document.getElementById('error');
       try {
         const response = await fetch('/api/requests');
+        if (!response.ok) throw new Error(`Статус запиту: ${response.status}`);
         const data = await response.json();
-        document.getElementById('debug').textContent = JSON.stringify(data, null, 2);
+        if (!Array.isArray(data) || data.length === 0) {
+          errorDiv.textContent = 'Заявки не знайдені.';
+          return;
+        }
         const tbody = document.querySelector('#requests-table tbody');
-        tbody.innerHTML = '';
         data.forEach(req => {
           const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${req.id}</td>
-            <td>${req.pickupLocation}</td>
-            <td>${req.deliveryLocation}</td>
-            <td>${req.length}</td>
-            <td>${req.width}</td>
-            <td>${req.height}</td>
-            <td>${req.weight}</td>
-            <td>${req.quantity}</td>
-            <td>${req.cargoType}</td>
-            <td>${req.adr ? 'Yes' : 'No'}</td>
-            <td>${req.adrClass}</td>
-            <td>${req.comment}</td>
-            <td>${req.pickupDate}</td>
-            <td>${req.contactName}</td>
-            <td>${req.phone}</td>
-            <td>${req.email}</td>
-            <td>${req.createdAt}</td>
-          `;
+
+          // ID
+          tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.id }));
+
+          // Звідки / Куди
+          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.pickupLocation} / ${req.deliveryLocation}` }));
+
+          // Розміри
+          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.length}×${req.width}×${req.height}` }));
+
+          // Вага / Кількість
+          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.weight} / ${req.quantity}` }));
+
+          // Тип вантажу / ADR / Клас ADR
+          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.cargoType} / ${req.adr} / ${req.adrClass}` }));
+
+          // Коментар
+          tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.comment || '' }));
+
+          // Дата подачі
+          tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.pickupDate }));
+
+          // Контактні дані
+          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.contactName}, ${req.phone}, ${req.email}` }));
+
+          // Створено
+          tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.createdAt }));
+
           tbody.appendChild(tr);
         });
-      } catch (error) {
-        console.error('Error loading requests:', error);
+      } catch (err) {
+        console.error(err);
+        errorDiv.textContent = 'Помилка завантаження заявок: ' + err.message;
       }
-    }
-    document.addEventListener('DOMContentLoaded', loadRequests);
+    });
   </script>
 </body>
 </html> 
