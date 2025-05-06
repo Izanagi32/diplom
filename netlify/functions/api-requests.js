@@ -7,6 +7,8 @@ const authToken = process.env.TURSO_AUTH_TOKEN;
 const tgToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.TELEGRAM_CHAT_ID;
 
+console.log("TURSO_URL =", process.env.TURSO_URL);
+
 if (!url || !authToken) {
   console.error('Turso URL or auth token missing');
 }
