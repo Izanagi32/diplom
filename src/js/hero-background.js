@@ -44,20 +44,85 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
-  // Auto carousel slide every 6 seconds
-  setInterval(() => {
-    index++;
+
+  // Improved carousel controls
+  let intervalId;
+  function updateCarousel() {
     const translatePercent = (100 / totalSlides) * index;
     slides.style.transform = `translateX(-${translatePercent}%)`;
-  }, 6000);
+    updateDots();
+  }
+  function startCarousel() {
+    intervalId = setInterval(() => {
+      index = (index + 1) % imagesCount;
+      updateCarousel();
+    }, 6000);
+  }
+  function pauseCarousel() {
+    clearInterval(intervalId);
+  }
+  function resetCarousel() {
+    pauseCarousel();
+    startCarousel();
+  }
 
+  // Create dot indicators
+  const dotsContainer = document.createElement('div');
+  dotsContainer.className = 'hero__dots';
+  images.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'hero__dot';
+    dot.setAttribute('aria-label', `Перейти до слайду ${i + 1}`);
+    dot.addEventListener('click', () => {
+      index = i;
+      updateCarousel();
+      resetCarousel();
+    });
+    dotsContainer.appendChild(dot);
+  });
+  hero.appendChild(dotsContainer);
+
+  function updateDots() {
+    Array.from(dotsContainer.children).forEach((dot, i) => {
+      dot.classList.toggle('hero__dot--active', i === index);
+    });
+  }
+
+  // Create navigation arrows
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'hero__arrow hero__arrow--prev';
+  prevBtn.setAttribute('aria-label', 'Попередній слайд');
+  prevBtn.innerHTML = '&#10094;';
+  prevBtn.addEventListener('click', () => {
+    index = (index - 1 + imagesCount) % imagesCount;
+    updateCarousel();
+    resetCarousel();
+  });
+  hero.appendChild(prevBtn);
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'hero__arrow hero__arrow--next';
+  nextBtn.setAttribute('aria-label', 'Наступний слайд');
+  nextBtn.innerHTML = '&#10095;';
+  nextBtn.addEventListener('click', () => {
+    index = (index + 1) % imagesCount;
+    updateCarousel();
+    resetCarousel();
+  });
+  hero.appendChild(nextBtn);
+
+  // Pause on hover
+  hero.addEventListener('mouseenter', pauseCarousel);
+  hero.addEventListener('mouseleave', startCarousel);
+
+  // Resume on visibility change
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      const translatePercent = (100 / totalSlides) * index;
-      slides.style.transition = 'none';
-      slides.style.transform = `translateX(-${translatePercent}%)`;
-      slides.offsetHeight;
-      slides.style.transition = 'transform 1s ease';
+      updateCarousel();
     }
   });
+
+  // Initialize
+  updateCarousel();
+  startCarousel();
 }); 
