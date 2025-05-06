@@ -9,6 +9,8 @@ const db = createClient({
 
 exports.handler = async function(event, context) {
   try {
+    // Log environment variables for Telegram to ensure they are set
+    console.log('Telegram ENV >> BOT_TOKEN:', process.env.TELEGRAM_BOT_TOKEN, 'CHAT_ID:', process.env.TELEGRAM_CHAT_ID);
     await db.execute({
       sql: `
         CREATE TABLE IF NOT EXISTS requests (
