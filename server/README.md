@@ -3,7 +3,7 @@
 This is the backend server for a logistics company. It uses:
 
 - Express.js
-- Sequelize (SQLite)
+- @libsql/client (Turso)
 - dotenv
 - node-fetch
 - cors
@@ -23,7 +23,8 @@ This is the backend server for a logistics company. It uses:
    ```bash
    cp .env.example .env
    ```
-   - `DB_PATH`: path to SQLite file (e.g. `./database.sqlite`)
+   - `TURSO_URL`: your Turso database URL
+   - `TURSO_AUTH_TOKEN`: your Turso authentication token
    - `TELEGRAM_BOT_TOKEN`: your Telegram bot token
    - `TELEGRAM_CHAT_ID`: chat ID where notifications will be sent
 4. Start the server:

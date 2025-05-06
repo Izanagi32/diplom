@@ -1,11 +1,13 @@
-const { Sequelize } = require('sequelize');
+const { createClient } = require('@libsql/client');
 require('dotenv').config();
 
-const dbPath = process.env.DB_PATH || './database.sqlite';
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: dbPath,
-  logging: false,
-});
+const url = process.env.TURSO_URL;
+const authToken = process.env.TURSO_AUTH_TOKEN;
 
-module.exports = sequelize; 
+if (!url || !authToken) {
+  throw new Error('TURSO_URL and TURSO_AUTH_TOKEN must be set in .env');
+}
+
+const client = createClient({ url, authToken });
+
+module.exports = client; 

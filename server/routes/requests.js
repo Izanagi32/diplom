@@ -1,10 +1,11 @@
 const express = require('express');
 const fetch = require('node-fetch');
 require('dotenv').config();
-const Request = require('../models/Request');
+const client = require('../db');
 
 const router = express.Router();
 
+// POST /api/requests: insert new request and send Telegram notification
 router.post('/', async (req, res) => {
   try {
     const {
@@ -25,8 +26,16 @@ router.post('/', async (req, res) => {
       email
     } = req.body;
 
-    // Save to database
-    const newReq = await Request.create({
+    const createdAt = new Date().toISOString();
+    const insertSQL = `
+      INSERT INTO requests (
+        pickupLocation, deliveryLocation, length, width, height,
+        weight, quantity, cargoType, adr, adrClass,
+        comment, pickupDate, contactName, phone, email, createdAt
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    await client.execute(insertSQL, [
       pickupLocation,
       deliveryLocation,
       length,
@@ -35,14 +44,15 @@ router.post('/', async (req, res) => {
       weight,
       quantity,
       cargoType,
-      adr,
+      adr ? 1 : 0,
       adrClass,
       comment,
       pickupDate,
       contactName,
       phone,
-      email
-    });
+      email,
+      createdAt
+    ]);
 
     // Send Telegram notification
     const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -72,11 +82,13 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get all requests, sorted by newest first
+// GET /api/requests: retrieve all requests sorted by createdAt DESC
 router.get('/', async (req, res) => {
   try {
-    const requests = await Request.findAll({ order: [['createdAt', 'DESC']] });
-    res.json(requests);
+    const result = await client.execute(
+      'SELECT * FROM requests ORDER BY createdAt DESC'
+    );
+    res.json(result.rows);
   } catch (error) {
     console.error('Error in GET /api/requests:', error);
     res.status(500).json({ success: false });

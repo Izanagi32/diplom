@@ -1,18 +1,17 @@
 {
   "name": "logistics-server",
   "version": "1.0.0",
-  "description": "Backend server for logistics company using Express, Sequelize, SQLite, dotenv, node-fetch, and CORS",
+  "description": "Backend server for logistics company using Express, Turso (@libsql/client), dotenv, node-fetch, CORS, and morgan",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
     "express": "*",
-    "sequelize": "*",
-    "sqlite3": "*",
+    "cors": "*",
     "dotenv": "*",
     "node-fetch": "*",
-    "cors": "*",
-    "morgan": "*"
+    "morgan": "*",
+    "@libsql/client": "*"
   }
 } 
