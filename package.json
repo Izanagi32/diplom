@@ -6,6 +6,9 @@
   "scripts": {
     "start": "netlify dev"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "better-sqlite3": "^8.0.0",
     "node-fetch": "^2.6.1",
