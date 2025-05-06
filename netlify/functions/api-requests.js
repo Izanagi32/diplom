@@ -9,7 +9,6 @@ const db = createClient({
 
 exports.handler = async function(event, context) {
   try {
-    // Log environment variables for Telegram to ensure they are set
     console.log('Telegram ENV >> BOT_TOKEN:', process.env.TELEGRAM_BOT_TOKEN, 'CHAT_ID:', process.env.TELEGRAM_CHAT_ID);
     await db.execute({
       sql: `
@@ -90,20 +89,22 @@ exports.handler = async function(event, context) {
       }
       const insertedId = insertResult.lastInsertRowid;
 
-      const message = `New logistics request received (ID: ${insertedId}):
-Pickup: ${pickupLocation}
-Delivery: ${deliveryLocation}
-Dimensions: ${length}×${width}×${height}
-Weight: ${weight}
-Quantity: ${quantity}
-Cargo Type: ${cargoType}
-ADR: ${adr}
-ADR Class: ${adrClass}
-Pickup Date: ${pickupDate}
-Contact: ${contactName}, ${phone}, ${email}
-Comment: ${comment}`;
-
-      // Send Telegram notification via POST to avoid URL length issues
+      const fileNameToShow = 'немає';
+      const volume = (length * width * height * quantity).toFixed(2);
+      const message =
+        `🚚 Нова заявка з форми\n\n` +
+        `📍 Звідки: ${pickupLocation}\n` +
+        `📍 Куди: ${deliveryLocation}\n\n` +
+        `📅 Дата подачі: ${pickupDate}\n\n` +
+        `📐 Габарити: ${length} x ${width} x ${height} м\n` +
+        `📦 Кількість: ${quantity}\n` +
+        `⚖️ Вага: ${weight} кг\n\n` +
+        `Об'єм: ${volume} м³\n` +
+        `📂 Тип вантажу: ${cargoType}\n\n` +
+        `💬 Коментар: ${comment}\n\n` +
+        `📞 Контакт: ${contactName}, ${phone}\n` +
+        `✉️ Email: ${email}\n` +
+        `📎 Файл: ${fileNameToShow}`;
       try {
         console.log('Sending Telegram via POST');
         const telegramResponse = await fetch(
