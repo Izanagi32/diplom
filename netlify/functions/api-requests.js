@@ -33,6 +33,7 @@ exports.handler = async function(event, context) {
           createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
       `,
+      args: []
     });
 
     if (event.httpMethod === 'POST') {
@@ -111,7 +112,10 @@ Comment: ${comment}`;
 
     } else if (event.httpMethod === 'GET') {
       // Retrieve all requests
-      const result = await db.execute({ sql: 'SELECT * FROM requests ORDER BY createdAt DESC' });
+      const result = await db.execute({
+        sql: 'SELECT * FROM requests ORDER BY createdAt DESC',
+        args: []
+      });
       const rows = result.rows.map(row => ({
         id: row.id instanceof BigInt ? row.id.toString() : row.id,
         pickupLocation: row.pickupLocation,
