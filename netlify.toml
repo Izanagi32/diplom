@@ -1,7 +1,0 @@
-[build]
-  functions = "netlify/functions"
-
-[[redirects]]
-  from = "/api/requests"
-  to = "/.netlify/functions/api-requests"
-  status = 200 
