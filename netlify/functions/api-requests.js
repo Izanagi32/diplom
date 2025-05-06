@@ -103,11 +103,23 @@ Pickup Date: ${pickupDate}
 Contact: ${contactName}, ${phone}, ${email}
 Comment: ${comment}`;
 
-      await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: message }),
-      });
+      // Send a Telegram notification with logging
+      try {
+        console.log('Sending Telegram notification to chat:', chatId);
+        console.log('Telegram message:', message);
+        const telegramResponse = await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: message }),
+        });
+        const telegramResult = await telegramResponse.json();
+        console.log('Telegram API response:', telegramResult);
+        if (!telegramResult.ok) {
+          console.error('Telegram API error:', telegramResult);
+        }
+      } catch (err) {
+        console.error('Error sending Telegram notification:', err);
+      }
 
       return {
         statusCode: 200,
