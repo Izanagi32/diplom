@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form1?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    // Static pickup and delivery locations
+    // Collect form values
     const pickup = document.getElementById('pickup-location').value.trim();
     const delivery = document.getElementById('delivery-location').value.trim();
     // Add basic validation
@@ -90,24 +90,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const attachmentInput = document.getElementById('attachment');
     const fileName = attachmentInput.files.length > 0 ? attachmentInput.files[0].name : 'немає';
 
-    let message = `🚛 <b>Нова заявка з форми</b>\n\n📍 <b>Звідки:</b> ${pickup}\n📍 <b>Куди:</b> ${delivery}\n\n`;
-    message += `🗓️ <b>Дата подачі:</b> ${date}\n`;
-    message += `\n📐 <b>Габарити:</b> ${l} x ${w} x ${h} м\n📦 <b>Кількість:</b> ${q}\n⚖️ <b>Вага:</b> ${weight} кг\n`;
-    message += `\n<b>Об'єм:</b> ${volume} м³\n📂 <b>Тип вантажу:</b> ${cargoType}`;
-    if (isAdr) message += `\n🚨 <b>ADR вантаж. Клас ADR:</b> ${adrClassVal}`;
-    message += `\n\n💬 <b>Коментар:</b> ${comment}`;
-    message += `\n\n📞 <b>Контакт:</b> ${contactName}, ${phone}\n📧 <b>Email:</b> ${email}`;
-    message += `\n📎 <b>Файл:</b> ${fileName}`;
-
-    const success = await sendToTelegram(message);
-    if (success) {
+    // Prepare payload for Netlify Function
+    const formData = {
+      pickupLocation: pickup,
+      deliveryLocation: delivery,
+      length: l,
+      width: w,
+      height: h,
+      weight,
+      quantity: q,
+      cargoType,
+      adr: isAdr,
+      adrClass: adrClassVal,
+      comment,
+      pickupDate: date,
+      contactName,
+      phone,
+      email
+    };
+    console.log('sending form', formData);
+    try {
+      const response = await fetch('/api/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Request failed:', response.status, errorText);
+        alert('Не вдалося відправити заявку.');
+        return;
+      }
       modal1?.classList.add("modal--active");
       form1.reset();
       volumeOutput.textContent = '0';
       adrSelect.hidden = true;
       adrSelect.disabled = true;
-    } else {
-      alert("❌ Повідомлення не відправлено.");
+    } catch (err) {
+      console.error('Fetch error:', err);
+      alert('Не вдалося відправити заявку.');
     }
   });
 
