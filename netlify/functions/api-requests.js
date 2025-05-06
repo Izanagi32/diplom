@@ -38,6 +38,7 @@ exports.handler = async function(event, context) {
 
     if (event.httpMethod === 'POST') {
       const body = JSON.parse(event.body);
+      console.log('POST /api/requests body:', body);
       const {
         pickupLocation,
         deliveryLocation,
@@ -56,31 +57,38 @@ exports.handler = async function(event, context) {
         email,
       } = body;
 
-      // Insert new request
-      const insertResult = await db.execute({
-        sql: `INSERT INTO requests (
-          pickupLocation, deliveryLocation, length, width, height,
-          weight, quantity, cargoType, adr, adrClass,
-          comment, pickupDate, contactName, phone, email, createdAt
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
-        args: [
-          pickupLocation,
-          deliveryLocation,
-          length,
-          width,
-          height,
-          weight,
-          quantity,
-          cargoType,
-          adr ? 1 : 0,
-          adrClass,
-          comment,
-          pickupDate,
-          contactName,
-          phone,
-          email,
-        ],
-      });
+      // Insert new request with logging
+      let insertResult;
+      try {
+        insertResult = await db.execute({
+          sql: `INSERT INTO requests (
+            pickupLocation, deliveryLocation, length, width, height,
+            weight, quantity, cargoType, adr, adrClass,
+            comment, pickupDate, contactName, phone, email, createdAt
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
+          args: [
+            pickupLocation,
+            deliveryLocation,
+            length,
+            width,
+            height,
+            weight,
+            quantity,
+            cargoType,
+            adr ? 1 : 0,
+            adrClass,
+            comment,
+            pickupDate,
+            contactName,
+            phone,
+            email,
+          ],
+        });
+        console.log('db.execute insertResult:', insertResult);
+      } catch (error) {
+        console.error('Insert failed:', error);
+        throw error;
+      }
       const insertedId = insertResult.lastInsertRowid;
 
       // Send a Telegram notification
