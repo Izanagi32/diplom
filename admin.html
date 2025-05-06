@@ -33,55 +33,7 @@
     <tbody></tbody>
   </table>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const errorDiv = document.getElementById('error');
-      try {
-        const response = await fetch('/api/requests');
-        if (!response.ok) throw new Error(`Статус запиту: ${response.status}`);
-        const data = await response.json();
-        if (!Array.isArray(data) || data.length === 0) {
-          errorDiv.textContent = 'Заявки не знайдені.';
-          return;
-        }
-        const tbody = document.querySelector('#requests-table tbody');
-        data.forEach(req => {
-          const tr = document.createElement('tr');
 
-          // ID
-          tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.id }));
-
-          // Звідки / Куди
-          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.pickupLocation} / ${req.deliveryLocation}` }));
-
-          // Розміри
-          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.length}×${req.width}×${req.height}` }));
-
-          // Вага / Кількість
-          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.weight} / ${req.quantity}` }));
-
-          // Тип вантажу / ADR / Клас ADR
-          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.cargoType} / ${req.adr} / ${req.adrClass}` }));
-
-          // Коментар
-          tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.comment || '' }));
-
-          // Дата подачі
-          tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.pickupDate }));
-
-          // Контактні дані
-          tr.appendChild(Object.assign(document.createElement('td'), { textContent: `${req.contactName}, ${req.phone}, ${req.email}` }));
-
-          // Створено
-          tr.appendChild(Object.assign(document.createElement('td'), { textContent: req.createdAt }));
-
-          tbody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error(err);
-        errorDiv.textContent = 'Помилка завантаження заявок: ' + err.message;
-      }
-    });
-  </script>
+  <script src="./src/js/admin.js"></script>
 </body>
 </html> 
