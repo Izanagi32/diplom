@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { createClient } = require('@libsql/client');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 // Initialize Turso client using environment variables
 const db = createClient({
