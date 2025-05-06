@@ -2,13 +2,14 @@ const fs = require('fs');
 const path = require('path');
 const Database = require('better-sqlite3');
 const fetch = require('node-fetch');
+const os = require('os');
 
 // Insert your Telegram credentials here
 const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
 const TELEGRAM_CHAT_ID = 'YOUR_TELEGRAM_CHAT_ID';
 
-// Ensure data directory exists
-const dataDir = path.resolve(__dirname, '../data');
+// Ensure data directory exists in writable tmp
+const dataDir = path.join(os.tmpdir(), 'netlify-data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
