@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 2, name: 'Mercedes-Benz Actros', image: './src/img/merc3522png.png' },
         { id: 3, name: 'DAF XF', image: './src/img/daf7100png.png' },
         { id: 4, name: 'DAF XF', image: './src/img/daf0833png.png' },
+        { id: 5, name: 'DAF XF', image: './src/img/DAF7066png.png' },
+        { id: 6, name: 'DAF XF', image: './src/img/DAF7488png.png' },
+        { id: 7, name: 'DAF XF', image: './src/img/DAF9990png.png' },
     ];
 
     viewAllButton.addEventListener('click', function() {
