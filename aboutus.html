@@ -177,6 +177,35 @@
         </div>
       </section>
 
+      <section class="fleet-section" id="fleet">
+        <div class="container">
+          <div class="fleet-section__header">
+            <h2 class="fleet-section__title">Наш автопарк</h2>
+            <p class="fleet-section__description">
+              17 сучасних фур для надійної доставки ваших вантажів по всій Європі
+            </p>
+          </div>
+
+          <div class="fleet-collage">
+            <div class="fleet-collage__main">
+              <img src="./src/img/daf3477.jpg" alt="Фура DAF" class="fleet-collage__img fleet-collage__img--main">
+            </div>
+            
+            <div class="fleet-collage__secondary">
+              <img src="./src/img/daf-auto1.jpg" alt="Фура 1" class="fleet-collage__img fleet-collage__img--1">
+              <img src="./src/img/merc3522.jpg" alt="Фура 2" class="fleet-collage__img fleet-collage__img--2">
+              <img src="./src/img/daf7100.jpg" alt="Фура 3" class="fleet-collage__img fleet-collage__img--3">
+              <img src="./src/img/daf-auto1.jpg" alt="Фура 4" class="fleet-collage__img fleet-collage__img--4">
+            </div>
+            
+            <button class="fleet-collage__view-all">
+              <span>Переглянути весь автопарк (17)</span>
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
       <div class="links__cont">
         <div class="links__divider"></div>
       </div>
@@ -498,10 +527,21 @@
       </div>
     </div>
 
+    <div class="fleet-modal" id="fleetModal">
+        <div class="fleet-modal__content">
+            <button class="fleet-modal__close">&times;</button>
+            <h2 class="fleet-modal__title">Наш автопарк</h2>
+            <div class="fleet-modal__grid">
+                <!-- Тут буде динамічно додаватися список автопарку -->
+            </div>
+        </div>
+    </div>
+
     <script src="./src/js/counterAnimation.js"></script>
     <script src="./src/js/accordion.js"></script>
     <script src="./src/js/shipping-form-script.js"></script>
     <script src="https://unpkg.com/vue@3"></script>
     <script src="./src/js/navbar.js"></script>
+    <script src="./src/js/fleet-modal.js"></script>
   </body>
 </html>
