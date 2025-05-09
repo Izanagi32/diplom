@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const viewAllButton = document.querySelector('.fleet-collage__view-all');
 
     const fleetData = [
-        { id: 1, name: 'Mercedes-Benz Actros', image: './src/img/daf3477.jpg' },
-        { id: 2, name: 'Mercedes-Benz Actros', image: './src/img/merc3522.jpg' },
-        { id: 3, name: 'DAF XF', image: './src/img/daf7100.jpg' },
-        { id: 4, name: 'DAF XF', image: './src/img/daf-auto1.jpg' },
+        { id: 1, name: 'Mercedes-Benz Actros', image: './src/img/merc3477png.png' },
+        { id: 2, name: 'Mercedes-Benz Actros', image: './src/img/merc3522png.png' },
+        { id: 3, name: 'DAF XF', image: './src/img/daf7100png.png' },
+        { id: 4, name: 'DAF XF', image: './src/img/daf0833png.png' },
     ];
 
     viewAllButton.addEventListener('click', function() {
