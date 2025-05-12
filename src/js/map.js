@@ -253,5 +253,10 @@ routingControl.on('routesfound', (e) => {
   const routes = e.routes;
   const summary = routes[0].summary;
   document.getElementById('routeDistance').textContent = (summary.totalDistance / 1000).toFixed(2) + ' км';
-  document.getElementById('routeTime').textContent = (summary.totalTime / 60).toFixed(0) + ' хв';
+
+  const totalSeconds = summary.totalTime;
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+  document.getElementById('routeTime').textContent = `${hours} год. ${minutes} хв.`;
 });

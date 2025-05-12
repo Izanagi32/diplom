@@ -244,13 +244,13 @@ $box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     min-height: 600px;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 
+    box-shadow:
         0 20px 50px rgba(0, 0, 0, 0.15),
         0 0 0 2px rgba(0, 91, 187, 0.1) inset;
     margin: 60px auto;
     max-width: 1400px;
     background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
-    
+
     &::before {
         content: '';
         position: absolute;
@@ -334,7 +334,7 @@ $box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         border: none;
         cursor: pointer;
         transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        box-shadow: 
+        box-shadow:
             0 4px 15px rgba(0, 91, 187, 0.2),
             0 0 0 1px rgba(255, 255, 255, 0.3) inset;
         position: relative;
@@ -356,7 +356,7 @@ $box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
         &:hover {
             transform: translateY(-3px);
-            box-shadow: 
+            box-shadow:
                 0 8px 25px rgba(0, 91, 187, 0.3),
                 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
 
@@ -371,7 +371,7 @@ $box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
         &--active {
             background: linear-gradient(90deg, #ffd500, #005bbb);
-            box-shadow: 
+            box-shadow:
                 0 0 0 2px rgba(255, 255, 255, 0.6) inset,
                 0 0 20px rgba(255, 213, 0, 0.4);
         }
@@ -411,7 +411,7 @@ $box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    box-shadow: 
+    box-shadow:
         0 10px 30px rgba(0, 0, 0, 0.15),
         0 0 0 1px rgba(0, 91, 187, 0.1) inset;
     max-width: 300px;
@@ -564,23 +564,5 @@ $box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
 // Стилі для маршруту на карті (якщо потрібно)
 .leaflet-routing-container {
-    background: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-    .leaflet-routing-alternatives-container {
-        max-height: 150px;
-        overflow-y: auto;
-    }
-
-    .leaflet-routing-geocoders {
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-    }
+    display: none !important;
 }

@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!hero) return;
 
   const images = [
-    './src/img/updatedphoto1.png',
-    './src/img/updatedphoto2.png',
-    './src/img/updatedphoto3.png',
-    './src/img/updatedphoto4.png',
-    './src/img/updatedphoto5.png',
-    './src/img/updatedphoto6.png'
+    './src/img/updatedphoto1.webp',
+    './src/img/updatedphoto2.webp',
+    './src/img/updatedphoto3.webp',
+    './src/img/updatedphoto4.webp',
+    './src/img/updatedphoto5.webp',
+    './src/img/updatedphoto6.webp'
   ];
   let index = 0;
 
