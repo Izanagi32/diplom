@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <link rel="icon" href="./src/img/fav.png" type="image/png">
   </head>
   <body>
@@ -102,7 +103,16 @@
                   <button id="filterCountries">Країни, де ми працюємо</button>
                 </div>
                 <div class="coverage-map__search">
-                  <!-- Removed the search input wrapper -->
+                </div>
+              </div>
+              <div class="route-controls">
+                <div class="route-controls__info">
+                  <p>Дистанція: <span id="routeDistance">-</span></p>
+                  <p>Час: <span id="routeTime">-</span></p>
+                </div>
+                <div class="route-controls__buttons">
+                  <button id="startRoute">Почати маршрут</button>
+                  <button id="resetRoute">Скинути маршрут</button>
                 </div>
               </div>
               <div id="map" class="coverage-map__map"></div>
@@ -316,7 +326,9 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-    <script src="./src/js/map.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script type="module" src="./src/js/routeManager.js"></script>
+    <script type="module" src="./src/js/map.js"></script>
     <script src="./src/js/faq-map.js"></script>
     <script src="./src/js/navbar.js"></script>
     <script>

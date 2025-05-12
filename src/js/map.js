@@ -1,3 +1,5 @@
+import RouteManager from './routeManager.js';
+
 const map = L.map("map").setView([50.4501, 30.5234], 6);
 
 const osmStandard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -63,9 +65,51 @@ const geocoderControl = L.Control.geocoder({
   placeholder: 'Пошук вулиці або адреси...'
 }).addTo(map);
 
+const routingControl = RouteManager.initRouting(map);
+
+async function loadAllGeoJSON() {
+  const countries = [
+    { code: 'UKR', layer: 'ukrGeoLayer' },
+    { code: 'DEU', layer: 'deuGeoLayer' },
+    { code: 'POL', layer: 'polGeoLayer' },
+    { code: 'BEL', layer: 'belGeoLayer' },
+    { code: 'NLD', layer: 'nldGeoLayer' }
+  ];
+
+  for (const country of countries) {
+    const geoJSON = await RouteManager.loadGeoJSON(`src/data/geoBoundaries-${country.code}-ADM0.geojson`);
+    if (geoJSON) {
+      window[country.layer] = L.geoJSON(geoJSON, {
+        style: { color: '#ff7800', weight: 2, fillOpacity: 0.1 }
+      });
+    }
+  }
+}
+
+loadAllGeoJSON();
+
+let startPoint, endPoint;
+
+map.on('click', (e) => {
+  if (!startPoint) {
+    startPoint = e.latlng;
+    L.marker(startPoint).addTo(map).bindPopup("Початкова точка").openPopup();
+  } else if (!endPoint) {
+    endPoint = e.latlng;
+    L.marker(endPoint).addTo(map).bindPopup("Кінцева точка").openPopup();
+    routingControl.setWaypoints([startPoint, endPoint]);
+  }
+});
+
 geocoderControl.on('markgeocode', (e) => {
-  map.fitBounds(e.geocode.bbox);
-  if (geocoderControl.collapse) geocoderControl.collapse();
+  if (!startPoint) {
+    startPoint = e.geocode.center;
+    alert('Початкова точка вибрана: ' + e.geocode.name);
+  } else if (!endPoint) {
+    endPoint = e.geocode.center;
+    alert('Кінцева точка вибрана: ' + e.geocode.name);
+    routingControl.setWaypoints([startPoint, endPoint]);
+  }
 });
 
 let currentRegion = 'all';
@@ -180,4 +224,34 @@ filterCountriesButton.addEventListener('click', () => {
     highlightCountries();
   }
   bordersVisible = !bordersVisible;
+});
+
+document.getElementById('startRoute').addEventListener('click', () => {
+  startPoint = null;
+  endPoint = null;
+  map.eachLayer(layer => {
+    if (layer instanceof L.Marker) map.removeLayer(layer);
+  });
+});
+
+document.getElementById('resetRoute').addEventListener('click', () => {
+  routingControl.setWaypoints([]);
+  startPoint = null;
+  endPoint = null;
+  
+  map.eachLayer(layer => {
+    if (layer instanceof L.Marker) {
+      map.removeLayer(layer);
+    }
+  });
+
+  document.getElementById('routeDistance').textContent = '-';
+  document.getElementById('routeTime').textContent = '-';
+});
+
+routingControl.on('routesfound', (e) => {
+  const routes = e.routes;
+  const summary = routes[0].summary;
+  document.getElementById('routeDistance').textContent = (summary.totalDistance / 1000).toFixed(2) + ' км';
+  document.getElementById('routeTime').textContent = (summary.totalTime / 60).toFixed(0) + ' хв';
 });
