@@ -42,17 +42,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const vol = (l * w * h * q) || 0;
     volumeOutput.textContent = parseFloat(vol.toFixed(2));
   }
-  [lengthInput, widthInput, heightInput, quantityInput].forEach(el =>
-    el.addEventListener('input', updateVolume)
-  );
-  updateVolume();
+  if (lengthInput && widthInput && heightInput && quantityInput && volumeOutput) {
+    [lengthInput, widthInput, heightInput, quantityInput].forEach(el =>
+      el.addEventListener('input', updateVolume)
+    );
+    updateVolume();
+  }
 
   const adrCheckbox = document.getElementById('adr');
   const adrSelect = document.getElementById('adr-class');
-  adrCheckbox.addEventListener('change', () => {
-    adrSelect.hidden = !adrCheckbox.checked;
-    adrSelect.disabled = !adrCheckbox.checked;
-  });
+  if (adrCheckbox && adrSelect) {
+    adrCheckbox.addEventListener('change', () => {
+      adrSelect.hidden = !adrCheckbox.checked;
+      adrSelect.disabled = !adrCheckbox.checked;
+    });
+  }
 
   form1?.addEventListener("submit", async (e) => {
     e.preventDefault();
