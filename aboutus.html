@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Us</title>
+    <title>Про нас | Euro Tandem — надійні логістичні послуги</title>
+    <meta name="description" content="Euro Tandem — компанія з міжнародних перевезень. Наша історія, команда та переваги. Працюємо з 2010 року, гарантуємо якість та надійність.">
+    <meta name="keywords" content="про нас, логістична компанія, перевезення, Україна-ЄС, команда, історія">
+    <meta property="og:title" content="Про нас | Euro Tandem">
+    <meta property="og:description" content="Дізнайтеся більше про нашу компанію, команду та переваги.">
+    <meta property="og:image" content="./src/img/about-us-hero.jpg">
+    <link rel="canonical" href="https://eurotandem.com/aboutus.html" />
     <link rel="stylesheet" href="./src/css/nullstyle.css" />
     <link rel="stylesheet" href="./src/css/header&footer.css" />
     <link rel="stylesheet" href="./src/css/aboutus.css" />
@@ -86,6 +92,26 @@
       </div>
     </header>
     <main>
+      <nav aria-label="Breadcrumb">
+        <ol>
+          <li><a href="./index.html">Головна</a></li>
+          <li aria-current="page">Про нас</li>
+        </ol>
+      </nav>
+      <section class="about-hero" aria-labelledby="about-heading">
+        <h1 id="about-heading">Про нашу компанію</h1>
+        <p>Euro Tandem засновано у 2010 році...</p>
+      </section>
+
+      <section class="team" itemscope itemtype="https://schema.org/Organization">
+        <h2>Наша команда</h2>
+        <div class="team-member" itemscope itemtype="https://schema.org/Person">
+          <img src="./img/team.jpg" alt="Наша команда" loading="lazy" />
+          <h3 itemprop="name">Іван Петренко</h3>
+          <p itemprop="jobTitle">Засновник та CEO</p>
+        </div>
+      </section>
+
       <section class="heroab">
         <div class="heroab__block">
           <div class="container">
@@ -543,5 +569,22 @@
     <script src="https://unpkg.com/vue@3"></script>
     <script src="./src/js/navbar.js"></script>
     <script src="./src/js/fleet-modal.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Euro Tandem",
+      "url": "https://eurotandem.com",
+      "logo": "https://eurotandem.com/src/img/New-logo.png",
+      "description": "Логістична компанія з міжнародними перевезеннями.",
+      "foundingDate": "2010",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Горохів",
+        "addressRegion": "Волинська обл.",
+        "streetAddress": "вул. Козацька, 23"
+      }
+    }
+    </script>
   </body>
 </html>

@@ -92,7 +92,13 @@
     </header>
 
     <main>
-        <section class="coverage-map">
+      <nav aria-label="Breadcrumb">
+        <ol>
+          <li><a href="./index.html">Головна</a></li>
+          <li aria-current="page">Інтерактивна карта</li>
+        </ol>
+      </nav>
+      <section class="coverage-map">
             <div class="container">
               <div class="coverage-map__content">
                 <h2 class="coverage-map__title">Географія перевезень</h2>
@@ -122,13 +128,12 @@
           <section class="faq">
             <h2 class="faq__title">Часті питання по карті</h2>
             <div class="faq__row">
-              <div class="faq__item">
-                <button class="faq__question" aria-expanded="false">
+              <div class="faq__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="faq__question" aria-expanded="false" itemprop="name">
                   <span>Як шукати місто, вулицю або країну?</span>
-                  <span class="faq__icon">+</span>
                 </button>
-                <div class="faq__answer">
-                  Ви можете скористатись функцією пошуку на карті. Просто введіть назву міста, вулиці або країни, і карта автоматично зосередиться на ньому, якщо воно є в нашій базі даних.
+                <div class="faq__answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                  <p itemprop="text">Ви можете скористатись функцією пошуку на карті. Просто введіть назву міста, вулиці або країни, і карта автоматично зосередиться на ньому, якщо воно є в нашій базі даних.</p>
                 </div>
               </div>
 

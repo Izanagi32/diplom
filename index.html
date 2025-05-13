@@ -14,6 +14,17 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <link rel="icon" href="./src/img/fav.png" type="image/png">
+    <meta name="description" content="Euro Tandem — надійні логістичні рішення для вашого бізнесу. Міжнародні перевезення, оптимізація маршрутів, GPS-трекінг." />
+    <meta name="keywords" content="логістика, перевезення, доставка, Україна, ЄС, вантаж, маршрути" />
+    <meta property="og:title" content="Euro Tandem — логістичні послуги" />
+    <meta property="og:description" content="Надійні логістичні рішення для вашого бізнесу." />
+    <meta property="og:image" content="./src/img/New logo.png" />
+    <meta property="og:url" content="https://eurotandem.com" />
+    <meta name="robots" content="index, follow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="./src/img/New logo.png" as="image" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style" />
   </head>
   <body>
     <header class="navbar">
@@ -57,7 +68,7 @@
             />
           </div>
           <div class="navbar__block-menu">
-            <nav class="navbar__menu">
+            <nav class="navbar__menu" aria-label="Головне меню">
               <ul class="navbar__menu-list">
                 <li class="navbar__menu-item">
                   <a
@@ -90,13 +101,10 @@
     </header>
 
     <main>
-      <section class="hero">
+      <section class="hero" role="region" aria-labelledby="hero-heading">
         <div class="container">
           <div class="hero__wrap">
-            <h1 class="hero__title">
-              Надійні логістичні рішення <br />
-              для вашого бізнесу
-            </h1>
+            <h1 id="hero-heading" class="hero__title">Надійні логістичні рішення</h1>
             <p class="hero__description">
               Надаємо комплексні логістичні рішення для вашого бізнесу — від
               планування маршрутів до відстеження вантажу в реальному часі.
@@ -105,8 +113,8 @@
               продукції.
             </p>
             <div class="hero__actions">
-              <a href="./faq.html" class="hero__button-first">Дізнатись більше</a>
-              <a href="#" class="hero__button-second">Зв'язатись з нами</a>
+              <a href="./faq.html" class="hero__button-first" aria-label="Дізнатись більше про наші послуги">Дізнатись більше</a>
+              <a href="#" class="hero__button-second" aria-label="Зв'язатись з нами для консультації">Зв'язатись з нами</a>
             </div>
           </div>
         </div>
@@ -137,9 +145,9 @@
             <h2 class="services__title">Наші Послуги</h2>
             <div class="services__carousel-container">
               <div class="services__carousel">
-                <div class="services__item">
-                  <h3 class="services__item-title">Міжнародні перевезення</h3>
-                  <p class="services__item-description">
+                <div class="services__item" itemscope itemtype="https://schema.org/Service">
+                  <h3 class="services__item-title" itemprop="name">Міжнародні перевезення</h3>
+                  <p class="services__item-description" itemprop="description">
                     Здійснюємо регулярні перевезення з України до країн
                     Європейського Союзу: Німеччини, Бельгії та Нідерландів.
                     Працюємо виключно власним автопарком: тентовані автомобілі
@@ -373,7 +381,15 @@
                 <section class="shipping-form__section shipping-form__section--route">
                   <h2 class="shipping-form__section-title">Маршрут доставки</h2>
                   <div class="shipping-form__inputs shipping-form__inputs--locations">
-                    <input type="text" id="pickup-location" name="pickup-location" class="shipping-form__input shipping-form__input--pickup" placeholder="Звідки" required />
+                    <input
+                      type="text"
+                      id="pickup-location"
+                      name="pickup-location"
+                      class="shipping-form__input"
+                      placeholder="Звідки"
+                      aria-label="Місце відправлення"
+                      required
+                    />
                     <input type="text" id="delivery-location" name="delivery-location" class="shipping-form__input shipping-form__input--delivery" placeholder="Куди" required />
                   </div>
                 </section>
@@ -577,7 +593,7 @@
           
           <div class="testimonials-section__grid">
             <!-- Відгук 1 -->
-            <div class="testimonial-card">
+            <div class="testimonial-card" itemscope itemtype="https://schema.org/Review">
               <div class="testimonial-card__header">
                 <div class="testimonial-card__avatar">
                   <img src="./src/img/cargo-logo2.png" alt="Фото клієнта">
@@ -587,18 +603,18 @@
                 </div>
               </div>
               <div class="testimonial-card__content">
-                <p class="testimonial-card__text">
+                <p class="testimonial-card__text" itemprop="reviewBody">
                   "Користуємося послугами компанії вже другий рік. Задоволені якістю сервісу та пунктуальністю. Завжди тримають у курсі щодо статусу доставки. Рекомендую!"
                 </p>
               </div>
               <div class="testimonial-card__footer">
-                <h4 class="testimonial-card__name">Ірина Петренко</h4>
-                <p class="testimonial-card__company">ТОВ "Євростиль"</p>
+                <h4 class="testimonial-card__name" itemprop="author">Ірина Петренко</h4>
+                <p class="testimonial-card__company" itemprop="itemReviewed">ТОВ "Євростиль"</p>
               </div>
             </div>
             
             <!-- Відгук 2 -->
-            <div class="testimonial-card">
+            <div class="testimonial-card" itemscope itemtype="https://schema.org/Review">
               <div class="testimonial-card__header">
                 <div class="testimonial-card__avatar">
                   <img src="./src/img/cargo-logo1.png" alt="Фото клієнта">
@@ -608,18 +624,18 @@
                 </div>
               </div>
               <div class="testimonial-card__content">
-                <p class="testimonial-card__text">
+                <p class="testimonial-card__text" itemprop="reviewBody">
                   "Швидка та надійна доставка. Мали складний вантаж, який потребував особливих умов транспортування. Все було доставлено вчасно і в ідеальному стані."
                 </p>
               </div>
               <div class="testimonial-card__footer">
-                <h4 class="testimonial-card__name">Олег Коваленко</h4>
-                <p class="testimonial-card__company">ПП "Технобуд"</p>
+                <h4 class="testimonial-card__name" itemprop="author">Олег Коваленко</h4>
+                <p class="testimonial-card__company" itemprop="itemReviewed">ПП "Технобуд"</p>
               </div>
             </div>
             
             <!-- Відгук 3 -->
-            <div class="testimonial-card">
+            <div class="testimonial-card" itemscope itemtype="https://schema.org/Review">
               <div class="testimonial-card__header">
                 <div class="testimonial-card__avatar">
                   <img src="./src/img/cargo-logo.png" alt="Фото клієнта">
@@ -629,13 +645,13 @@
                 </div>
               </div>
               <div class="testimonial-card__content">
-                <p class="testimonial-card__text">
+                <p class="testimonial-card__text" itemprop="reviewBody">
                   "Співпрацюємо з компанією вже понад рік. Жодних затримок, прозорий процес і професійний підхід. Окрема подяка менеджерам за оперативність у вирішенні питань."
                 </p>
               </div>
               <div class="testimonial-card__footer">
-                <h4 class="testimonial-card__name">Марія Ковальчук</h4>
-                <p class="testimonial-card__company">ТОВ "Агропром"</p>
+                <h4 class="testimonial-card__name" itemprop="author">Марія Ковальчук</h4>
+                <p class="testimonial-card__company" itemprop="itemReviewed">ТОВ "Агропром"</p>
               </div>
             </div>
           </div>
@@ -785,7 +801,7 @@
       </div>
     </footer>
 
-    <div class="modal" id="formModal">
+    <div class="modal" id="formModal" aria-modal="true" aria-hidden="true">
       <div class="modal__content">
         <h2 class="modal__title">Дякуємо!</h2>
         <p class="modal__text">Вашу заявку успішно надіслано.</p>

@@ -31,8 +31,7 @@ table#requests-table {
   min-width: 800px;
   background: #fff;
   border-radius: 6px;
-  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
@@ -72,5 +71,4 @@ table#requests-table tbody tr:last-child td {
   table#requests-table {
     min-width: 600px;
   }
-}
-/*# sourceMappingURL=admin.css.map */
+}/*# sourceMappingURL=admin.css.map */

@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Euro Tandem - База знань (FAQ)</title>
+  <title>Часті питання (FAQ) | Euro Tandem - міжнародні вантажні перевезення</title>
+  <meta name="description" content="Відповіді на всі питання про міжнародні вантажні перевезення з Euro Tandem. Документи, терміни, маршрути, оплата та відстеження вантажів.">
+  <meta name="keywords" content="FAQ, часті питання, вантажні перевезення, міжнародні перевезення, доставка вантажів, логістика, Україна-ЄС">
+  <meta property="og:title" content="Часті питання (FAQ) | Euro Tandem">
+  <meta property="og:description" content="Відповіді на всі питання про міжнародні вантажні перевезення з Euro Tandem">
+  <meta property="og:url" content="https://eurotandem.com/faq.html">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://eurotandem.com/faq.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}
+  </script>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <link rel="stylesheet" href="./src/css/nullstyle.css">
   <link rel="stylesheet" href="./src/css/header&footer.css">
@@ -51,7 +61,7 @@
             <div class="navbar__logo">
               <img
                 src="./src/img/New logo.png"
-                alt="Logo"
+                alt="Логотип Euro Tandem"
                 class="navbar__logo-image"
               />
             </div>
@@ -85,7 +95,7 @@
           </div>
         </div>
       </header>
-  <div class="Vcontainer" id="faqApp">
+  <main class="Vcontainer" id="faqApp" itemscope itemtype="https://schema.org/FAQPage">
     <div class="faq-header">
       <h1 class="faq-title">База знань (FAQ)</h1>
     </div>
@@ -106,26 +116,26 @@
     <div class="faq-counter" v-else>
       Нічого не знайдено за вашим запитом.
     </div>
-    <div v-for="(faq, index) in filteredFaqs" :key="index" class="faq-item">
-      <div class="question" :class="{ active: activeIndex === index }" @click="toggle(index)">
+    <div v-for="(faq, index) in filteredFaqs" :key="index" class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h2 class="question" :class="{ active: activeIndex === index }" @click="toggle(index)" itemprop="name">
         {{ formatQuestion(faq.question) }}
-      </div>
-      <div class="answer" :class="{ active: activeIndex === index }">
-        <p>{{ faq.answer }}</p>
+      </h2>
+      <div class="answer" :class="{ active: activeIndex === index }" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <p itemprop="text">{{ faq.answer }}</p>
         <div class="faq-views">Переглядів: {{ faq.views }}</div>
       </div>
     </div>
     <button class="scroll-top-btn" :class="{ visible: showScroll }" @click="scrollToTop" aria-label="Прокрутити вгору">
       &#9650;
     </button>
-  </div>
+  </main>
   <footer class="site-footer">
     <div class="container">
       <div class="site-footer__top">
         <div class="site-footer__logo-wrapper">
           <img
             src="./src/img/New logo.png"
-            alt="Company Logo"
+            alt="Логотип Euro Tandem"
             class="site-footer__brand-logo"
           />
         </div>

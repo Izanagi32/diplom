@@ -1,64 +1,24 @@
-@-webkit-keyframes fadeDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translateY(-20px);
-            transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-}
-
+@charset "UTF-8";
 @keyframes fadeDown {
   0% {
     opacity: 0;
-    -webkit-transform: translateY(-20px);
-            transform: translateY(-20px);
+    transform: translateY(-20px);
   }
   100% {
     opacity: 1;
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
+    transform: translateY(0);
   }
 }
-
-@-webkit-keyframes scrollFade {
-  0% {
-    opacity: 0;
-    -webkit-transform: translateY(20px);
-            transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-}
-
 @keyframes scrollFade {
   0% {
     opacity: 0;
-    -webkit-transform: translateY(20px);
-            transform: translateY(20px);
+    transform: translateY(20px);
   }
   100% {
     opacity: 1;
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
+    transform: translateY(0);
   }
 }
-
-@-webkit-keyframes shimmer {
-  0% {
-    background-position: -150% 0;
-  }
-  100% {
-    background-position: 150% 0;
-  }
-}
-
 @keyframes shimmer {
   0% {
     background-position: -150% 0;
@@ -67,29 +27,14 @@
     background-position: 150% 0;
   }
 }
-
-@-webkit-keyframes swipe {
-  0% {
-    -webkit-transform: skewX(-20deg) translateX(-200%);
-            transform: skewX(-20deg) translateX(-200%);
-  }
-  100% {
-    -webkit-transform: skewX(-20deg) translateX(200%);
-            transform: skewX(-20deg) translateX(200%);
-  }
-}
-
 @keyframes swipe {
   0% {
-    -webkit-transform: skewX(-20deg) translateX(-200%);
-            transform: skewX(-20deg) translateX(-200%);
+    transform: skewX(-20deg) translateX(-200%);
   }
   100% {
-    -webkit-transform: skewX(-20deg) translateX(200%);
-            transform: skewX(-20deg) translateX(200%);
+    transform: skewX(-20deg) translateX(200%);
   }
 }
-
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
@@ -110,19 +55,16 @@ body {
   text-align: center;
   overflow: visible;
 }
-
 .faq-header::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 10%;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
   width: 60vw;
   height: 200px;
   background: radial-gradient(circle, rgba(0, 123, 255, 0.15), transparent 70%);
-  -webkit-filter: blur(100px);
-          filter: blur(100px);
+  filter: blur(100px);
   z-index: -1;
 }
 
@@ -131,7 +73,6 @@ body {
   font-size: 72px;
   line-height: 1.2;
   margin: 0 auto;
-  background: -webkit-gradient(linear, left top, right top, from(#66b0ff), to(#007bff));
   background: linear-gradient(90deg, #66b0ff, #007bff);
   background-clip: text;
   -webkit-background-clip: text;
@@ -141,67 +82,45 @@ body {
   position: relative;
   display: inline-block;
 }
-
 .faq-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -15px;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
   width: 140px;
   height: 8px;
-  background: -webkit-gradient(linear, left top, right top, from(#99caff), to(#007bff));
   background: linear-gradient(90deg, #99caff, #007bff);
   border-radius: 4px;
-  -webkit-box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-          box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
 }
 
 #faqApp.scroll-fade {
   opacity: 0;
 }
-
 #faqApp.scroll-fade.visible {
-  -webkit-animation: scrollFade 0.8s ease forwards;
-          animation: scrollFade 0.8s ease forwards;
+  animation: scrollFade 0.8s ease forwards;
 }
-
 #faqApp .faq-controls {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   gap: 12px;
 }
-
 #faqApp .faq-controls .faq-filters {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 16px;
   padding: 14px 18px;
   background: rgba(0, 123, 255, 0.05);
   border-radius: 32px;
   -webkit-backdrop-filter: blur(8px);
           backdrop-filter: blur(8px);
-  -webkit-box-shadow: inset 0 0 10px rgba(0, 123, 255, 0.1);
-          box-shadow: inset 0 0 10px rgba(0, 123, 255, 0.1);
+  box-shadow: inset 0 0 10px rgba(0, 123, 255, 0.1);
   margin-bottom: 30px;
 }
-
 #faqApp .faq-controls .faq-filters button {
   background: rgba(255, 255, 255, 0.8);
   color: #007bff;
@@ -212,50 +131,36 @@ body {
   min-width: 120px;
   border: 1px solid rgba(0, 123, 255, 0.3);
   border-radius: 24px;
-  -webkit-box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
-          box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
   position: relative;
   overflow: hidden;
-  -webkit-transition: background 0.3s ease, color 0.3s ease, -webkit-transform 0.3s ease, -webkit-box-shadow 0.3s ease;
-  transition: background 0.3s ease, color 0.3s ease, -webkit-transform 0.3s ease, -webkit-box-shadow 0.3s ease;
   transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, -webkit-transform 0.3s ease, -webkit-box-shadow 0.3s ease;
 }
-
 #faqApp .faq-controls .faq-filters button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -50%;
   width: 50%;
   height: 100%;
   background: linear-gradient(120deg, transparent, rgba(0, 123, 255, 0.2), transparent);
-  -webkit-transform: skewX(-20deg);
-          transform: skewX(-20deg);
-  -webkit-transition: left 0.6s ease;
+  transform: skewX(-20deg);
   transition: left 0.6s ease;
 }
-
 #faqApp .faq-controls .faq-filters button:hover::before {
   left: 150%;
 }
-
 #faqApp .faq-controls .faq-filters button:hover {
   background: #007bff;
   color: #fff;
-  -webkit-transform: translateY(-3px);
-          transform: translateY(-3px);
-  -webkit-box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
-          box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
 }
-
 #faqApp .faq-controls .faq-filters button.active-filter {
   background: linear-gradient(45deg, #66b0ff, #007bff);
   color: #fff;
-  -webkit-box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
-          box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
+  box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
 }
-
 #faqApp .faq-controls .faq-search {
   background: rgba(255, 255, 255, 0.1);
   -webkit-backdrop-filter: blur(12px);
@@ -265,8 +170,7 @@ body {
   -webkit-backdrop-filter: blur(20px) saturate(180%);
           backdrop-filter: blur(20px) saturate(180%);
   border: 2px solid rgba(0, 123, 255, 0.6);
-  -webkit-box-shadow: 0 8px 30px rgba(0, 123, 255, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.4);
-          box-shadow: 0 8px 30px rgba(0, 123, 255, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 123, 255, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.4);
   width: 80%;
   max-width: 600px;
   margin: 0 auto 40px;
@@ -279,180 +183,109 @@ body {
   position: relative;
   overflow: hidden;
 }
-
 #faqApp .faq-controls .faq-search::before {
-  content: "\1F50D";
+  content: "🔍";
   position: absolute;
   left: 18px;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   font-size: 18px;
   color: rgba(0, 0, 0, 0.6);
-  -webkit-transition: color 0.3s ease, -webkit-transform 0.3s ease;
-  transition: color 0.3s ease, -webkit-transform 0.3s ease;
   transition: color 0.3s ease, transform 0.3s ease;
-  transition: color 0.3s ease, transform 0.3s ease, -webkit-transform 0.3s ease;
 }
-
 #faqApp .faq-controls .faq-search::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 40px;
   height: 100%;
-  background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(rgba(255, 255, 255, 0.5)), to(transparent));
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-  -webkit-transform: skewX(-20deg) translateX(-200%);
-          transform: skewX(-20deg) translateX(-200%);
+  transform: skewX(-20deg) translateX(-200%);
   pointer-events: none;
 }
-
-#faqApp .faq-controls .faq-search::-webkit-input-placeholder {
+#faqApp .faq-controls .faq-search::-moz-placeholder {
   color: rgba(0, 0, 0, 0.6);
-  -webkit-transition: color 0.3s ease;
+  -moz-transition: color 0.3s ease;
   transition: color 0.3s ease;
 }
-
-#faqApp .faq-controls .faq-search:-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.6);
-  -webkit-transition: color 0.3s ease;
-  transition: color 0.3s ease;
-}
-
-#faqApp .faq-controls .faq-search::-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.6);
-  -webkit-transition: color 0.3s ease;
-  transition: color 0.3s ease;
-}
-
 #faqApp .faq-controls .faq-search::placeholder {
   color: rgba(0, 0, 0, 0.6);
-  -webkit-transition: color 0.3s ease;
   transition: color 0.3s ease;
 }
-
 #faqApp .faq-controls .faq-search:hover {
   background: rgba(255, 255, 255, 0.15);
 }
-
 #faqApp .faq-controls .faq-search:hover::before {
   color: rgba(0, 0, 0, 0.8);
-  -webkit-transform: translateY(-50%) scale(1.1);
-          transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.1);
 }
-
 #faqApp .faq-controls .faq-search:hover::after {
-  -webkit-animation: swipe 0.8s ease-out forwards;
-          animation: swipe 0.8s ease-out forwards;
+  animation: swipe 0.8s ease-out forwards;
 }
-
 #faqApp .faq-controls .faq-search:focus {
   outline: none;
   border-color: rgba(255, 255, 255, 0.6);
-  -webkit-box-shadow: 0 0 12px rgba(0, 123, 255, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.3);
-          box-shadow: 0 0 12px rgba(0, 123, 255, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
-
 #faqApp .faq-controls .faq-search:focus::before {
-  -webkit-transform: translateY(-50%) scale(1.2);
-          transform: translateY(-50%) scale(1.2);
+  transform: translateY(-50%) scale(1.2);
 }
-
-#faqApp .faq-controls .faq-search:focus::-webkit-input-placeholder {
+#faqApp .faq-controls .faq-search:focus::-moz-placeholder {
   color: rgba(0, 0, 0, 0.9);
 }
-
-#faqApp .faq-controls .faq-search:focus:-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.9);
-}
-
-#faqApp .faq-controls .faq-search:focus::-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.9);
-}
-
 #faqApp .faq-controls .faq-search:focus::placeholder {
   color: rgba(0, 0, 0, 0.9);
 }
-
 #faqApp .faq-item {
   margin-bottom: 20px;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.05);
-  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  -webkit-transition: -webkit-box-shadow 0.3s ease, -webkit-transform 0.3s ease;
-  transition: -webkit-box-shadow 0.3s ease, -webkit-transform 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  transition: box-shadow 0.3s ease, transform 0.3s ease, -webkit-box-shadow 0.3s ease, -webkit-transform 0.3s ease;
 }
-
 #faqApp .faq-item:hover {
-  -webkit-box-shadow: 0 3px 20px rgba(0, 123, 255, 0.15);
-          box-shadow: 0 3px 20px rgba(0, 123, 255, 0.15);
-  -webkit-transform: translateY(-5px) scale(1.03);
-          transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 3px 20px rgba(0, 123, 255, 0.15);
+  transform: translateY(-5px) scale(1.03);
 }
-
 #faqApp .faq-item .question {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   padding: 24px 32px;
   font-family: "Poppins", sans-serif;
   font-size: 24px;
   font-weight: 600;
   cursor: pointer;
-  -webkit-transition: color 0.3s ease;
   transition: color 0.3s ease;
   position: relative;
 }
-
 #faqApp .faq-item .question:hover {
   color: #007bff;
 }
-
 #faqApp .faq-item .question::after {
-  content: '+';
+  content: "+";
   font-size: 24px;
-  -webkit-transition: -webkit-transform 0.3s ease;
-  transition: -webkit-transform 0.3s ease;
   transition: transform 0.3s ease;
-  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
 }
-
 #faqApp .faq-item .question.active::after {
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
+  transform: rotate(45deg);
 }
-
 #faqApp .faq-item .question::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 16px;
   left: 32px;
   width: 0;
   height: 2px;
   background: #007bff;
-  -webkit-transition: width 0.3s ease;
   transition: width 0.3s ease;
 }
-
 #faqApp .faq-item .question:hover::before {
   width: calc(100% - 64px);
 }
-
 #faqApp .faq-item .answer {
   max-height: 0;
   opacity: 0;
@@ -461,26 +294,19 @@ body {
   font-family: "Poppins", sans-serif;
   font-size: 17px;
   line-height: 1.6;
-  -webkit-transition: max-height 0.5s ease, opacity 0.5s ease;
   transition: max-height 0.5s ease, opacity 0.5s ease;
-  -webkit-transform-origin: top;
-          transform-origin: top;
-  -webkit-transform: translateY(-10px);
-          transform: translateY(-10px);
+  transform-origin: top;
+  transform: translateY(-10px);
 }
-
 #faqApp .faq-item .answer.active {
   max-height: 500px;
   opacity: 1;
   padding: 24px 32px;
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
+  transform: translateY(0);
 }
-
 #faqApp .faq-item .answer p {
   margin: 0;
 }
-
 #faqApp .faq-item .faq-views {
   margin-top: 8px;
   margin-left: 12px;
@@ -489,7 +315,6 @@ body {
   font-size: 14px;
   color: #888;
 }
-
 #faqApp .faq-counter {
   margin: 0px 0px 24px 0px;
   font-family: "Montserrat", sans-serif;
@@ -501,9 +326,7 @@ body {
 
 @media (max-width: 768px) {
   #faqApp .faq-controls {
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    justify-content: flex-start;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -530,12 +353,10 @@ body {
     font-size: 36px;
   }
 }
-
 *::-moz-selection {
   background: #007bff;
   color: #fff;
 }
-
 *::selection {
   background: #007bff;
   color: #fff;
@@ -552,37 +373,22 @@ body {
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   opacity: 0;
-  -webkit-transform: translateY(100px);
-          transform: translateY(100px);
-  -webkit-transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
-  transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
+  transform: translateY(100px);
   transition: opacity 0.3s ease, transform 0.3s ease;
-  transition: opacity 0.3s ease, transform 0.3s ease, -webkit-transform 0.3s ease;
   z-index: 1000;
 }
-
 .scroll-top-btn.visible {
   opacity: 1;
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
+  transform: translateY(0);
 }
-
 .scroll-top-btn:hover {
   background-color: #0062cc;
-  -webkit-box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 768px) {
@@ -593,5 +399,4 @@ body {
     bottom: 20px !important;
     right: 20px !important;
   }
-}
-/*# sourceMappingURL=faq.css.map */
+}/*# sourceMappingURL=faq.css.map */
