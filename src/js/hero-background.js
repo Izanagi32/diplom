@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Improved carousel controls
   let intervalId;
   function updateCarousel() {
     const translatePercent = (100 / totalSlides) * index;
@@ -68,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     startCarousel();
   }
 
-  // Create dot indicators
   const dotsContainer = document.createElement('div');
   dotsContainer.className = 'hero__dots';
   images.forEach((_, i) => {
@@ -90,41 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Create navigation arrows
-  const prevBtn = document.createElement('button');
-  prevBtn.className = 'hero__arrow hero__arrow--prev';
-  prevBtn.setAttribute('aria-label', 'Попередній слайд');
-  prevBtn.innerHTML = '&#10094;';
-  prevBtn.addEventListener('click', () => {
-    index = (index - 1 + imagesCount) % imagesCount;
-    updateCarousel();
-    resetCarousel();
-  });
-  hero.appendChild(prevBtn);
-
-  const nextBtn = document.createElement('button');
-  nextBtn.className = 'hero__arrow hero__arrow--next';
-  nextBtn.setAttribute('aria-label', 'Наступний слайд');
-  nextBtn.innerHTML = '&#10095;';
-  nextBtn.addEventListener('click', () => {
-    index = (index + 1) % imagesCount;
-    updateCarousel();
-    resetCarousel();
-  });
-  hero.appendChild(nextBtn);
-
-  // Pause on hover
   hero.addEventListener('mouseenter', pauseCarousel);
   hero.addEventListener('mouseleave', startCarousel);
 
-  // Resume on visibility change
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
       updateCarousel();
     }
   });
 
-  // Initialize
   updateCarousel();
   startCarousel();
 }); 
