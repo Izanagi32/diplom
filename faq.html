@@ -13,6 +13,10 @@
   <meta property="og:image" content="https://eurotandem.com/src/img/New%20logo.png" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://eurotandem.com/faq.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Euro Tandem — Часті питання" />
+  <meta name="twitter:description" content="Euro Tandem — відповіді на всі питання про міжнародні вантажні перевезення. Документи, терміни, маршрути, оплата та відстеження вантажів." />
+  <meta name="twitter:image" content="https://eurotandem.com/src/img/New%20logo.png" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -52,6 +56,9 @@
   <link rel="stylesheet" href="./src/css/nullstyle.css">
   <link rel="stylesheet" href="./src/css/header&footer.css">
   <link rel="stylesheet" href="./src/css/faq.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style">
   <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
       rel="stylesheet"
@@ -129,6 +136,20 @@
           </div>
         </div>
       </header>
+  <nav aria-label="Breadcrumb" class="breadcrumb">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="https://eurotandem.com/">
+          <span itemprop="name">Головна</span>
+        </a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">FAQ</span>
+        <meta itemprop="position" content="2" />
+      </li>
+    </ol>
+  </nav>
   <main class="Vcontainer" id="faqApp" itemscope itemtype="https://schema.org/FAQPage">
     <div class="faq-header">
       <h1 class="faq-title">База знань (FAQ)</h1>
@@ -488,6 +509,66 @@
         }
       }
     }).mount('#faqApp');
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Як оформити доставку?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ви можете оформити доставку через нашу онлайн-форму або звернутися за телефоном."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Які терміни доставки?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Строки доставки залежать від маршруту та завантаженості. Зазвичай це 2-5 днів."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Які документи потрібні?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Для відправки вантажу потрібен паспорт або інший документ, що посвідчує особу."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Як оплатити послуги?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Оплата можлива готівкою при отриманні або онлайн-банком."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Які типи вантажів ви перевозите?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ми спеціалізуємося на транспортуванні палетованих, упакованих і негабаритних вантажів у тентових фурах до 20 т."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "url":"https://eurotandem.com",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://eurotandem.com/faq.html?search={search_term_string}",
+      "query-input":"required name=search_term_string"
+    }
+  }
   </script>
 </body>
 </html>
