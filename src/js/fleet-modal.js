@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const viewAllButton = document.querySelector('.fleet-collage__view-all');
 
     const fleetData = [
-        { id: 1, name: 'Mercedes-Benz Actros', image: './src/img/merc3477png.png' },
-        { id: 2, name: 'Mercedes-Benz Actros', image: './src/img/merc3522png.png' },
-        { id: 3, name: 'DAF XF', image: './src/img/daf7100png.png' },
-        { id: 4, name: 'DAF XF', image: './src/img/daf0833png.png' },
-        { id: 5, name: 'DAF XF', image: './src/img/DAF7066png.png' },
-        { id: 6, name: 'DAF XF', image: './src/img/DAF7488png.png' },
-        { id: 7, name: 'DAF XF', image: './src/img/DAF9990png.png' },
+        { id: 1, name: 'Mercedes-Benz Actros', image: './src/img/MERC3477.avif' },
+        { id: 2, name: 'Mercedes-Benz Actros', image: './src/img/MERC3522.avif' },
+        { id: 3, name: 'DAF XF', image: './src/img/DAF7100.avif' },
+        { id: 4, name: 'DAF XF', image: './src/img/DAF7066.avif' },
+        { id: 5, name: 'DAF XF', image: './src/img/DAF7488.avif' },
+        { id: 6, name: 'DAF XF', image: './src/img/DAF9990.avif' },
+        { id: 7, name: 'DAF XF', image: './src/img/DAF0833.avif' },
     ];
 
     viewAllButton.addEventListener('click', function() {
