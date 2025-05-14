@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /api/
+Disallow: /src/
+Sitemap: https://eurotandem.com/sitemap.xml 

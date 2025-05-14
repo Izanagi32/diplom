@@ -3,12 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Про нас | Euro Tandem — надійні логістичні послуги</title>
+    <title>Euro Tandem — Про нас</title>
     <meta name="description" content="Euro Tandem — компанія з міжнародних перевезень. Наша історія, команда та переваги. Працюємо з 2010 року, гарантуємо якість та надійність.">
     <meta name="keywords" content="про нас, логістична компанія, перевезення, Україна-ЄС, команда, історія">
-    <meta property="og:title" content="Про нас | Euro Tandem">
-    <meta property="og:description" content="Дізнайтеся більше про нашу компанію, команду та переваги.">
-    <meta property="og:image" content="./src/img/about-us-hero.jpg">
+    <meta property="og:title" content="Euro Tandem — Про нас" />
+    <meta property="og:description" content="Дізнайте більше про нашу компанію, команду та переваги." />
+    <meta property="og:image" content="https://eurotandem.com/src/img/about-us-hero.jpg" />
+    <meta property="og:url" content="https://eurotandem.com/aboutus.html" />
+    <meta property="og:type" content="website" />
     <link rel="canonical" href="https://eurotandem.com/aboutus.html" />
     <link rel="stylesheet" href="./src/css/nullstyle.css" />
     <link rel="stylesheet" href="./src/css/header&footer.css" />
@@ -19,6 +21,42 @@
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="./src/img/fav.png" type="image/png">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Euro Tandem",
+          "url": "https://eurotandem.com",
+          "logo": "https://eurotandem.com/src/img/New%20logo.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+380977777568",
+            "contactType": "Customer Service"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Головна",
+              "item": "https://eurotandem.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Про нас",
+              "item": "https://eurotandem.com/aboutus.html"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <header class="navbar">
@@ -560,22 +598,5 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="./src/js/navbar.js"></script>
     <script src="./src/js/fleet-modal.js"></script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Euro Tandem",
-      "url": "https://eurotandem.com",
-      "logo": "https://eurotandem.com/src/img/New-logo.png",
-      "description": "Логістична компанія з міжнародними перевезеннями.",
-      "foundingDate": "2010",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Горохів",
-        "addressRegion": "Волинська обл.",
-        "streetAddress": "вул. Козацька, 23"
-      }
-    }
-    </script>
   </body>
 </html>

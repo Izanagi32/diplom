@@ -3,7 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interactive map</title>
+    <title>Euro Tandem — Інтерактивна карта</title>
+    <meta name="description" content="Інтерактивна карта маршрутів Euro Tandem. Дізнайтесь країни перевезень та прокладайте оптимальні шляхи." />
+    <meta name="keywords" content="інтерактивна карта, логістика, перевезення, Euro Tandem, маршрут" />
+    <meta property="og:title" content="Euro Tandem — Інтерактивна карта" />
+    <meta property="og:description" content="Інтерактивна карта маршрутів Euro Tandem. Дізнайтесь країни перевезень та прокладайте оптимальні шляхи." />
+    <meta property="og:image" content="https://eurotandem.com/src/img/New%20logo.png" />
+    <meta property="og:url" content="https://eurotandem.com/map.html" />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href="https://eurotandem.com/map.html" />
+    <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="./src/css/nullstyle.css" />
     <link rel="stylesheet" href="./src/css/header&footer.css" />
     <link rel="stylesheet" href="./src/css/map.css" />
@@ -343,6 +352,42 @@
           button.setAttribute('aria-expanded', !expanded);
         });
       });
+    </script>
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Euro Tandem",
+          "url": "https://eurotandem.com",
+          "logo": "https://eurotandem.com/src/img/New%20logo.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+380977777568",
+            "contactType": "Customer Service"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Головна",
+              "item": "https://eurotandem.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Інтерактивна карта",
+              "item": "https://eurotandem.com/map.html"
+            }
+          ]
+        }
+      ]
+    }
     </script>
   </body>
 </html>

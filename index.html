@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Euro Tandem — Надійні логістичні рішення</title>
     <link rel="stylesheet" href="./src/css/nullstyle.css" />
     <link rel="stylesheet" href="./src/css/header&footer.css" />
     <link rel="stylesheet" href="./src/css/index.css" />
@@ -18,13 +18,43 @@
     <meta name="keywords" content="логістика, перевезення, доставка, Україна, ЄС, вантаж, маршрути" />
     <meta property="og:title" content="Euro Tandem — логістичні послуги" />
     <meta property="og:description" content="Надійні логістичні рішення для вашого бізнесу." />
-    <meta property="og:image" content="./src/img/New logo.png" />
+    <meta property="og:image" content="https://eurotandem.com/src/img/New%20logo.png" />
     <meta property="og:url" content="https://eurotandem.com" />
     <meta name="robots" content="index, follow" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="./src/img/New logo.png" as="image" />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style" />
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Euro Tandem",
+          "url": "https://eurotandem.com",
+          "logo": "https://eurotandem.com/src/img/New%20logo.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+380977777568",
+            "contactType": "Customer Service"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Головна",
+              "item": "https://eurotandem.com/"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <header class="navbar">
