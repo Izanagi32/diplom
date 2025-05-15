@@ -143,7 +143,7 @@
             </p>
             <div class="hero__actions">
               <a href="./faq.html" class="hero__button-first" aria-label="Дізнатись більше про наші послуги">Дізнатись більше</a>
-              <a href="#" class="hero__button-second" aria-label="Зв'язатись з нами для консультації">Зв'язатись з нами</a>
+              <a href="#" id="contactManagerBtn" class="hero__button-second" aria-label="Зв'язатись з нами для консультації">Зв'язатись з нами</a>
             </div>
           </div>
         </div>
@@ -835,6 +835,40 @@
         <h2 class="modal__title">Дякуємо!</h2>
         <p class="modal__text">Вашу заявку успішно надіслано.</p>
         <button class="modal__close" id="closeModal">Закрити</button>
+      </div>
+    </div>
+
+    <!-- Contact Manager Modal -->
+    <div class="submitModal" id="contactModal" aria-modal="true" aria-hidden="true">
+      <div class="submitModal__content">
+        <button class="submitModal__close" aria-label="Закрити">&times;</button>
+        <h2 class="submitModal__title">Зв'язатись з нами</h2>
+        <form id="contactForm" class="submitModal__form">
+          <div class="submitModal__group">
+            <label for="name" class="submitModal__label">Ім'я</label>
+            <input type="text" id="name" name="name" class="submitModal__input" required />
+          </div>
+          <div class="submitModal__group">
+            <label for="phone" class="submitModal__label">Телефон Viber</label>
+            <input type="tel" id="phone" name="phone" class="submitModal__input" required />
+          </div>
+          <div class="submitModal__group">
+            <label for="contact" class="submitModal__label">Спосіб зв'язку</label>
+            <select id="contact" name="contact" class="submitModal__select" required>
+              <option value="phone">Телефон</option>
+              <option value="email">Email</option>
+              <option value="viber">Viber</option>
+            </select>
+          </div>
+          <div class="submitModal__group">
+            <label for="message" class="submitModal__label">Коментар</label>
+            <textarea id="message" name="message" class="submitModal__textarea" rows="4"></textarea>
+          </div>
+          <button type="submit" class="submitModal__submit">Надіслати</button>
+        </form>
+        <div class="submitModal__thankyou">
+          <p>Дякуємо! Ми зв'яжемося з вами найближчим часом.</p>
+        </div>
       </div>
     </div>
 

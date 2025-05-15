@@ -155,14 +155,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form2?.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     const name = form2.name.value.trim();
     const phone = form2.phone.value.trim();
-    const message = form2.message.value.trim();
     const contactMethod = form2.contact.value;
-
-    const fullMessage = `📞 <b>Зв'язок з менеджером</b>\n\n<b>Ім'я:</b> ${name}\n<b>Телефон Viber:</b> ${phone}\n<b>Спосіб зв'язку:</b> ${contactMethod}\n<b>Коментар:</b> ${message}`;
-
+    const message = form2.message.value.trim();
+    const fullMessage = 
+      `📞 <b>Зв'язок з менеджером</b>\n\n` +
+      `<b>Ім'я:</b> ${name}\n` +
+      `<b>Телефон Viber:</b> ${phone}\n` +
+      `<b>Спосіб зв'язку:</b> ${contactMethod}\n` +
+      `<b>Коментар:</b> ${message}`;
     const ok = await sendToTelegram(fullMessage);
 
     if (ok) {
