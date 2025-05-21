@@ -3,31 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Адмін - Заявки</title>
+  <title>Euro Tandem - Панель Адміністратора</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="./src/css/admin.css" />
+  <link rel="icon" href="./src/img/fav.png" type="image/png">
 </head>
 <body>
-  <h1>Список заявок</h1>
-  <div id="error"></div>
-  <div id="requests-table-container">
-    <table id="requests-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Звідки / Куди</th>
-          <th>Розміри (Д×Ш×В)</th>
-          <th>Вага / Кількість</th>
-          <th>Тип вантажу / ADR / Клас ADR</th>
-          <th>Коментар</th>
-          <th>Дата подачі</th>  
-          <th>Контактні дані</th>
-          <th>Створено</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <div class="admin-container">
+    <header class="admin-header">
+      <div class="admin-header__logo">
+        <img src="./src/img/Logo.avif" alt="Euro Tandem Logo">
+        <h1>Панель Адміністратора</h1>
+      </div>
+      <div class="admin-header__user">
+        <span class="admin-header__username"><i class="fas fa-user-circle"></i> Адміністратор</span>
+        <a href="./index.html" class="admin-header__home-link"><i class="fas fa-home"></i> На головну</a>
+      </div>
+    </header>
 
+    <div class="admin-sidebar">
+      <nav class="admin-sidebar__nav">
+        <ul>
+          <li class="admin-sidebar__nav-item active">
+            <a href="#"><i class="fas fa-clipboard-list"></i> Заявки</a>
+          </li>
+          <li class="admin-sidebar__nav-item">
+            <a href="#"><i class="fas fa-truck"></i> Перевезення</a>
+          </li>
+          <li class="admin-sidebar__nav-item">
+            <a href="#"><i class="fas fa-users"></i> Клієнти</a>
+          </li>
+          <li class="admin-sidebar__nav-item">
+            <a href="#"><i class="fas fa-chart-line"></i> Аналітика</a>
+          </li>
+          <li class="admin-sidebar__nav-item">
+            <a href="#"><i class="fas fa-cog"></i> Налаштування</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <main class="admin-content">
+      <div class="admin-content__header">
+        <h2>Список заявок</h2>
+        <div class="admin-content__actions">
+          <div class="admin-search">
+            <input type="text" placeholder="Пошук по заявкам..." id="searchRequests">
+            <button><i class="fas fa-search"></i></button>
+          </div>
+          <button class="admin-button admin-button--secondary"><i class="fas fa-filter"></i> Фільтр</button>
+          <button class="admin-button admin-button--primary"><i class="fas fa-download"></i> Експорт</button>
+        </div>
+      </div>
+
+      <div id="error" class="admin-error"></div>
+
+      <div class="admin-card">
+        <div id="requests-table-container" class="admin-table-container">
+          <table id="requests-table" class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Звідки / Куди</th>
+                <th>Розміри (Д×Ш×В)</th>
+                <th>Вага / Кількість</th>
+                <th>Тип вантажу / ADR / Клас ADR</th>
+                <th>Коментар</th>
+                <th>Дата подачі</th>  
+                <th>Контактні дані</th>
+                <th>Створено</th>
+                <th>Дії</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-pagination">
+        <button class="admin-pagination__button" disabled><i class="fas fa-angle-left"></i></button>
+        <span class="admin-pagination__current">1</span> з <span class="admin-pagination__total">1</span>
+        <button class="admin-pagination__button" disabled><i class="fas fa-angle-right"></i></button>
+      </div>
+    </main>
+  </div>
 
   <script src="./src/js/admin.js"></script>
 </body>

@@ -27,10 +27,88 @@ document.addEventListener('DOMContentLoaded', async () => {
         hour: '2-digit', minute: '2-digit', second: '2-digit'
       });
       tr.appendChild(Object.assign(document.createElement('td'), { textContent: formattedTime }));
+      
+      // Add action buttons
+      const actionsCell = document.createElement('td');
+            
+      const viewBtn = document.createElement('button');
+      viewBtn.className = 'view-btn';
+      viewBtn.innerHTML = '<i class="fas fa-eye"></i>';
+      viewBtn.title = 'Переглянути';
+      viewBtn.addEventListener('click', () => viewRequest(req.id));
+      
+      const editBtn = document.createElement('button');
+      editBtn.className = 'edit-btn';
+      editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+      editBtn.title = 'Редагувати';
+      editBtn.addEventListener('click', () => editRequest(req.id));
+      
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'delete-btn';
+      deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+      deleteBtn.title = 'Видалити';
+      deleteBtn.addEventListener('click', () => deleteRequest(req.id));
+      
+      actionsCell.appendChild(viewBtn);
+      actionsCell.appendChild(editBtn);
+      actionsCell.appendChild(deleteBtn);
+      
+      tr.appendChild(actionsCell);
+      
       tbody.appendChild(tr);
     });
+    
+    // Update pagination
+    document.querySelector('.admin-pagination__total').textContent = Math.ceil(data.length / 10);
   } catch (err) {
     console.error(err);
     errorDiv.textContent = 'Помилка завантаження заявок: ' + err.message;
+    errorDiv.style.display = 'block';
+  }
+  
+  // Add search functionality
+  const searchInput = document.getElementById('searchRequests');
+  if (searchInput) {
+    searchInput.addEventListener('input', filterTable);
   }
 }); 
+
+// Filter table based on search input
+function filterTable() {
+  const searchInput = document.getElementById('searchRequests');
+  const filter = searchInput.value.toUpperCase();
+  const table = document.getElementById('requests-table');
+  const rows = table.getElementsByTagName('tr');
+
+  for (let i = 1; i < rows.length; i++) {
+    let found = false;
+    const cells = rows[i].getElementsByTagName('td');
+    
+    for (let j = 0; j < cells.length; j++) {
+      const cell = cells[j];
+      if (cell && cell.textContent) {
+        if (cell.textContent.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+          break;
+        }
+      }
+    }
+    
+    rows[i].style.display = found ? '' : 'none';
+  }
+}
+
+// Placeholder functions for CRUD operations
+function viewRequest(id) {
+  alert(`Перегляд заявки #${id}`);
+}
+
+function editRequest(id) {
+  alert(`Редагування заявки #${id}`);
+}
+
+function deleteRequest(id) {
+  if (confirm(`Ви впевнені, що хочете видалити заявку #${id}?`)) {
+    alert(`Заявка #${id} видалена`);
+  }
+} 

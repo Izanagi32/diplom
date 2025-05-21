@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@2.4.0/Control.FullScreen.css" />
     <link rel="icon" href="./src/img/fav.png" type="image/png">
   </head>
   <body>
@@ -116,6 +117,7 @@
                 </p>
                 <div class="coverage-map__filters">
                   <button id="filterCountries">Країни, де ми працюємо</button>
+                  <button id="fullscreenToggle" class="coverage-map__fullscreen-btn">Повноекранний режим</button>
                 </div>
                 <div class="coverage-map__search">
                 </div>
@@ -341,6 +343,7 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet.fullscreen@2.4.0/Control.FullScreen.js"></script>
     <script type="module" src="./src/js/routeManager.js"></script>
     <script type="module" src="./src/js/map.js"></script>
     <script src="./src/js/faq-map.js"></script>

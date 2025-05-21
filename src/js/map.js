@@ -1,6 +1,22 @@
 import RouteManager from './routeManager.js';
 
-const map = L.map("map").setView([50.4501, 30.5234], 6);
+const map = L.map("map", {
+  fullscreenControl: true,
+  fullscreenControlOptions: {
+    position: 'topleft',
+    title: 'Повноекранний режим',
+    titleCancel: 'Вийти з повноекранного режиму'
+  }
+}).setView([50.4501, 30.5234], 6);
+
+// Toggle fullscreen via button
+document.getElementById('fullscreenToggle').addEventListener('click', function() {
+  if (map.isFullscreen()) {
+    map.toggleFullscreen();
+  } else {
+    map.toggleFullscreen();
+  }
+});
 
 const osmStandard = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: "&copy; OpenStreetMap contributors"
