@@ -2045,18 +2045,32 @@ body.no-scroll {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 0.5rem;
+  position: relative;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.submitModal__group.focused {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+}
+
+.submitModal__group.focused .submitModal__label {
+  color: var(--modal-accent);
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+}
+
+.submitModal__group.invalid .submitModal__label {
+  color: #e74c3c;
 }
 
 .submitModal__label {
   font-weight: 600;
   color: #333;
   font-size: 0.95rem;
-  -webkit-transition: color 0.3s;
-  transition: color 0.3s;
-}
-
-.focused .submitModal__label {
-  color: var(--modal-accent);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .submitModal__input, .submitModal__select, .submitModal__textarea {
@@ -2216,6 +2230,110 @@ body.no-scroll {
           box-shadow: 0 0 0 2px rgba(0, 91, 187, 0.2);
 }
 
+.submitModal__file {
+  font-size: 0.9rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  border: 1px dashed #ccc;
+  width: 100%;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.submitModal__file:hover, .submitModal__file:focus {
+  border-color: var(--modal-accent);
+  background: rgba(0, 91, 187, 0.03);
+}
+
+.submitModal__file-preview {
+  margin-top: 0.5rem;
+}
+
+.submitModal__file-name {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 91, 187, 0.1);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  -webkit-animation: fadeIn 0.3s ease;
+          animation: fadeIn 0.3s ease;
+}
+
+.submitModal__file-remove {
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #555;
+  padding: 0;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.submitModal__file-remove:hover {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.submitModal__error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  -webkit-animation: fadeIn 0.3s ease;
+          animation: fadeIn 0.3s ease;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.submitModal__error::before {
+  content: "!";
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-right: 0.5rem;
+  width: 16px;
+  height: 16px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: bold;
+}
+
 .submitModal__submit {
   -ms-flex-item-align: stretch;
       -ms-grid-row-align: stretch;
@@ -2267,9 +2385,19 @@ body.no-scroll {
           transform: translateY(-1px);
 }
 
+.submitModal__submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  -webkit-transform: none;
+          transform: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
 .submitModal__thankyou {
   text-align: center;
   padding: 2rem 1rem;
+  display: none;
 }
 
 .submitModal__thankyou h3 {
@@ -2285,6 +2413,98 @@ body.no-scroll {
   color: #555;
   -webkit-animation: fadeIn 0.8s ease 0.2s both;
           animation: fadeIn 0.8s ease 0.2s both;
+}
+
+.submitModal__toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  background: #323232;
+  color: white;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  -webkit-transform: translateY(100px);
+          transform: translateY(100px);
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
+  transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease, -webkit-transform 0.3s ease;
+  max-width: 90%;
+}
+
+.submitModal__toast--visible {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
+}
+
+.submitModal__toast--error {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.submitModal__toast--success {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+.submitModal__toast--info {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.shake {
+  -webkit-animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+          animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@-webkit-keyframes shake {
+  10%,
+  90% {
+    -webkit-transform: translate3d(-1px, 0, 0);
+            transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    -webkit-transform: translate3d(2px, 0, 0);
+            transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    -webkit-transform: translate3d(-3px, 0, 0);
+            transform: translate3d(-3px, 0, 0);
+  }
+  40%,
+  60% {
+    -webkit-transform: translate3d(3px, 0, 0);
+            transform: translate3d(3px, 0, 0);
+  }
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    -webkit-transform: translate3d(-1px, 0, 0);
+            transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    -webkit-transform: translate3d(2px, 0, 0);
+            transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    -webkit-transform: translate3d(-3px, 0, 0);
+            transform: translate3d(-3px, 0, 0);
+  }
+  40%,
+  60% {
+    -webkit-transform: translate3d(3px, 0, 0);
+            transform: translate3d(3px, 0, 0);
+  }
 }
 
 @-webkit-keyframes radioAppear {
