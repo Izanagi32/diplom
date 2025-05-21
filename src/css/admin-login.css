@@ -1,0 +1,224 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f8fafc;
+  font-family: 'Montserrat', sans-serif;
+  color: #1e293b;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-image: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.login-container {
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem 1rem;
+}
+
+.login-card {
+  background-color: #fff;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header img.login-logo {
+  height: 60px;
+  margin-bottom: 1rem;
+}
+
+.login-header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+.login-error {
+  display: none;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.login-error:not(:empty) {
+  display: block;
+}
+
+.login-form__group {
+  margin-bottom: 1.5rem;
+}
+
+.login-form__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #1e293b;
+  font-size: 0.875rem;
+}
+
+.login-form__label i {
+  color: #1e40af;
+  margin-right: 0.5rem;
+}
+
+.login-form__input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #1e293b;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.login-form__input:focus {
+  outline: none;
+  border-color: #1e40af;
+  -webkit-box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.2);
+          box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.2);
+}
+
+.login-form__input::-webkit-input-placeholder {
+  color: #cbd5e1;
+}
+
+.login-form__input:-ms-input-placeholder {
+  color: #cbd5e1;
+}
+
+.login-form__input::-ms-input-placeholder {
+  color: #cbd5e1;
+}
+
+.login-form__input::placeholder {
+  color: #cbd5e1;
+}
+
+.login-form__password-container {
+  position: relative;
+}
+
+.login-form__toggle-password {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 1rem;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.login-form__toggle-password:hover {
+  color: #1e40af;
+}
+
+.login-form__checkbox-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.login-form__checkbox-label {
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+  color: #64748b;
+}
+
+.login-button {
+  display: block;
+  width: 100%;
+  padding: 0.875rem;
+  background-color: #1e40af;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.login-button i {
+  margin-right: 0.5rem;
+}
+
+.login-button:hover {
+  background-color: #173083;
+}
+
+.login-button:focus {
+  outline: none;
+  -webkit-box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3);
+          box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3);
+}
+
+.login-footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.login-back-link {
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.login-back-link i {
+  margin-right: 0.5rem;
+}
+
+.login-back-link:hover {
+  color: #1e40af;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+  .login-header h1 {
+    font-size: 1.25rem;
+  }
+}
+/*# sourceMappingURL=admin-login.css.map */

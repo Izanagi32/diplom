@@ -1,0 +1,210 @@
+$primary-color: #1e40af;
+$primary-color-light: rgba($primary-color, 0.1);
+$primary-color-dark: darken($primary-color, 10%);
+$text-color: #1e293b;
+$text-color-light: #64748b;
+$bg-color: #f8fafc;
+$white: #fff;
+$error-color: #ef4444;
+$success-color: #10b981;
+$border-radius: 8px;
+$shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: $bg-color;
+    font-family: 'Montserrat', sans-serif;
+    color: $text-color;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 2rem 1rem;
+}
+
+.login-card {
+    background-color: $white;
+    border-radius: $border-radius;
+    box-shadow: $shadow;
+    overflow: hidden;
+    padding: 2rem;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    img.login-logo {
+        height: 60px;
+        margin-bottom: 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: $primary-color;
+    }
+}
+
+.login-error {
+    display: none;
+    background-color: rgba($error-color, 0.1);
+    color: $error-color;
+    padding: 0.75rem 1rem;
+    border-radius: $border-radius;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    &:not(:empty) {
+        display: block;
+    }
+}
+
+.login-form {
+    &__group {
+        margin-bottom: 1.5rem;
+    }
+
+    &__label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: $text-color;
+        font-size: 0.875rem;
+
+        i {
+            color: $primary-color;
+            margin-right: 0.5rem;
+        }
+    }
+
+    &__input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: $border-radius;
+        font-family: inherit;
+        font-size: 1rem;
+        color: $text-color;
+        transition: $transition;
+
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+            box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+        }
+
+        &::placeholder {
+            color: #cbd5e1;
+        }
+    }
+
+    &__password-container {
+        position: relative;
+    }
+
+    &__toggle-password {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: $text-color-light;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: $transition;
+
+        &:hover {
+            color: $primary-color;
+        }
+    }
+
+    &__checkbox-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    &__checkbox-label {
+        font-size: 0.875rem;
+        margin-left: 0.5rem;
+        color: $text-color-light;
+    }
+}
+
+.login-button {
+    display: block;
+    width: 100%;
+    padding: 0.875rem;
+    background-color: $primary-color;
+    color: $white;
+    border: none;
+    border-radius: $border-radius;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+    margin-top: 0.5rem;
+
+    i {
+        margin-right: 0.5rem;
+    }
+
+    &:hover {
+        background-color: $primary-color-dark;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+    }
+}
+
+.login-footer {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.login-back-link {
+    color: $text-color-light;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: $transition;
+
+    i {
+        margin-right: 0.5rem;
+    }
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 1.5rem;
+    }
+
+    .login-header {
+        h1 {
+            font-size: 1.25rem;
+        }
+    }
+}

@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () => {
+  if (!checkAuthentication()) {
+    window.location.href = './admin-login.html';
+    return;
+  }
+  
+  setupLogout();
+
   const errorDiv = document.getElementById('error');
   try {
     const response = await fetch('/api/requests');
@@ -66,14 +73,78 @@ document.addEventListener('DOMContentLoaded', async () => {
     errorDiv.style.display = 'block';
   }
   
-  // Add search functionality
   const searchInput = document.getElementById('searchRequests');
   if (searchInput) {
     searchInput.addEventListener('input', filterTable);
   }
 }); 
 
-// Filter table based on search input
+function checkAuthentication() {
+  const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+  const isSessionLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true';
+  
+  if (isLoggedIn) {
+    const loginTime = localStorage.getItem('adminLoginTime');
+    const now = Date.now();
+    const loginTimeValue = parseInt(loginTime, 10);
+    
+    const expirationTime = 7 * 24 * 60 * 60 * 1000;
+    
+    if (now - loginTimeValue < expirationTime) {
+      return true;
+    } else {
+      localStorage.removeItem('adminLoggedIn');
+      localStorage.removeItem('adminLoginTime');
+      return false;
+    }
+  }
+  
+  return isSessionLoggedIn;
+}
+
+function setupLogout() {
+  const userElement = document.querySelector('.admin-header__user');
+  if (userElement) {
+    const logoutButton = document.createElement('button');
+    logoutButton.className = 'admin-header__logout';
+    logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> Вийти';
+    
+    logoutButton.addEventListener('click', () => {
+      localStorage.removeItem('adminLoggedIn');
+      localStorage.removeItem('adminLoginTime');
+      sessionStorage.removeItem('adminLoggedIn');
+      
+      window.location.href = './admin-login.html';
+    });
+    
+    userElement.appendChild(logoutButton);
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      .admin-header__logout {
+        background-color: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        font-family: inherit;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+      }
+      
+      .admin-header__logout:hover {
+        background-color: #dc2626;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
+
 function filterTable() {
   const searchInput = document.getElementById('searchRequests');
   const filter = searchInput.value.toUpperCase();
@@ -98,7 +169,6 @@ function filterTable() {
   }
 }
 
-// Placeholder functions for CRUD operations
 function viewRequest(id) {
   alert(`Перегляд заявки #${id}`);
 }
