@@ -138,23 +138,72 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const modal2 = document.getElementById("contactModal");
-  const openBtn = document.getElementById("contactManagerBtn");
+  const navbarContactBtn = document.querySelector(".navbar__cta-button");
+  const faqCtaBtn = document.querySelector(".faq__cta-button");
   const closeBtn = document.querySelector(".submitModal__close");
   const form2 = document.getElementById("contactForm");
   const thankYouBlock = document.querySelector(".submitModal__thankyou");
-
-  openBtn?.addEventListener("click", () => {
+  
+  function openModal() {
     modal2.style.display = "flex";
     document.body.style.overflow = "hidden";
+    setTimeout(() => {
+      modal2.classList.add("visible");
+    }, 10);
+  }
+  
+  function closeModal() {
+    modal2.classList.remove("visible");
+    setTimeout(() => {
+      modal2.style.display = "none";
+      document.body.style.overflow = "auto";
+    }, 300);
+  }
+
+  const formInputs = form2?.querySelectorAll('input, textarea, select');
+  formInputs?.forEach(input => {
+    const formGroup = input.closest('.submitModal__group');
+    
+    input.addEventListener('focus', () => {
+      formGroup.classList.add('focused');
+    });
+    
+    input.addEventListener('blur', () => {
+      formGroup.classList.remove('focused');
+    });
   });
 
-  closeBtn?.addEventListener("click", () => {
-    modal2.style.display = "none";
-    document.body.style.overflow = "auto";
+  navbarContactBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    openModal();
+  });
+  
+  faqCtaBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    openModal();
+  });
+
+  closeBtn?.addEventListener("click", closeModal);
+
+  modal2?.addEventListener("click", (e) => {
+    if (e.target === modal2) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal2?.style.display === "flex") {
+      closeModal();
+    }
   });
 
   form2?.addEventListener("submit", async (e) => {
     e.preventDefault();
+    
+    const submitBtn = form2.querySelector('button[type="submit"]');
+    submitBtn.innerHTML = '<span class="loading-dots">Надсилання</span>';
+    submitBtn.disabled = true;
+    
     const name = form2.name.value.trim();
     const phone = form2.phone.value.trim();
     const contactMethod = form2.contact.value;
@@ -162,16 +211,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const fullMessage = 
       `📞 <b>Зв'язок з менеджером</b>\n\n` +
       `<b>Ім'я:</b> ${name}\n` +
-      `<b>Телефон Viber:</b> ${phone}\n` +
+      `<b>Телефон:</b> ${phone}\n` +
       `<b>Спосіб зв'язку:</b> ${contactMethod}\n` +
       `<b>Коментар:</b> ${message}`;
-    const ok = await sendToTelegram(fullMessage);
+      
+    try {
+      const ok = await sendToTelegram(fullMessage);
 
-    if (ok) {
-      form2.style.display = "none";
-      thankYouBlock.style.display = "block";
-    } else {
-      alert("❌ Повідомлення не відправлено. Спробуйте пізніше.");
+      if (ok) {
+        form2.style.display = "none";
+        thankYouBlock.style.display = "block";
+      } else {
+        submitBtn.innerHTML = 'Надіслати';
+        submitBtn.disabled = false;
+        alert("❌ Повідомлення не відправлено. Спробуйте пізніше.");
+      }
+    } catch (error) {
+      console.error("Error sending form:", error);
+      submitBtn.innerHTML = 'Надіслати';
+      submitBtn.disabled = false;
+      alert("❌ Сталася помилка. Спробуйте пізніше.");
     }
   });
 
@@ -222,4 +281,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email.toLowerCase());
   }
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .loading-dots:after {
+      content: '...';
+      animation: loading 1.5s infinite;
+    }
+    
+    @keyframes loading {
+      0% { content: '.'; }
+      33% { content: '..'; }
+      66% { content: '...'; }
+    }
+  `;
+  document.head.appendChild(style);
 });

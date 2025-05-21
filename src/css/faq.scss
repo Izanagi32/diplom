@@ -1,15 +1,15 @@
-$primary-blue:    #007bff;
-$light-blue:      #eaf4ff;
-$answer-bg:       #f9f9fc;
-$font-heading:    'Montserrat', sans-serif;
-$font-body:       'Poppins', sans-serif;
-$transition:      0.3s ease;
-$bp-mobile:       768px;
+$primary-blue: #007bff;
+$light-blue: #eaf4ff;
+$answer-bg: #f9f9fc;
+$font-heading: 'Montserrat', sans-serif;
+$font-body: 'Poppins', sans-serif;
+$transition: 0.3s ease;
+$bp-mobile: 768px;
 
 @mixin glassmorphism($blur: 10px) {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur($blur);
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 @mixin flex-center {
@@ -19,23 +19,47 @@ $bp-mobile:       768px;
 }
 
 @keyframes fadeDown {
-  0% { opacity: 0; transform: translateY(-20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scrollFade {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: -150% 0; }
-  100% { background-position: 150% 0; }
+  0% {
+    background-position: -150% 0;
+  }
+
+  100% {
+    background-position: 150% 0;
+  }
 }
 
 @keyframes swipe {
-  0% { transform: skewX(-20deg) translateX(-200%); }
-  100% { transform: skewX(-20deg) translateX(200%); }
+  0% {
+    transform: skewX(-20deg) translateX(-200%);
+  }
+
+  100% {
+    transform: skewX(-20deg) translateX(200%);
+  }
 }
 
 @mixin gradient-text($from, $to) {
@@ -68,9 +92,12 @@ body {
   &::before {
     content: '';
     position: absolute;
-    top: 10%; left: 50%; transform: translateX(-50%);
-    width: 60vw; height: 200px;
-    background: radial-gradient(circle, rgba($primary-blue,0.15), transparent 70%);
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60vw;
+    height: 200px;
+    background: radial-gradient(circle, rgba($primary-blue, 0.15), transparent 70%);
     filter: blur(100px);
     z-index: -1;
   }
@@ -81,11 +108,11 @@ body {
   font-size: 72px;
   line-height: 1.2;
   margin: 0 auto;
-  background: linear-gradient(90deg, lighten($primary-blue,20%), $primary-blue);
+  background: linear-gradient(90deg, lighten($primary-blue, 20%), $primary-blue);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 10px rgba($primary-blue,0.3), 0 0 15px rgba($primary-blue,0.2);
+  text-shadow: 0 2px 10px rgba($primary-blue, 0.3), 0 0 15px rgba($primary-blue, 0.2);
   font-weight: 900;
   position: relative;
   display: inline-block;
@@ -94,17 +121,20 @@ body {
     content: '';
     position: absolute;
     bottom: -15px;
-    left: 50%; transform: translateX(-50%);
-    width: 140px; height: 8px;
-    background: linear-gradient(90deg, lighten($primary-blue,30%), $primary-blue);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 8px;
+    background: linear-gradient(90deg, lighten($primary-blue, 30%), $primary-blue);
     border-radius: 4px;
-    box-shadow: 0 0 10px rgba($primary-blue,0.5);
+    box-shadow: 0 0 10px rgba($primary-blue, 0.5);
   }
 }
 
 #faqApp {
   &.scroll-fade {
     opacity: 0;
+
     &.visible {
       animation: scrollFade 0.8s ease forwards;
     }
@@ -130,16 +160,16 @@ body {
       margin-bottom: 30px;
 
       button {
-        background: rgba(255,255,255,0.8);
+        background: rgba(255, 255, 255, 0.8);
         color: $primary-blue;
         font-family: $font-body;
         font-weight: 600;
         font-size: 16px;
         padding: 10px 20px;
         min-width: 120px;
-        border: 1px solid rgba($primary-blue,0.3);
+        border: 1px solid rgba($primary-blue, 0.3);
         border-radius: 24px;
-        box-shadow: 0 2px 8px rgba($primary-blue,0.1);
+        box-shadow: 0 2px 8px rgba($primary-blue, 0.1);
         position: relative;
         overflow: hidden;
         transition: background $transition, color $transition, transform $transition, box-shadow $transition;
@@ -147,35 +177,40 @@ body {
         &::before {
           content: '';
           position: absolute;
-          top: 0; left: -50%;
-          width: 50%; height: 100%;
-          background: linear-gradient(120deg, transparent, rgba($primary-blue,0.2), transparent);
+          top: 0;
+          left: -50%;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(120deg, transparent, rgba($primary-blue, 0.2), transparent);
           transform: skewX(-20deg);
           transition: left 0.6s ease;
         }
+
         &:hover::before {
           left: 150%;
         }
+
         &:hover {
           background: $primary-blue;
           color: #fff;
           transform: translateY(-3px);
-          box-shadow: 0 4px 12px rgba($primary-blue,0.2);
+          box-shadow: 0 4px 12px rgba($primary-blue, 0.2);
         }
+
         &.active-filter {
-          background: linear-gradient(45deg, lighten($primary-blue,20%), $primary-blue);
+          background: linear-gradient(45deg, lighten($primary-blue, 20%), $primary-blue);
           color: #fff;
-          box-shadow: 0 0 15px rgba($primary-blue,0.6);
+          box-shadow: 0 0 15px rgba($primary-blue, 0.6);
         }
       }
     }
 
     .faq-search {
       @include glassmorphism(12px);
-      background: linear-gradient(135deg, rgba($light-blue,0.7), rgba($primary-blue,0.4));
+      background: linear-gradient(135deg, rgba($light-blue, 0.7), rgba($primary-blue, 0.4));
       backdrop-filter: blur(20px) saturate(180%);
-      border: 2px solid rgba($primary-blue,0.6);
-      box-shadow: 0 8px 30px rgba($primary-blue,0.2), inset 0 0 15px rgba(255,255,255,0.4);
+      border: 2px solid rgba($primary-blue, 0.6);
+      box-shadow: 0 8px 30px rgba($primary-blue, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.4);
       width: 80%;
       max-width: 600px;
       margin: 0 auto 40px;
@@ -206,7 +241,7 @@ body {
         left: 0;
         width: 40px;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
         transform: skewX(-20deg) translateX(-200%);
         pointer-events: none;
       }
@@ -217,7 +252,7 @@ body {
       }
 
       &:hover {
-        background: rgba(255,255,255,0.15);
+        background: rgba(255, 255, 255, 0.15);
       }
 
       &:hover::before {
@@ -231,8 +266,8 @@ body {
 
       &:focus {
         outline: none;
-        border-color: rgba(255,255,255,0.6);
-        box-shadow: 0 0 12px rgba($primary-blue,0.6), inset 0 0 15px rgba(255,255,255,0.3);
+        border-color: rgba(255, 255, 255, 0.6);
+        box-shadow: 0 0 12px rgba($primary-blue, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.3);
       }
 
       &:focus::before {
@@ -249,8 +284,8 @@ body {
     margin-bottom: 20px;
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid rgba(0,0,0,0.05);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     transition: box-shadow $transition, transform $transition;
 
     &:hover {
@@ -400,7 +435,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   opacity: 0;
   transform: translateY(100px);
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -413,7 +448,7 @@ body {
 
   &:hover {
     background-color: darken($primary-blue, 10%);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
   }
 }
 

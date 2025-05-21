@@ -52,18 +52,18 @@
                 color: #000;
             }
         }
-        
+
         // Styling for fullscreen button
         .coverage-map__fullscreen-btn {
             display: flex;
             align-items: center;
             background-color: #1e40af;
             color: white;
-            
+
             &:hover {
                 background-color: #2c5282;
             }
-            
+
             &::before {
                 content: '';
                 display: inline-block;
@@ -84,7 +84,7 @@
         max-width: 480px;
         position: relative;
     }
-    
+
     &__map {
         height: 500px;
         width: 100%;
@@ -92,7 +92,7 @@
         overflow: hidden;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         transition: height 0.3s ease;
-        
+
         // Fullscreen map styles
         &.leaflet-fullscreen-on {
             height: 100vh !important;
