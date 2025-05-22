@@ -140,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal2 = document.getElementById("contactModal");
   const navbarContactBtn = document.querySelector(".navbar__cta-button");
   const faqCtaBtn = document.querySelector(".faq__cta-button");
+  const heroButton = document.querySelector(".hero__button-second");
   const closeBtn = document.querySelector(".submitModal__close");
   const form2 = document.getElementById("contactForm");
   const thankYouBlock = document.querySelector(".submitModal__thankyou");
@@ -593,6 +594,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
   faqCtaBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    openModal();
+  });
+  
+  heroButton?.addEventListener("click", (e) => {
     e.preventDefault();
     openModal();
   });
