@@ -26,25 +26,29 @@
       <nav class="admin-sidebar__nav">
         <ul>
           <li class="admin-sidebar__nav-item active">
-            <a href="#"><i class="fas fa-clipboard-list"></i> Заявки</a>
+            <a href="#" data-tab="requests"><i class="fas fa-clipboard-list"></i> Заявки</a>
           </li>
           <li class="admin-sidebar__nav-item">
-            <a href="#"><i class="fas fa-truck"></i> Перевезення</a>
+            <a href="#" data-tab="shipments"><i class="fas fa-truck"></i> Перевезення</a>
           </li>
           <li class="admin-sidebar__nav-item">
-            <a href="#"><i class="fas fa-users"></i> Клієнти</a>
+            <a href="#" data-tab="clients"><i class="fas fa-users"></i> Клієнти</a>
           </li>
           <li class="admin-sidebar__nav-item">
-            <a href="#"><i class="fas fa-chart-line"></i> Аналітика</a>
+            <a href="#" data-tab="analytics"><i class="fas fa-chart-line"></i> Аналітика</a>
           </li>
           <li class="admin-sidebar__nav-item">
-            <a href="#"><i class="fas fa-cog"></i> Налаштування</a>
+            <a href="#" data-tab="settings"><i class="fas fa-cog"></i> Налаштування</a>
           </li>
         </ul>
       </nav>
     </div>
 
     <main class="admin-content">
+      <!-- Statistics Section -->
+      <div id="statsContainer"></div>
+
+      <!-- Content Header -->
       <div class="admin-content__header">
         <h2>Список заявок</h2>
         <div class="admin-content__actions">
@@ -52,28 +56,91 @@
             <input type="text" placeholder="Пошук по заявкам..." id="searchRequests">
             <button><i class="fas fa-search"></i></button>
           </div>
-          <button class="admin-button admin-button--secondary"><i class="fas fa-filter"></i> Фільтр</button>
-          <button class="admin-button admin-button--primary"><i class="fas fa-download"></i> Експорт</button>
+          <button class="admin-button admin-button--secondary" id="toggleFilters">
+            <i class="fas fa-filter"></i> Фільтри
+          </button>
+          <button class="admin-button admin-button--primary" data-action="export">
+            <i class="fas fa-download"></i> Експорт
+          </button>
         </div>
       </div>
 
-      <div id="error" class="admin-error"></div>
+      <!-- Filters Section -->
+      <div class="filters" id="filtersSection" style="display: none;">
+        <div class="filters__row">
+          <div class="form-group">
+            <label for="statusFilter">Статус:</label>
+            <select id="statusFilter">
+              <option value="">Всі статуси</option>
+              <option value="pending">В очікуванні</option>
+              <option value="approved">Схвалені</option>
+              <option value="rejected">Відхилені</option>
+              <option value="in-progress">В процесі</option>
+              <option value="completed">Завершені</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="dateFromFilter">Дата від:</label>
+            <input type="date" id="dateFromFilter">
+          </div>
+          
+          <div class="form-group">
+            <label for="dateToFilter">Дата до:</label>
+            <input type="date" id="dateToFilter">
+          </div>
+          
+          <div class="filters__actions">
+            <button class="admin-button admin-button--secondary" id="clearFilters">
+              <i class="fas fa-times"></i> Очистити
+            </button>
+            <button class="admin-button admin-button--primary" id="applyFilters">
+              <i class="fas fa-check"></i> Застосувати
+            </button>
+          </div>
+        </div>
+      </div>
 
+      <!-- Bulk Actions -->
+      <div id="bulkActions" class="admin-card" style="display: none; margin-bottom: 1rem;">
+        <div class="admin-card__body" style="padding: 1rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span>Вибрано: <strong class="selected-count">0</strong> записів</span>
+            <div style="display: flex; gap: 1rem;">
+              <button class="admin-button admin-button--warning admin-button--small" id="bulkStatusChange">
+                <i class="fas fa-edit"></i> Змінити статус
+              </button>
+              <button class="admin-button admin-button--danger admin-button--small" id="bulkDelete">
+                <i class="fas fa-trash"></i> Видалити
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div id="error" class="admin-message"></div>
+
+      <!-- Main Table -->
       <div class="admin-card">
         <div id="requests-table-container" class="admin-table-container">
           <table id="requests-table" class="admin-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Звідки / Куди</th>
+                <th class="checkbox-cell">
+                  <input type="checkbox" id="selectAll">
+                </th>
+                <th class="sortable" data-column="id">ID</th>
+                <th class="sortable" data-column="pickupLocation">Маршрут</th>
                 <th>Розміри (Д×Ш×В)</th>
                 <th>Вага / Кількість</th>
-                <th>Тип вантажу / ADR / Клас ADR</th>
+                <th>Тип вантажу / ADR</th>
                 <th>Коментар</th>
-                <th>Дата подачі</th>  
+                <th class="sortable" data-column="pickupDate">Дата подачі</th>
                 <th>Контактні дані</th>
-                <th>Створено</th>
-                <th>Дії</th>
+                <th class="sortable" data-column="status">Статус</th>
+                <th class="sortable" data-column="createdAt">Створено</th>
+                <th class="actions">Дії</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -81,14 +148,94 @@
         </div>
       </div>
 
-      <div class="admin-pagination">
-        <button class="admin-pagination__button" disabled><i class="fas fa-angle-left"></i></button>
-        <span class="admin-pagination__current">1</span> з <span class="admin-pagination__total">1</span>
-        <button class="admin-pagination__button" disabled><i class="fas fa-angle-right"></i></button>
-      </div>
+      <!-- Pagination -->
+      <div class="admin-pagination"></div>
     </main>
   </div>
 
   <script src="./src/js/admin.js"></script>
+  <script>
+    // Additional UI interactions
+    document.addEventListener('DOMContentLoaded', () => {
+      // Toggle filters
+      const toggleFiltersBtn = document.getElementById('toggleFilters');
+      const filtersSection = document.getElementById('filtersSection');
+      
+      if (toggleFiltersBtn && filtersSection) {
+        toggleFiltersBtn.addEventListener('click', () => {
+          const isVisible = filtersSection.style.display !== 'none';
+          filtersSection.style.display = isVisible ? 'none' : 'block';
+          toggleFiltersBtn.innerHTML = isVisible 
+            ? '<i class="fas fa-filter"></i> Фільтри'
+            : '<i class="fas fa-filter"></i> Приховати фільтри';
+        });
+      }
+
+      // Clear filters
+      const clearFiltersBtn = document.getElementById('clearFilters');
+      if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', () => {
+          document.getElementById('statusFilter').value = '';
+          document.getElementById('dateFromFilter').value = '';
+          document.getElementById('dateToFilter').value = '';
+          
+          if (window.adminPanel) {
+            adminPanel.filters = {
+              status: '',
+              dateFrom: '',
+              dateTo: '',
+              search: adminPanel.filters.search
+            };
+            adminPanel.applyFilters();
+          }
+        });
+      }
+
+      // Apply filters button
+      const applyFiltersBtn = document.getElementById('applyFilters');
+      if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', () => {
+          if (window.adminPanel) {
+            adminPanel.applyFilters();
+          }
+        });
+      }
+
+      // Table sorting
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.sortable')) {
+          const header = e.target.closest('.sortable');
+          const column = header.dataset.column;
+          if (column && window.adminPanel) {
+            adminPanel.sortData(column);
+          }
+        }
+      });
+
+      // Bulk actions
+      const bulkStatusChangeBtn = document.getElementById('bulkStatusChange');
+      const bulkDeleteBtn = document.getElementById('bulkDelete');
+
+      if (bulkStatusChangeBtn) {
+        bulkStatusChangeBtn.addEventListener('click', () => {
+          const selectedIds = Array.from(document.querySelectorAll('.row-checkbox:checked'))
+            .map(cb => cb.value);
+          if (selectedIds.length > 0) {
+            alert(`Зміна статусу для ${selectedIds.length} записів: ${selectedIds.join(', ')}`);
+          }
+        });
+      }
+
+      if (bulkDeleteBtn) {
+        bulkDeleteBtn.addEventListener('click', () => {
+          const selectedIds = Array.from(document.querySelectorAll('.row-checkbox:checked'))
+            .map(cb => cb.value);
+          if (selectedIds.length > 0 && confirm(`Видалити ${selectedIds.length} записів?`)) {
+            alert(`Видалення записів: ${selectedIds.join(', ')}`);
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html> 
