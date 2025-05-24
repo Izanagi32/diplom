@@ -1965,3 +1965,370 @@ textarea {
         transition-duration: 0.01ms !important;
     }
 }
+
+// === Edit Request Form ===
+.edit-request-form {
+    max-width: none;
+
+    .form-row {
+        display: grid;
+        gap: spacing(4);
+        margin-bottom: spacing(4);
+
+        &--3 {
+            grid-template-columns: repeat(3, 1fr);
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @include responsive(md) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .form-fieldset {
+        border: 1px solid color(border-medium);
+        border-radius: radius(lg);
+        padding: spacing(5);
+        margin-bottom: spacing(6);
+        background-color: color(gray-50);
+
+        legend {
+            font-size: font-size(base);
+            font-weight: 600;
+            color: color(text-primary);
+            padding: 0 spacing(3);
+            background-color: color(white);
+            border-radius: radius(md);
+        }
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: spacing(2);
+
+        label {
+            font-size: font-size(sm);
+            font-weight: 500;
+            color: color(text-primary);
+
+            .required {
+                color: color(error);
+                font-weight: 600;
+            }
+        }
+
+        .form-control {
+            @include input-base();
+
+            &:invalid {
+                border-color: color(error);
+                background-color: color(error-light);
+            }
+
+            &:valid {
+                border-color: color(success);
+            }
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+    }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: spacing(3);
+        cursor: pointer;
+        font-size: font-size(sm);
+        font-weight: 500;
+        color: color(text-primary);
+
+        input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+
+            &:checked+.checkmark {
+                background-color: color(primary);
+                border-color: color(primary);
+
+                &::after {
+                    display: block;
+                }
+            }
+
+            &:focus+.checkmark {
+                outline: 2px solid rgba(color(primary), 0.5);
+                outline-offset: 2px;
+            }
+        }
+
+        .checkmark {
+            position: relative;
+            height: 20px;
+            width: 20px;
+            background-color: color(white);
+            border: 2px solid color(border-medium);
+            border-radius: radius(sm);
+            transition: transition(all);
+
+            &::after {
+                content: "";
+                position: absolute;
+                display: none;
+                left: 6px;
+                top: 2px;
+                width: 6px;
+                height: 10px;
+                border: solid color(white);
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+            }
+        }
+
+        &:hover .checkmark {
+            border-color: color(primary);
+        }
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: spacing(3);
+        margin-top: spacing(6);
+        padding-top: spacing(4);
+        border-top: 1px solid color(border-light);
+
+        .btn {
+            min-width: 120px;
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+// Form validation styles
+.form-error {
+    color: color(error);
+    font-size: font-size(xs);
+    margin-top: spacing(1);
+    display: flex;
+    align-items: center;
+    gap: spacing(1);
+
+    i {
+        font-size: font-size(xs);
+    }
+}
+
+.form-success {
+    color: color(success);
+    font-size: font-size(xs);
+    margin-top: spacing(1);
+    display: flex;
+    align-items: center;
+    gap: spacing(1);
+
+    i {
+        font-size: font-size(xs);
+    }
+}
+
+// Modal size adjustments for edit form
+.modal--edit {
+    width: 90vw;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    .modal-body {
+        max-height: calc(90vh - 180px);
+        overflow-y: auto;
+    }
+}
+
+// Enhanced action buttons in table
+.action-buttons {
+    display: flex;
+    gap: spacing(1);
+    justify-content: center;
+
+    .btn {
+        min-width: 32px;
+        height: 32px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: radius(md);
+        transition: transition(all);
+
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: shadow(md);
+        }
+
+        // Specific button colors
+        &[title*="Переглянути"] {
+            background-color: color(info);
+            border-color: color(info);
+            color: color(white);
+
+            &:hover {
+                background-color: color(info-hover);
+                border-color: color(info-hover);
+            }
+        }
+
+        &[title*="Редагувати"] {
+            background-color: color(warning);
+            border-color: color(warning);
+            color: color(white);
+
+            &:hover {
+                background-color: color(warning-hover);
+                border-color: color(warning-hover);
+            }
+        }
+
+        &[title*="Змінити"] {
+            background-color: color(secondary);
+            border-color: color(secondary);
+            color: color(white);
+
+            &:hover {
+                background-color: color(secondary-hover);
+                border-color: color(secondary-hover);
+            }
+        }
+
+        &[title*="Видалити"] {
+            background-color: color(error);
+            border-color: color(error);
+            color: color(white);
+
+            &:hover {
+                background-color: color(error-hover);
+                border-color: color(error-hover);
+            }
+        }
+    }
+}
+
+// Confirmation dialog styles
+.confirm-dialog {
+    text-align: center;
+    padding: spacing(6);
+
+    .confirm-icon {
+        font-size: font-size(4xl);
+        color: color(warning);
+        margin-bottom: spacing(4);
+    }
+
+    .confirm-title {
+        font-size: font-size(xl);
+        font-weight: 600;
+        color: color(text-primary);
+        margin-bottom: spacing(3);
+    }
+
+    .confirm-message {
+        font-size: font-size(base);
+        color: color(text-secondary);
+        margin-bottom: spacing(6);
+        line-height: 1.6;
+    }
+
+    .confirm-actions {
+        display: flex;
+        justify-content: center;
+        gap: spacing(3);
+    }
+}
+
+// Loading states for buttons
+.btn--loading {
+    position: relative;
+    color: transparent !important;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 16px;
+        height: 16px;
+        margin: -8px 0 0 -8px;
+        border: 2px solid transparent;
+        border-top: 2px solid currentColor;
+        border-radius: radius(full);
+        animation: spin 1s linear infinite;
+    }
+}
+
+// Responsive improvements for edit form
+@media (max-width: 768px) {
+    .edit-request-form {
+        .form-fieldset {
+            padding: spacing(4);
+        }
+
+        .form-actions {
+            flex-direction: column;
+
+            .btn {
+                width: 100%;
+            }
+        }
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: spacing(2);
+
+        .btn {
+            width: 100%;
+            min-width: auto;
+            height: 36px;
+            justify-content: flex-start;
+            padding: 0 spacing(3);
+
+            i {
+                margin-right: spacing(2);
+            }
+
+            &::after {
+                content: attr(title);
+                font-size: font-size(xs);
+            }
+        }
+    }
+}
+
+// Print styles for forms
+@media print {
+    .edit-request-form {
+        .form-fieldset {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .form-actions {
+            display: none;
+        }
+    }
+}

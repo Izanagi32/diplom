@@ -764,7 +764,7 @@ class EnhancedAdminPanel {
       header.classList.remove('sorted-asc', 'sorted-desc');
       
       if (header.dataset.column === this.sortColumn) {
-        header.classList.add(`sorted-${this.sortDirection}`);
+        header.classList.add(`sorted-${this.sortDirection === 'asc' ? 'up' : 'down'}`);
         icon.className = `fas fa-sort-${this.sortDirection === 'asc' ? 'up' : 'down'} sort-icon`;
       } else {
         icon.className = 'fas fa-sort sort-icon';
@@ -1356,9 +1356,12 @@ class EnhancedAdminPanel {
 
   async editRequest(id) {
     const request = this.currentData.find(item => item.id.toString() === id.toString());
-    if (!request) return;
+    if (!request) {
+      this.showToast('Заявку не знайдено', 'error');
+      return;
+    }
 
-    const modal = this.createModal('lg', 'Редагування заявки', this.createEditForm(request));
+    const modal = this.createModal('edit', 'Редагування заявки', this.createEditForm(request));
     this.showModal(modal);
   }
 
@@ -1371,21 +1374,78 @@ class EnhancedAdminPanel {
   }
 
   async deleteRequest(id) {
-    if (confirm('Ви впевнені, що хочете видалити цю заявку?')) {
-      try {
-        const response = await fetch(`/api/requests/${id}`, {
-          method: 'DELETE'
-        });
+    const request = this.currentData.find(item => item.id.toString() === id.toString());
+    if (!request) {
+      this.showToast('Заявку не знайдено', 'error');
+      return;
+    }
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    // Create confirmation modal
+    const confirmModal = this.createModal('md', 'Підтвердження видалення', this.createDeleteConfirmation(request));
+    this.showModal(confirmModal);
+  }
 
-        this.showToast('Заявку видалено', 'success');
-        await this.loadRequests();
-      } catch (error) {
-        console.error('Delete error:', error);
-        this.showToast('Помилка видалення: ' + error.message, 'error');
+  createDeleteConfirmation(request) {
+    return `
+      <div class="confirm-dialog">
+        <div class="confirm-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="confirm-title">
+          Видалити заявку #${request.id}?
+        </div>
+        <div class="confirm-message">
+          Ця дія незворотна. Заявка від <strong>${request.contactName}</strong> 
+          (${request.pickupLocation} → ${request.deliveryLocation}) буде остаточно видалена з бази даних.
+        </div>
+        <div class="confirm-actions">
+          <button class="btn btn--secondary" onclick="adminPanel.closeModal()">
+            <i class="fas fa-times"></i>
+            Скасувати
+          </button>
+          <button class="btn btn--error" onclick="adminPanel.confirmDeleteRequest('${request.id}')">
+            <i class="fas fa-trash"></i>
+            Так, видалити
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  async confirmDeleteRequest(id) {
+    try {
+      // Show loading state
+      const deleteBtn = document.querySelector('.confirm-actions .btn--error');
+      if (deleteBtn) {
+        deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Видалення...';
+        deleteBtn.disabled = true;
+      }
+
+      const response = await fetch(`/api/requests/${id}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      this.showToast('Заявку успішно видалено', 'success');
+      this.closeModal();
+      await this.loadRequests();
+      
+      // Update selected items if this item was selected
+      this.selectedItems.delete(id.toString());
+      this.updateBulkActions();
+      
+    } catch (error) {
+      console.error('Delete error:', error);
+      this.showToast('Помилка видалення: ' + error.message, 'error');
+      
+      // Restore button state
+      const deleteBtn = document.querySelector('.confirm-actions .btn--error');
+      if (deleteBtn) {
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Так, видалити';
+        deleteBtn.disabled = false;
       }
     }
   }
@@ -1584,8 +1644,298 @@ class EnhancedAdminPanel {
   }
 
   createEditForm(request) {
-    // Implementation for edit form
-    return '<div>Edit form content...</div>';
+    return `
+      <form id="editRequestForm" class="edit-request-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editPickupLocation">Звідки <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="editPickupLocation" 
+              class="form-control" 
+              value="${request.pickupLocation || ''}"
+              required
+              placeholder="Місто відправлення"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="editDeliveryLocation">Куди <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="editDeliveryLocation" 
+              class="form-control" 
+              value="${request.deliveryLocation || ''}"
+              required
+              placeholder="Місто призначення"
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editPickupDate">Дата подачі <span class="required">*</span></label>
+            <input 
+              type="date" 
+              id="editPickupDate" 
+              class="form-control" 
+              value="${request.pickupDate || ''}"
+              required
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="editCargoType">Тип вантажу <span class="required">*</span></label>
+            <select id="editCargoType" class="form-control" required>
+              <option value="">Оберіть тип</option>
+              <option value="Електроніка" ${request.cargoType === 'Електроніка' ? 'selected' : ''}>Електроніка</option>
+              <option value="Будматеріали" ${request.cargoType === 'Будматеріали' ? 'selected' : ''}>Будматеріали</option>
+              <option value="Текстиль" ${request.cargoType === 'Текстиль' ? 'selected' : ''}>Текстиль</option>
+              <option value="Автозапчастини" ${request.cargoType === 'Автозапчастини' ? 'selected' : ''}>Автозапчастини</option>
+              <option value="Продукти харчування" ${request.cargoType === 'Продукти харчування' ? 'selected' : ''}>Продукти харчування</option>
+              <option value="Фармацевтика" ${request.cargoType === 'Фармацевтика' ? 'selected' : ''}>Фармацевтика</option>
+              <option value="Промислове обладнання" ${request.cargoType === 'Промислове обладнання' ? 'selected' : ''}>Промислове обладнання</option>
+              <option value="Документи" ${request.cargoType === 'Документи' ? 'selected' : ''}>Документи</option>
+              <option value="Ювелірні вироби" ${request.cargoType === 'Ювелірні вироби' ? 'selected' : ''}>Ювелірні вироби</option>
+              <option value="Інше" ${request.cargoType === 'Інше' ? 'selected' : ''}>Інше</option>
+            </select>
+          </div>
+        </div>
+
+        <fieldset class="form-fieldset">
+          <legend>Габарити та вага</legend>
+          <div class="form-row form-row--3">
+            <div class="form-group">
+              <label for="editLength">Довжина (м) <span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="editLength" 
+                class="form-control" 
+                value="${request.length || ''}"
+                step="0.1" 
+                min="0.1" 
+                max="15"
+                required
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="editWidth">Ширина (м) <span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="editWidth" 
+                class="form-control" 
+                value="${request.width || ''}"
+                step="0.1" 
+                min="0.1" 
+                max="15"
+                required
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="editHeight">Висота (м) <span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="editHeight" 
+                class="form-control" 
+                value="${request.height || ''}"
+                step="0.1" 
+                min="0.1" 
+                max="15"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editWeight">Вага (кг) <span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="editWeight" 
+                class="form-control" 
+                value="${request.weight || ''}"
+                min="1" 
+                max="50000"
+                required
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="editQuantity">Кількість <span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="editQuantity" 
+                class="form-control" 
+                value="${request.quantity || ''}"
+                min="1" 
+                max="1000"
+                required
+              >
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-fieldset">
+          <legend>ADR та спеціальні вимоги</legend>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                id="editAdr" 
+                ${request.adr ? 'checked' : ''}
+              >
+              <span class="checkmark"></span>
+              Вантаж ADR (небезпечний вантаж)
+            </label>
+          </div>
+          
+          <div class="form-group" id="adrClassGroup" style="display: ${request.adr ? 'block' : 'none'}">
+            <label for="editAdrClass">Клас ADR</label>
+            <select id="editAdrClass" class="form-control">
+              <option value="">Оберіть клас</option>
+              <option value="ADR 1" ${request.adrClass === 'ADR 1' ? 'selected' : ''}>ADR 1 - Вибухові речовини</option>
+              <option value="ADR 2" ${request.adrClass === 'ADR 2' ? 'selected' : ''}>ADR 2 - Гази</option>
+              <option value="ADR 3" ${request.adrClass === 'ADR 3' ? 'selected' : ''}>ADR 3 - Легкозаймисті рідини</option>
+              <option value="ADR 4" ${request.adrClass === 'ADR 4' ? 'selected' : ''}>ADR 4 - Легкозаймисті тверді речовини</option>
+              <option value="ADR 5" ${request.adrClass === 'ADR 5' ? 'selected' : ''}>ADR 5 - Окислювачі</option>
+              <option value="ADR 6" ${request.adrClass === 'ADR 6' ? 'selected' : ''}>ADR 6 - Отруйні речовини</option>
+              <option value="ADR 7" ${request.adrClass === 'ADR 7' ? 'selected' : ''}>ADR 7 - Радіоактивні матеріали</option>
+              <option value="ADR 8" ${request.adrClass === 'ADR 8' ? 'selected' : ''}>ADR 8 - Їдкі речовини</option>
+              <option value="ADR 9" ${request.adrClass === 'ADR 9' ? 'selected' : ''}>ADR 9 - Інші небезпечні речовини</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-fieldset">
+          <legend>Контактна інформація</legend>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editContactName">Контактна особа <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="editContactName" 
+                class="form-control" 
+                value="${request.contactName || ''}"
+                required
+                placeholder="Ім'я та прізвище"
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="editPhone">Телефон <span class="required">*</span></label>
+              <input 
+                type="tel" 
+                id="editPhone" 
+                class="form-control" 
+                value="${request.phone || ''}"
+                required
+                placeholder="+380671234567"
+                pattern="^\\+380\\d{9}$"
+              >
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="editEmail">Email</label>
+            <input 
+              type="email" 
+              id="editEmail" 
+              class="form-control" 
+              value="${request.email || ''}"
+              placeholder="example@email.com"
+            >
+          </div>
+        </fieldset>
+
+        <fieldset class="form-fieldset">
+          <legend>Статус та управління</legend>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editStatus">Статус заявки</label>
+              <select id="editStatus" class="form-control">
+                <option value="pending" ${request.status === 'pending' ? 'selected' : ''}>В очікуванні</option>
+                <option value="approved" ${request.status === 'approved' ? 'selected' : ''}>Схвалено</option>
+                <option value="in-progress" ${request.status === 'in-progress' ? 'selected' : ''}>В процесі</option>
+                <option value="completed" ${request.status === 'completed' ? 'selected' : ''}>Завершено</option>
+                <option value="rejected" ${request.status === 'rejected' ? 'selected' : ''}>Відхилено</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="editPriority">Пріоритет</label>
+              <select id="editPriority" class="form-control">
+                <option value="low" ${request.priority === 'low' ? 'selected' : ''}>Низький</option>
+                <option value="medium" ${request.priority === 'medium' ? 'selected' : ''}>Середній</option>
+                <option value="high" ${request.priority === 'high' ? 'selected' : ''}>Високий</option>
+                <option value="urgent" ${request.priority === 'urgent' ? 'selected' : ''}>Терміновий</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="editAssignedTo">Призначити:</label>
+            <input 
+              type="text" 
+              id="editAssignedTo" 
+              class="form-control" 
+              value="${request.assignedTo || ''}"
+              placeholder="Ім'я відповідального"
+            >
+          </div>
+        </fieldset>
+
+        <div class="form-group">
+          <label for="editComment">Коментар</label>
+          <textarea 
+            id="editComment" 
+            class="form-control" 
+            rows="3" 
+            placeholder="Додаткова інформація про заявку"
+          >${request.comment || ''}</textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn--secondary" onclick="adminPanel.closeModal()">
+            <i class="fas fa-times"></i>
+            Скасувати
+          </button>
+          <button type="submit" class="btn btn--primary">
+            <i class="fas fa-save"></i>
+            Зберегти зміни
+          </button>
+        </div>
+      </form>
+
+      <script>
+        // Setup ADR toggle
+        document.getElementById('editAdr').addEventListener('change', function() {
+          const adrClassGroup = document.getElementById('adrClassGroup');
+          adrClassGroup.style.display = this.checked ? 'block' : 'none';
+          if (!this.checked) {
+            document.getElementById('editAdrClass').value = '';
+          }
+        });
+
+        // Setup form submission
+        document.getElementById('editRequestForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          adminPanel.saveRequestChanges('${request.id}');
+        });
+
+        // Setup phone formatting
+        document.getElementById('editPhone').addEventListener('input', function(e) {
+          let value = e.target.value.replace(/\\D/g, '');
+          if (value.startsWith('380')) {
+            value = '+' + value;
+          } else if (value.startsWith('0')) {
+            value = '+38' + value;
+          }
+          e.target.value = value;
+        });
+      </script>
+    `;
   }
 
   createStatusForm(request) {
@@ -1646,6 +1996,132 @@ class EnhancedAdminPanel {
     } catch (error) {
       console.error('Error saving status changes:', error);
     }
+  }
+
+  async saveRequestChanges(id) {
+    try {
+      // Collect form data
+      const formData = this.collectEditFormData();
+      
+      // Validate form data
+      const validation = this.validateRequestData(formData);
+      if (!validation.isValid) {
+        this.showToast(validation.message, 'error');
+        return;
+      }
+
+      // Show loading state
+      const submitBtn = document.querySelector('#editRequestForm button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Збереження...';
+      submitBtn.disabled = true;
+
+      // Save to database
+      await this.updateRequest(id, formData);
+      
+    } catch (error) {
+      console.error('Error saving request changes:', error);
+      this.showToast('Помилка збереження: ' + error.message, 'error');
+    } finally {
+      // Restore button state
+      const submitBtn = document.querySelector('#editRequestForm button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> Зберегти зміни';
+        submitBtn.disabled = false;
+      }
+    }
+  }
+
+  collectEditFormData() {
+    return {
+      pickupLocation: document.getElementById('editPickupLocation')?.value?.trim(),
+      deliveryLocation: document.getElementById('editDeliveryLocation')?.value?.trim(),
+      pickupDate: document.getElementById('editPickupDate')?.value,
+      cargoType: document.getElementById('editCargoType')?.value,
+      length: parseFloat(document.getElementById('editLength')?.value),
+      width: parseFloat(document.getElementById('editWidth')?.value),
+      height: parseFloat(document.getElementById('editHeight')?.value),
+      weight: parseInt(document.getElementById('editWeight')?.value),
+      quantity: parseInt(document.getElementById('editQuantity')?.value),
+      adr: document.getElementById('editAdr')?.checked || false,
+      adrClass: document.getElementById('editAdrClass')?.value || null,
+      contactName: document.getElementById('editContactName')?.value?.trim(),
+      phone: document.getElementById('editPhone')?.value?.trim(),
+      email: document.getElementById('editEmail')?.value?.trim() || null,
+      status: document.getElementById('editStatus')?.value,
+      priority: document.getElementById('editPriority')?.value,
+      assignedTo: document.getElementById('editAssignedTo')?.value?.trim() || null,
+      comment: document.getElementById('editComment')?.value?.trim() || null
+    };
+  }
+
+  validateRequestData(data) {
+    // Required fields validation
+    const requiredFields = [
+      { field: 'pickupLocation', name: 'Місто відправлення' },
+      { field: 'deliveryLocation', name: 'Місто призначення' },
+      { field: 'pickupDate', name: 'Дата подачі' },
+      { field: 'cargoType', name: 'Тип вантажу' },
+      { field: 'contactName', name: 'Контактна особа' },
+      { field: 'phone', name: 'Телефон' }
+    ];
+
+    for (const { field, name } of requiredFields) {
+      if (!data[field]) {
+        return { isValid: false, message: `Поле "${name}" є обов'язковим` };
+      }
+    }
+
+    // Numeric fields validation
+    if (isNaN(data.length) || data.length <= 0 || data.length > 15) {
+      return { isValid: false, message: 'Довжина має бути числом від 0.1 до 15 метрів' };
+    }
+
+    if (isNaN(data.width) || data.width <= 0 || data.width > 15) {
+      return { isValid: false, message: 'Ширина має бути числом від 0.1 до 15 метрів' };
+    }
+
+    if (isNaN(data.height) || data.height <= 0 || data.height > 15) {
+      return { isValid: false, message: 'Висота має бути числом від 0.1 до 15 метрів' };
+    }
+
+    if (isNaN(data.weight) || data.weight <= 0 || data.weight > 50000) {
+      return { isValid: false, message: 'Вага має бути числом від 1 до 50000 кг' };
+    }
+
+    if (isNaN(data.quantity) || data.quantity <= 0 || data.quantity > 1000) {
+      return { isValid: false, message: 'Кількість має бути числом від 1 до 1000' };
+    }
+
+    // Phone validation
+    const phoneRegex = /^\+380\d{9}$/;
+    if (!phoneRegex.test(data.phone)) {
+      return { isValid: false, message: 'Телефон має бути у форматі +380XXXXXXXXX' };
+    }
+
+    // Email validation (optional)
+    if (data.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+        return { isValid: false, message: 'Невірний формат email адреси' };
+      }
+    }
+
+    // Date validation
+    const pickupDate = new Date(data.pickupDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (pickupDate < today) {
+      return { isValid: false, message: 'Дата подачі не може бути в минулому' };
+    }
+
+    // ADR validation
+    if (data.adr && !data.adrClass) {
+      return { isValid: false, message: 'Для ADR вантажу необхідно вказати клас' };
+    }
+
+    return { isValid: true };
   }
 
   // ===== REAL-TIME UPDATES =====
