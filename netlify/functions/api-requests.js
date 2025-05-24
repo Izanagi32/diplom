@@ -29,11 +29,52 @@ exports.handler = async function(event, context) {
           contactName TEXT,
           phone TEXT,
           email TEXT,
-          createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          status TEXT DEFAULT 'pending',
+          priority TEXT DEFAULT 'medium',
+          assignedTo TEXT,
+          createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
       `,
       args: []
     });
+
+    // Add new columns if they don't exist (for existing databases)
+    try {
+      await db.execute({
+        sql: `ALTER TABLE requests ADD COLUMN status TEXT DEFAULT 'pending'`,
+        args: []
+      });
+    } catch (e) {
+      // Column already exists
+    }
+    
+    try {
+      await db.execute({
+        sql: `ALTER TABLE requests ADD COLUMN priority TEXT DEFAULT 'medium'`,
+        args: []
+      });
+    } catch (e) {
+      // Column already exists
+    }
+    
+    try {
+      await db.execute({
+        sql: `ALTER TABLE requests ADD COLUMN assignedTo TEXT`,
+        args: []
+      });
+    } catch (e) {
+      // Column already exists
+    }
+    
+    try {
+      await db.execute({
+        sql: `ALTER TABLE requests ADD COLUMN updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP`,
+        args: []
+      });
+    } catch (e) {
+      // Column already exists
+    }
 
     if (event.httpMethod === 'POST') {
       const body = JSON.parse(event.body);
@@ -62,8 +103,9 @@ exports.handler = async function(event, context) {
           sql: `INSERT INTO requests (
             pickupLocation, deliveryLocation, length, width, height,
             weight, quantity, cargoType, adr, adrClass,
-            comment, pickupDate, contactName, phone, email, createdAt
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
+            comment, pickupDate, contactName, phone, email, 
+            status, priority, createdAt
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
           args: [
             pickupLocation,
             deliveryLocation,
@@ -80,6 +122,8 @@ exports.handler = async function(event, context) {
             contactName,
             phone,
             email,
+            'pending', // default status
+            body.priority || 'medium' // priority from request or default
           ],
         });
         console.log('db.execute insertResult:', insertResult);
@@ -152,12 +196,80 @@ exports.handler = async function(event, context) {
         contactName: row.contactName,
         phone: row.phone,
         email: row.email,
+        status: row.status || 'pending',
+        priority: row.priority || 'medium',
+        assignedTo: row.assignedTo,
         createdAt: row.createdAt,
+        updatedAt: row.updatedAt
       }));
 
       return {
         statusCode: 200,
         body: JSON.stringify(rows),
+      };
+
+    } else if (event.httpMethod === 'PUT') {
+      // Update request
+      const pathParts = event.path.split('/');
+      const requestId = pathParts[pathParts.length - 1];
+      const body = JSON.parse(event.body);
+      
+      console.log('PUT /api/requests/:id body:', body, 'ID:', requestId);
+      
+      const updateFields = [];
+      const updateValues = [];
+      
+      // Build dynamic update query based on provided fields
+      Object.keys(body).forEach(key => {
+        if (key !== 'id' && body[key] !== undefined) {
+          updateFields.push(`${key} = ?`);
+          updateValues.push(body[key]);
+        }
+      });
+      
+      // Always update the updatedAt field
+      updateFields.push('updatedAt = CURRENT_TIMESTAMP');
+      updateValues.push(requestId);
+      
+      const updateResult = await db.execute({
+        sql: `UPDATE requests SET ${updateFields.join(', ')} WHERE id = ?`,
+        args: updateValues
+      });
+      
+      if (updateResult.rowsAffected === 0) {
+        return {
+          statusCode: 404,
+          body: JSON.stringify({ error: 'Request not found' }),
+        };
+      }
+      
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ success: true, updated: true }),
+      };
+
+    } else if (event.httpMethod === 'DELETE') {
+      // Delete request
+      const pathParts = event.path.split('/');
+      const requestId = pathParts[pathParts.length - 1];
+      
+      console.log('DELETE /api/requests/:id ID:', requestId);
+      
+      const deleteResult = await db.execute({
+        sql: 'DELETE FROM requests WHERE id = ?',
+        args: [requestId]
+      });
+      
+      if (deleteResult.rowsAffected === 0) {
+        return {
+          statusCode: 404,
+          body: JSON.stringify({ error: 'Request not found' }),
+        };
+      }
+      
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ success: true, deleted: true }),
       };
 
     } else {

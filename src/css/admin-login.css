@@ -1,18 +1,25 @@
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
   background-color: #f8fafc;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: #1e293b;
   line-height: 1.6;
   min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background-image: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
@@ -25,7 +32,8 @@ body {
 .login-card {
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 2rem;
 }
@@ -34,10 +42,12 @@ body {
   text-align: center;
   margin-bottom: 2rem;
 }
+
 .login-header img.login-logo {
   height: 60px;
   margin-bottom: 1rem;
 }
+
 .login-header h1 {
   font-size: 1.5rem;
   font-weight: 600;
@@ -54,6 +64,7 @@ body {
   font-size: 0.875rem;
   font-weight: 500;
 }
+
 .login-error:not(:empty) {
   display: block;
 }
@@ -61,6 +72,7 @@ body {
 .login-form__group {
   margin-bottom: 1.5rem;
 }
+
 .login-form__label {
   display: block;
   margin-bottom: 0.5rem;
@@ -68,10 +80,12 @@ body {
   color: #1e293b;
   font-size: 0.875rem;
 }
+
 .login-form__label i {
   color: #1e40af;
   margin-right: 0.5rem;
 }
+
 .login-form__input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -80,42 +94,66 @@ body {
   font-family: inherit;
   font-size: 1rem;
   color: #1e293b;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
+
 .login-form__input:focus {
   outline: none;
   border-color: #1e40af;
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.2);
+  -webkit-box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.2);
+          box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.2);
 }
-.login-form__input::-moz-placeholder {
+
+.login-form__input::-webkit-input-placeholder {
   color: #cbd5e1;
 }
+
+.login-form__input:-ms-input-placeholder {
+  color: #cbd5e1;
+}
+
+.login-form__input::-ms-input-placeholder {
+  color: #cbd5e1;
+}
+
 .login-form__input::placeholder {
   color: #cbd5e1;
 }
+
 .login-form__password-container {
   position: relative;
 }
+
 .login-form__toggle-password {
   position: absolute;
   right: 1rem;
   top: 50%;
-  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
   background: none;
   border: none;
   color: #64748b;
   cursor: pointer;
   font-size: 1rem;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
+
 .login-form__toggle-password:hover {
   color: #1e40af;
 }
+
 .login-form__checkbox-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   cursor: pointer;
 }
+
 .login-form__checkbox-label {
   font-size: 0.875rem;
   margin-left: 0.5rem;
@@ -134,18 +172,23 @@ body {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   margin-top: 0.5rem;
 }
+
 .login-button i {
   margin-right: 0.5rem;
 }
+
 .login-button:hover {
   background-color: #173083;
 }
+
 .login-button:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3);
+  -webkit-box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3);
+          box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3);
 }
 
 .login-footer {
@@ -158,11 +201,14 @@ body {
   font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
+
 .login-back-link i {
   margin-right: 0.5rem;
 }
+
 .login-back-link:hover {
   color: #1e40af;
 }
@@ -174,4 +220,5 @@ body {
   .login-header h1 {
     font-size: 1.25rem;
   }
-}/*# sourceMappingURL=admin-login.css.map */
+}
+/*# sourceMappingURL=admin-login.css.map */

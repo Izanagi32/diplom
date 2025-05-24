@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Euro Tandem - Покращена Панель Адміністратора</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="./src/css/admin-enhanced.css" />
+  <link rel="icon" href="./src/img/fav.png" type="image/png">
+  
+  <!-- Meta tags -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Адміністративна панель Euro Tandem для управління заявками та аналітики">
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Enhanced Header -->
+    <header class="admin-header">
+      <div class="admin-header__logo">
+        <img src="./src/img/Logo.avif" alt="Euro Tandem Logo">
+        <h1>Панель Адміністратора</h1>
+      </div>
+      
+      <div class="admin-header__actions">
+        <!-- Global Search -->
+        <div class="admin-header__search">
+          <input 
+            type="text" 
+            placeholder="Пошук по всіх розділах..." 
+            id="globalSearch"
+            autocomplete="off"
+          >
+          <i class="fas fa-search search-icon"></i>
+        </div>
+        
+        <!-- Notifications -->
+        <div class="admin-header__notifications">
+          <button class="notification-bell" id="notificationBtn">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge" id="notificationBadge"></span>
+          </button>
+        </div>
+        
+        <!-- User Info -->
+        <div class="admin-header__user">
+          <div class="user-avatar">А</div>
+          <div class="user-info">
+            <div class="user-name">Адміністратор</div>
+            <div class="user-role">Повний доступ</div>
+          </div>
+        </div>
+        
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Enhanced Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <nav class="admin-sidebar__nav">
+        <!-- Main Navigation -->
+        <div class="admin-sidebar__section">
+          <div class="admin-sidebar__section-title">Основне</div>
+          <ul>
+            <li class="admin-sidebar__nav-item active">
+              <a href="#" data-tab="dashboard">
+                <i class="fas fa-chart-pie nav-icon"></i>
+                Дашборд
+              </a>
+            </li>
+            <li class="admin-sidebar__nav-item">
+              <a href="#" data-tab="requests">
+                <i class="fas fa-clipboard-list nav-icon"></i>
+                Заявки
+                <span class="nav-badge" id="requestsBadge">12</span>
+              </a>
+            </li>
+            <li class="admin-sidebar__nav-item">
+              <a href="#" data-tab="shipments">
+                <i class="fas fa-truck nav-icon"></i>
+                Перевезення
+              </a>
+            </li>
+            <li class="admin-sidebar__nav-item">
+              <a href="#" data-tab="clients">
+                <i class="fas fa-users nav-icon"></i>
+                Клієнти
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Analytics -->
+        <div class="admin-sidebar__section">
+          <div class="admin-sidebar__section-title">Аналітика</div>
+          <ul>
+            <li class="admin-sidebar__nav-item">
+              <a href="#" data-tab="analytics">
+                <i class="fas fa-chart-line nav-icon"></i>
+                Звіти
+              </a>
+            </li>
+            <li class="admin-sidebar__nav-item">
+              <a href="#" data-tab="performance">
+                <i class="fas fa-tachometer-alt nav-icon"></i>
+                Продуктивність
+              </a>
+            </li>
+            <li class="admin-sidebar__nav-item">
+              <a href="#" data-tab="finance">
+                <i class="fas fa-chart-bar nav-icon"></i>
+                Фінанси
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Settings -->
+        <div class="admin-sidebar__section">
+          <div class="admin-sidebar__section-title">Налаштування</div>
+          <ul>
+            <li class="admin-sidebar__nav-item">
+              <a href="#" data-tab="settings">
+                <i class="fas fa-cog nav-icon"></i>
+                Системні
+              </a>
+            </li>
+            <li class="admin-sidebar__nav-item">
+              <a href="#" data-tab="users">
+                <i class="fas fa-user-shield nav-icon"></i>
+                Користувачі
+              </a>
+            </li>
+            <li class="admin-sidebar__nav-item">
+              <a href="./index.html">
+                <i class="fas fa-home nav-icon"></i>
+                На головну
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Enhanced Main Content -->
+    <main class="admin-content">
+      <!-- Content Header -->
+      <div class="admin-content__header">
+        <div class="header-left">
+          <h1 id="pageTitle">Дашборд</h1>
+          <nav class="breadcrumb" id="breadcrumb">
+            <a href="#" data-tab="dashboard">Головна</a>
+            <span class="separator">/</span>
+            <span>Дашборд</span>
+          </nav>
+        </div>
+        <div class="header-actions" id="headerActions">
+          <button class="btn btn--secondary" id="refreshBtn">
+            <i class="fas fa-sync-alt"></i>
+            Оновити
+          </button>
+          <button class="btn btn--primary" id="exportBtn">
+            <i class="fas fa-download"></i>
+            Експорт
+          </button>
+        </div>
+      </div>
+
+      <!-- Statistics Grid -->
+      <div class="stats-grid" id="statsGrid">
+        <!-- Stats will be populated dynamically -->
+      </div>
+
+      <!-- Tab Content Container -->
+      <div id="tabContent">
+        
+        <!-- Dashboard Tab -->
+        <div class="tab-content active" data-tab="dashboard">
+          <!-- Recent Activity -->
+          <div class="data-table-container">
+            <div class="table-header">
+              <h3 class="table-title">Остання активність</h3>
+              <p class="table-subtitle">Останні дії в системі</p>
+            </div>
+            <div class="table-toolbar">
+              <div class="toolbar-left">
+                <button class="btn btn--sm btn--secondary">
+                  <i class="fas fa-filter"></i>
+                  Фільтри
+                </button>
+              </div>
+              <div class="toolbar-right">
+                <div class="form-group">
+                  <select id="activityFilter">
+                    <option value="">Всі дії</option>
+                    <option value="requests">Заявки</option>
+                    <option value="shipments">Перевезення</option>
+                    <option value="users">Користувачі</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <table class="data-table" id="activityTable">
+              <thead>
+                <tr>
+                  <th>Час</th>
+                  <th>Користувач</th>
+                  <th>Дія</th>
+                  <th>Об'єкт</th>
+                  <th>Статус</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Activity data will be populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Requests Tab -->
+        <div class="tab-content" data-tab="requests">
+          <!-- Filters Panel -->
+          <div class="filters-panel" id="filtersPanel">
+            <div class="filters-panel__header">
+              <h3>Фільтри заявок</h3>
+              <button class="toggle-filters" id="toggleFilters">
+                <i class="fas fa-chevron-up"></i>
+                Приховати
+              </button>
+            </div>
+            <div class="filters-panel__grid" id="filtersGrid">
+              <div class="form-group">
+                <label for="statusFilter">Статус заявки</label>
+                <select id="statusFilter">
+                  <option value="">Всі статуси</option>
+                  <option value="pending">В очікуванні</option>
+                  <option value="approved">Схвалені</option>
+                  <option value="rejected">Відхилені</option>
+                  <option value="in-progress">В процесі</option>
+                  <option value="completed">Завершені</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="priorityFilter">Пріоритет</label>
+                <select id="priorityFilter">
+                  <option value="">Всі пріоритети</option>
+                  <option value="low">Низький</option>
+                  <option value="medium">Середній</option>
+                  <option value="high">Високий</option>
+                  <option value="urgent">Терміновий</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="dateFromFilter">Дата від</label>
+                <input type="date" id="dateFromFilter">
+              </div>
+              
+              <div class="form-group">
+                <label for="dateToFilter">Дата до</label>
+                <input type="date" id="dateToFilter">
+              </div>
+              
+              <div class="form-group">
+                <label for="routeFilter">Маршрут</label>
+                <input type="text" id="routeFilter" placeholder="Звідки → Куди">
+              </div>
+              
+              <div class="form-group">
+                <label for="clientFilter">Клієнт</label>
+                <input type="text" id="clientFilter" placeholder="Ім'я або телефон">
+              </div>
+            </div>
+            <div class="filters-panel__actions">
+              <button class="btn btn--secondary" id="clearFilters">
+                <i class="fas fa-times"></i>
+                Очистити
+              </button>
+              <button class="btn btn--primary" id="applyFilters">
+                <i class="fas fa-check"></i>
+                Застосувати
+              </button>
+            </div>
+          </div>
+
+          <!-- Bulk Actions -->
+          <div class="bulk-actions" id="bulkActions" style="display: none;">
+            <div class="bulk-actions__info">
+              Вибрано: <strong class="selected-count">0</strong> записів
+            </div>
+            <div class="bulk-actions__buttons">
+              <button class="btn btn--sm btn--warning" id="bulkStatusChange">
+                <i class="fas fa-edit"></i>
+                Змінити статус
+              </button>
+              <button class="btn btn--sm btn--secondary" id="bulkAssign">
+                <i class="fas fa-user-plus"></i>
+                Призначити
+              </button>
+              <button class="btn btn--sm btn--error" id="bulkDelete">
+                <i class="fas fa-trash"></i>
+                Видалити
+              </button>
+            </div>
+          </div>
+
+          <!-- Requests Table -->
+          <div class="data-table-container">
+            <div class="table-header">
+              <h3 class="table-title">Заявки на перевезення</h3>
+              <p class="table-subtitle">Управління заявками клієнтів</p>
+            </div>
+            <div class="table-toolbar">
+              <div class="toolbar-left">
+                <input 
+                  type="text" 
+                  placeholder="Пошук заявок..." 
+                  id="searchRequests"
+                  class="search-input"
+                >
+                <div class="form-group">
+                  <select id="itemsPerPage">
+                    <option value="10">10 на сторінці</option>
+                    <option value="25">25 на сторінці</option>
+                    <option value="50">50 на сторінці</option>
+                    <option value="100">100 на сторінці</option>
+                  </select>
+                </div>
+              </div>
+              <div class="toolbar-right">
+                <button class="btn btn--sm btn--secondary" id="columnsBtn">
+                  <i class="fas fa-columns"></i>
+                  Колонки
+                </button>
+                <button class="btn btn--sm btn--primary" id="addRequestBtn">
+                  <i class="fas fa-plus"></i>
+                  Додати заявку
+                </button>
+              </div>
+            </div>
+            
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState" style="display: none;">
+              <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+              </div>
+              <p>Завантаження даних...</p>
+            </div>
+            
+            <!-- Error State -->
+            <div class="error-state" id="errorState" style="display: none;">
+              <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <p id="errorMessage">Помилка завантаження даних</p>
+              <button class="btn btn--primary" id="retryBtn">
+                <i class="fas fa-redo"></i>
+                Спробувати знову
+              </button>
+            </div>
+
+            <!-- Main Table -->
+            <div class="table-container" id="tableContainer">
+              <table class="data-table" id="requestsTable">
+                <thead>
+                  <tr>
+                    <th class="checkbox-cell">
+                      <input type="checkbox" id="selectAll">
+                    </th>
+                    <th class="sortable" data-column="id">
+                      ID
+                      <i class="fas fa-sort sort-icon"></i>
+                    </th>
+                    <th class="sortable" data-column="priority">
+                      Пріоритет
+                      <i class="fas fa-sort sort-icon"></i>
+                    </th>
+                    <th class="sortable" data-column="route">
+                      Маршрут
+                      <i class="fas fa-sort sort-icon"></i>
+                    </th>
+                    <th>Габарити</th>
+                    <th>Вага / Кільк.</th>
+                    <th>Тип вантажу</th>
+                    <th class="sortable" data-column="pickupDate">
+                      Дата подачі
+                      <i class="fas fa-sort sort-icon"></i>
+                    </th>
+                    <th>Клієнт</th>
+                    <th class="sortable" data-column="status">
+                      Статус
+                      <i class="fas fa-sort sort-icon"></i>
+                    </th>
+                    <th class="sortable" data-column="createdAt">
+                      Створено
+                      <i class="fas fa-sort sort-icon"></i>
+                    </th>
+                    <th class="actions">Дії</th>
+                  </tr>
+                </thead>
+                <tbody id="requestsTableBody">
+                  <!-- Data will be populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+              <div class="pagination-info" id="paginationInfo">
+                Показано 1-10 з 156 записів
+              </div>
+              <div class="pagination-controls" id="paginationControls">
+                <!-- Pagination buttons will be generated dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Other tabs content placeholders -->
+        <div class="tab-content" data-tab="shipments">
+          <h2>Перевезення</h2>
+          <p>Розділ в розробці...</p>
+        </div>
+
+        <div class="tab-content" data-tab="clients">
+          <h2>Клієнти</h2>
+          <p>Розділ в розробці...</p>
+        </div>
+
+        <div class="tab-content" data-tab="analytics">
+          <h2>Аналітика</h2>
+          <p>Розділ в розробці...</p>
+        </div>
+
+        <div class="tab-content" data-tab="settings">
+          <h2>Налаштування</h2>
+          <p>Розділ в розробці...</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Modal Placeholder -->
+  <div class="modal-overlay" id="modalOverlay">
+    <!-- Modals will be created dynamically -->
+  </div>
+
+  <!-- Scripts -->
+  <script src="./src/js/config.js"></script>
+  <script src="./src/js/admin-enhanced.js"></script>
+  <script src="./src/js/analytics.js"></script>
+  
+  <!-- Initialize Admin Panel -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Disable demo mode for real database connection
+      localStorage.removeItem('admin_demo_mode');
+      
+      // Initialize enhanced admin panel
+      window.adminPanel = new EnhancedAdminPanel();
+      
+      // Initialize analytics if available
+      if (window.AnalyticsManager) {
+        window.analytics = new AnalyticsManager();
+      }
+      
+      // Add any additional initialization code here
+      console.log('Enhanced Admin Panel initialized with real database connection');
+    });
+  </script>
+</body>
+</html> 
