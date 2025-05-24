@@ -8,7 +8,29 @@ const db = createClient({
 });
 
 exports.handler = async function(event, context) {
+  // Add CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+  };
+
+  // Handle preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
   try {
+    console.log('Request details:', {
+      method: event.httpMethod,
+      path: event.path,
+      headers: event.headers,
+      body: event.body ? JSON.parse(event.body) : null
+    });
     console.log('Telegram ENV >> BOT_TOKEN:', process.env.TELEGRAM_BOT_TOKEN, 'CHAT_ID:', process.env.TELEGRAM_CHAT_ID);
     await db.execute({
       sql: `
@@ -171,6 +193,7 @@ exports.handler = async function(event, context) {
 
       return {
         statusCode: 200,
+        headers,
         body: JSON.stringify({ success: true, id: insertedId.toString() }),
       };
 
@@ -205,6 +228,7 @@ exports.handler = async function(event, context) {
 
       return {
         statusCode: 200,
+        headers,
         body: JSON.stringify(rows),
       };
 
@@ -239,12 +263,14 @@ exports.handler = async function(event, context) {
       if (updateResult.rowsAffected === 0) {
         return {
           statusCode: 404,
+          headers,
           body: JSON.stringify({ error: 'Request not found' }),
         };
       }
       
       return {
         statusCode: 200,
+        headers,
         body: JSON.stringify({ success: true, updated: true }),
       };
 
@@ -253,28 +279,41 @@ exports.handler = async function(event, context) {
       const pathParts = event.path.split('/');
       const requestId = pathParts[pathParts.length - 1];
       
-      console.log('DELETE /api/requests/:id ID:', requestId);
+      console.log('DELETE /api/requests/:id ID:', requestId, 'Path parts:', pathParts);
+      
+      if (!requestId || requestId === 'requests') {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ error: 'Missing request ID' }),
+        };
+      }
       
       const deleteResult = await db.execute({
         sql: 'DELETE FROM requests WHERE id = ?',
         args: [requestId]
       });
       
+      console.log('Delete result:', deleteResult);
+      
       if (deleteResult.rowsAffected === 0) {
         return {
           statusCode: 404,
+          headers,
           body: JSON.stringify({ error: 'Request not found' }),
         };
       }
       
       return {
         statusCode: 200,
-        body: JSON.stringify({ success: true, deleted: true }),
+        headers,
+        body: JSON.stringify({ success: true, deleted: true, id: requestId }),
       };
 
     } else {
       return {
         statusCode: 405,
+        headers,
         body: JSON.stringify({ error: 'Method Not Allowed' }),
       };
     }
@@ -282,6 +321,7 @@ exports.handler = async function(event, context) {
     console.error('Function error', error);
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({ error: error.message }),
     };
   }

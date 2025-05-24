@@ -55,6 +55,9 @@ class EnhancedAdminPanel {
       // Setup real-time updates
       this.setupRealTimeUpdates();
       
+      // Expose debug methods in development
+      this.exposeDebugMethods();
+      
       console.log('Enhanced Admin Panel initialized successfully');
     } catch (error) {
       console.error('Error initializing admin panel:', error);
@@ -1414,6 +1417,8 @@ class EnhancedAdminPanel {
 
   async confirmDeleteRequest(id) {
     try {
+      console.log('Attempting to delete request with ID:', id);
+      
       // Show loading state
       const deleteBtn = document.querySelector('.confirm-actions .btn--error');
       if (deleteBtn) {
@@ -1421,12 +1426,30 @@ class EnhancedAdminPanel {
         deleteBtn.disabled = true;
       }
 
-      const response = await fetch(`/api/requests/${id}`, {
-        method: 'DELETE'
+      const deleteUrl = `/api/requests/${id}`;
+      console.log('DELETE URL:', deleteUrl);
+
+      const response = await fetch(deleteUrl, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
 
+      console.log('Delete response status:', response.status);
+      console.log('Delete response headers:', [...response.headers]);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Delete response error:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      const result = await response.json();
+      console.log('Delete result:', result);
+
+      if (!result.success && !result.deleted) {
+        throw new Error('Сервер повернув невдалий результат');
       }
 
       this.showToast('Заявку успішно видалено', 'success');
@@ -1438,8 +1461,27 @@ class EnhancedAdminPanel {
       this.updateBulkActions();
       
     } catch (error) {
-      console.error('Delete error:', error);
-      this.showToast('Помилка видалення: ' + error.message, 'error');
+      console.error('Delete error details:', {
+        message: error.message,
+        stack: error.stack,
+        id: id
+      });
+      
+      let errorMessage = 'Помилка видалення: ';
+      
+      if (error.message.includes('404')) {
+        errorMessage += 'Заявку не знайдено';
+      } else if (error.message.includes('403')) {
+        errorMessage += 'Недостатньо прав доступу';
+      } else if (error.message.includes('500')) {
+        errorMessage += 'Помилка сервера';
+      } else if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+        errorMessage += 'Проблема з мережею';
+      } else {
+        errorMessage += error.message;
+      }
+      
+      this.showToast(errorMessage, 'error');
       
       // Restore button state
       const deleteBtn = document.querySelector('.confirm-actions .btn--error');
@@ -2163,6 +2205,61 @@ class EnhancedAdminPanel {
 
   showColumnsModal() {
     this.showToast('Column selection - в розробці', 'info');
+  }
+
+  // ===== DIAGNOSTIC METHODS =====
+  async testAPIConnection() {
+    console.log('🔍 Testing API connection...');
+    
+    try {
+      // Test GET requests
+      console.log('Testing GET /api/requests...');
+      const getResponse = await fetch('/api/requests');
+      console.log('GET Response status:', getResponse.status);
+      console.log('GET Response headers:', [...getResponse.headers]);
+      
+      if (getResponse.ok) {
+        const data = await getResponse.json();
+        console.log('✅ GET working, found', data.length, 'requests');
+        
+        if (data.length > 0) {
+          const testId = data[0].id;
+          console.log('Testing DELETE with ID:', testId);
+          
+          // Create a test DELETE request (but don't actually send it)
+          const deleteUrl = `/api/requests/${testId}`;
+          console.log('DELETE URL would be:', deleteUrl);
+          
+          // Test if the URL is correctly formed
+          try {
+            const testResponse = await fetch(deleteUrl, {
+              method: 'OPTIONS'
+            });
+            console.log('OPTIONS Response status:', testResponse.status);
+            console.log('OPTIONS Response headers:', [...testResponse.headers]);
+          } catch (optionsError) {
+            console.error('OPTIONS test failed:', optionsError);
+          }
+        }
+      } else {
+        console.error('❌ GET failed with status:', getResponse.status);
+      }
+      
+    } catch (error) {
+      console.error('🚨 API Connection test failed:', error);
+    }
+  }
+
+  // Add this method to window for easy access in console
+  exposeDebugMethods() {
+    window.testAPI = () => this.testAPIConnection();
+    window.debugDelete = (id) => {
+      console.log('🐛 Debug delete for ID:', id);
+      const request = this.currentData.find(item => item.id.toString() === id.toString());
+      console.log('Found request:', request);
+      return request;
+    };
+    console.log('🔧 Debug methods available: testAPI(), debugDelete(id)');
   }
 }
 
