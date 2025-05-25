@@ -85,18 +85,23 @@ document.addEventListener('DOMContentLoaded', function() {
   const lengthInput = document.getElementById('length');
   const widthInput = document.getElementById('width');
   const heightInput = document.getElementById('height');
+  const quantityInput = document.getElementById('quantity');
   const volumeOutput = document.getElementById('volume');
   
   function calculateVolume() {
     const length = parseFloat(lengthInput.value) || 0;
     const width = parseFloat(widthInput.value) || 0;
     const height = parseFloat(heightInput.value) || 0;
+    const quantity = parseInt(quantityInput.value) || 0;
     
-    const volume = length * width * height;
+    const volume = length * width * height * quantity;
     volumeOutput.textContent = volume.toFixed(2);
   }
   
-  lengthInput.addEventListener('input', calculateVolume);
-  widthInput.addEventListener('input', calculateVolume);
-  heightInput.addEventListener('input', calculateVolume);
+  if (lengthInput && widthInput && heightInput && quantityInput && volumeOutput) {
+    lengthInput.addEventListener('input', calculateVolume);
+    widthInput.addEventListener('input', calculateVolume);
+    heightInput.addEventListener('input', calculateVolume);
+    quantityInput.addEventListener('input', calculateVolume);
+  }
 }); 
