@@ -1067,12 +1067,14 @@ textarea {
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
     transition: transition(all);
+    padding: spacing(4);
+    overflow-y: auto;
 
     &.active {
         opacity: 1;
@@ -1081,26 +1083,45 @@ textarea {
 
     .modal {
         @include card();
-        max-width: 90vw;
-        max-height: 90vh;
-        overflow: hidden;
-        transform: scale(0.9);
+        width: 100%;
+        max-width: 95vw;
+        max-height: none;
+        min-height: auto;
+        overflow: visible;
+        transform: scale(0.95);
         transition: transition(transform);
+        margin: spacing(4) auto;
+        position: relative;
 
         &--sm {
-            width: 400px;
+            max-width: 400px;
         }
 
         &--md {
-            width: 600px;
+            max-width: 600px;
         }
 
         &--lg {
-            width: 800px;
+            max-width: 800px;
         }
 
         &--xl {
-            width: 1000px;
+            max-width: 1000px;
+        }
+
+        &--edit {
+            max-width: 1200px;
+            width: 95%;
+
+            @include responsive(lg) {
+                width: 90%;
+                max-width: 1000px;
+            }
+
+            @include responsive(xl) {
+                width: 80%;
+                max-width: 1200px;
+            }
         }
     }
 
@@ -1109,16 +1130,22 @@ textarea {
     }
 
     .modal-header {
-        padding: spacing(6);
+        padding: spacing(4) spacing(6);
         border-bottom: 1px solid color(border-light);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        background-color: color(white);
+        border-radius: radius(lg) radius(lg) 0 0;
+        position: sticky;
+        top: 0;
+        z-index: 1;
 
         h3 {
             font-size: font-size(lg);
             font-weight: 600;
             color: color(text-primary);
+            margin: 0;
         }
 
         .close-btn {
@@ -1128,6 +1155,11 @@ textarea {
             background-color: color(gray-100);
             color: color(text-secondary);
             transition: transition(colors);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             &:hover {
                 background-color: color(gray-200);
@@ -1138,16 +1170,22 @@ textarea {
 
     .modal-body {
         padding: spacing(6);
-        overflow-y: auto;
+        overflow-y: visible;
+        max-height: none;
+        background-color: color(white);
     }
 
     .modal-footer {
-        padding: spacing(6);
+        padding: spacing(4) spacing(6);
         border-top: 1px solid color(border-light);
         display: flex;
         justify-content: flex-end;
         gap: spacing(3);
         background-color: color(gray-50);
+        border-radius: 0 0 radius(lg) radius(lg);
+        position: sticky;
+        bottom: 0;
+        z-index: 1;
     }
 }
 
@@ -2329,6 +2367,366 @@ textarea {
 
         .form-actions {
             display: none;
+        }
+    }
+}
+
+// === Enhanced Edit Form with Tabs ===
+.edit-form-container {
+    max-width: 100%;
+
+    .form-tabs {
+        display: flex;
+        border-bottom: 2px solid color(border-light);
+        margin-bottom: spacing(6);
+        background-color: color(gray-50);
+        border-radius: radius(lg) radius(lg) 0 0;
+        padding: spacing(2);
+        gap: spacing(2);
+        overflow-x: auto;
+
+        .tab-button {
+            display: flex;
+            align-items: center;
+            gap: spacing(2);
+            padding: spacing(3) spacing(4);
+            border: none;
+            background-color: transparent;
+            color: color(text-secondary);
+            font-size: font-size(sm);
+            font-weight: 500;
+            border-radius: radius(md);
+            cursor: pointer;
+            transition: transition(all);
+            white-space: nowrap;
+            min-width: 140px;
+            justify-content: center;
+
+            i {
+                font-size: font-size(sm);
+                opacity: 0.7;
+            }
+
+            &:hover {
+                background-color: color(white);
+                color: color(text-primary);
+                box-shadow: shadow(sm);
+            }
+
+            &.active {
+                background-color: color(primary);
+                color: color(white);
+                box-shadow: shadow(md);
+
+                i {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .tab-panel {
+        display: none;
+        animation: fadeIn 0.3s ease-out;
+
+        &.active {
+            display: block;
+        }
+    }
+
+    .form-section {
+        margin-bottom: spacing(6);
+        padding: spacing(5);
+        background-color: color(white);
+        border: 1px solid color(border-light);
+        border-radius: radius(lg);
+        box-shadow: shadow(sm);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: spacing(3);
+            font-size: font-size(lg);
+            font-weight: 600;
+            color: color(text-primary);
+            margin-bottom: spacing(4);
+            padding-bottom: spacing(3);
+            border-bottom: 2px solid color(primary-light);
+
+            i {
+                color: color(primary);
+                font-size: font-size(base);
+            }
+        }
+    }
+
+    .form-row {
+        display: grid;
+        gap: spacing(4);
+        margin-bottom: spacing(4);
+
+        &--4 {
+            grid-template-columns: repeat(4, 1fr);
+
+            @media (max-width: 1024px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @include responsive(md) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .calc-volume {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        label {
+            font-size: font-size(sm);
+            font-weight: 500;
+            color: color(text-secondary);
+            margin-bottom: spacing(2);
+        }
+
+        .calculated-value {
+            padding: spacing(2) spacing(3);
+            background-color: color(primary-light);
+            color: color(primary);
+            border-radius: radius(md);
+            font-weight: 600;
+            font-size: font-size(base);
+            text-align: center;
+            border: 2px solid color(primary);
+        }
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: spacing(4);
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: spacing(3);
+            background-color: color(gray-50);
+            border-radius: radius(md);
+            border-left: 3px solid color(primary);
+
+            label {
+                font-weight: 500;
+                color: color(text-secondary);
+                margin: 0;
+            }
+
+            span {
+                font-weight: 600;
+                color: color(text-primary);
+            }
+        }
+    }
+
+    .form-navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: spacing(6);
+        padding-top: spacing(4);
+        border-top: 2px solid color(border-light);
+        background-color: color(gray-50);
+        padding: spacing(4);
+        border-radius: radius(lg);
+
+        .nav-buttons {
+            display: flex;
+            gap: spacing(3);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: spacing(3);
+
+            .btn {
+                min-width: 120px;
+
+                &:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: spacing(4);
+
+            .nav-buttons,
+            .form-actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn {
+                flex: 1;
+            }
+        }
+    }
+}
+
+// Improved form controls for edit form
+.edit-request-form {
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: spacing(2);
+
+        label {
+            font-size: font-size(sm);
+            font-weight: 500;
+            color: color(text-primary);
+
+            .required {
+                color: color(error);
+                font-weight: 600;
+            }
+        }
+
+        .form-control {
+            @include input-base();
+            transition: all 0.3s ease;
+
+            &:focus {
+                outline: 2px solid rgba(color(primary), 0.5);
+                outline-offset: -2px;
+                border-color: color(primary);
+                box-shadow: 0 0 0 3px rgba(color(primary), 0.1);
+            }
+
+            &:invalid {
+                border-color: color(error);
+                background-color: rgba(color(error), 0.05);
+            }
+
+            &:valid:not(:placeholder-shown) {
+                border-color: color(success);
+                background-color: rgba(color(success), 0.05);
+            }
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+    }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: spacing(3);
+        cursor: pointer;
+        font-size: font-size(sm);
+        font-weight: 500;
+        color: color(text-primary);
+        padding: spacing(3);
+        border-radius: radius(md);
+        transition: transition(colors);
+
+        &:hover {
+            background-color: color(gray-50);
+        }
+
+        input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+
+            &:checked+.checkmark {
+                background-color: color(primary);
+                border-color: color(primary);
+
+                &::after {
+                    display: block;
+                }
+            }
+
+            &:focus+.checkmark {
+                outline: 2px solid rgba(color(primary), 0.5);
+                outline-offset: 2px;
+            }
+        }
+
+        .checkmark {
+            position: relative;
+            height: 20px;
+            width: 20px;
+            background-color: color(white);
+            border: 2px solid color(border-medium);
+            border-radius: radius(sm);
+            transition: transition(all);
+
+            &::after {
+                content: "";
+                position: absolute;
+                display: none;
+                left: 6px;
+                top: 2px;
+                width: 6px;
+                height: 10px;
+                border: solid color(white);
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+            }
+        }
+
+        &:hover .checkmark {
+            border-color: color(primary);
+        }
+    }
+}
+
+// Mobile responsive improvements
+@media (max-width: 768px) {
+    .edit-form-container {
+        .form-tabs {
+            flex-direction: column;
+            gap: spacing(1);
+
+            .tab-button {
+                min-width: auto;
+                width: 100%;
+            }
+        }
+
+        .form-section {
+            padding: spacing(4);
+
+            .section-title {
+                font-size: font-size(base);
+            }
+        }
+
+        .form-row--4 {
+            grid-template-columns: 1fr !important;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
         }
     }
 }
