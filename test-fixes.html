@@ -82,6 +82,7 @@
     <button onclick="testEditPriorityUrgent()" class="urgent">🚨 Тест "Терміново"</button>
     <button onclick="testDimensionsChange()">📐 Тест зміни габаритів</button>
     <button onclick="testADRToggle()">✅ Тест ADR перемикання</button>
+    <button onclick="testADRManual()">🔧 Ручний тест ADR</button>
     <button onclick="testSaveChanges()" class="urgent">💾 Тест збереження</button>
     <button onclick="clearConsole()" class="success">🧹 Очистити</button>
   </div>
@@ -189,14 +190,14 @@
       
       const request = adminPanel.currentData[0];
       console.log('🧪 Тестування звичайної заявки ID:', request.id);
-      console.log('📋 Поточні дані:', {
+      console.log('📋 Поточні дані:', JSON.stringify({
         length: request.length,
         width: request.width,
         height: request.height,
         weight: request.weight,
         adr: request.adr,
         priority: request.priority
-      });
+      }, null, 2));
       
       adminPanel.editRequest(request.id);
     }
@@ -270,11 +271,11 @@
         const heightInput = document.getElementById('editHeight');
         
         if (lengthInput && widthInput && heightInput) {
-          console.log('📐 Поточні габарити з форми:', {
+          console.log('📐 Поточні габарити з форми:', JSON.stringify({
             length: lengthInput.value,
             width: widthInput.value,
             height: heightInput.value
-          });
+          }, null, 2));
         } else {
           console.log('⚠️ Форма не відкрита, спочатку відкрийте заявку для редагування');
         }
@@ -291,11 +292,11 @@
         
         if (adrCheckbox && adrGroup) {
           console.log('✅ ADR елементи знайдені');
-          console.log('📋 Поточний стан:', {
+          console.log('📋 Поточний стан:', JSON.stringify({
             checked: adrCheckbox.checked,
             groupVisible: adrGroup.style.display !== 'none',
             selectValue: adrSelect?.value
-          });
+          }, null, 2));
           
           // Симуляція кліку
           console.log('🎯 Симулюємо перемикання ADR...');
@@ -309,20 +310,20 @@
           adrCheckbox.dispatchEvent(changeEvent);
           
           setTimeout(() => {
-            console.log('📋 Стан ПІСЛЯ перемикання:', {
+            console.log('📋 Стан ПІСЛЯ перемикання:', JSON.stringify({
               checked: adrCheckbox.checked,
               groupVisible: adrGroup.style.display !== 'none',
               selectValue: adrSelect?.value
-            });
+            }, null, 2));
             
             // Test collecting form data
             console.log('🔍 Тестуємо збір даних форми...');
             if (adminPanel) {
               const formData = adminPanel.collectEditFormData();
-              console.log('📋 Зібрані дані ADR:', {
+              console.log('📋 Зібрані дані ADR:', JSON.stringify({
                 adr: formData.adr,
                 adrClass: formData.adrClass
-              });
+              }, null, 2));
             }
           }, 100);
         } else {
@@ -347,16 +348,87 @@
       const lengthInput = document.getElementById('editLength');
       const prioritySelect = document.getElementById('editPriority');
       
-      console.log('📋 Поточний стан форми перед збереженням:', {
+      console.log('📋 Поточний стан форми перед збереженням:', JSON.stringify({
         adr: adrCheckbox?.checked,
         length: lengthInput?.value,
         priority: prioritySelect?.value
-      });
+      }, null, 2));
       
       // Trigger form submission
       console.log('🚀 Відправка форми...');
       const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
       form.dispatchEvent(submitEvent);
+    }
+    
+    function testADRManual() {
+      console.log('🔧 Ручний тест ADR - спочатку відкрийте форму редагування');
+      
+      setTimeout(() => {
+        const adrCheckbox = document.getElementById('editIsAdr');
+        const adrGroup = document.getElementById('adrClassGroup');
+        const adrSelect = document.getElementById('editAdrClass');
+        
+        if (!adrCheckbox) {
+          console.log('❌ ADR checkbox не знайдений, відкрийте форму редагування');
+          return;
+        }
+        
+        console.log('🔍 Детальний аналіз ADR елементів:');
+        console.log('  📦 ADR checkbox:', {
+          exists: !!adrCheckbox,
+          id: adrCheckbox.id,
+          type: adrCheckbox.type,
+          checked: adrCheckbox.checked,
+          value: adrCheckbox.value,
+          disabled: adrCheckbox.disabled,
+          className: adrCheckbox.className
+        });
+        
+        console.log('  📦 ADR group:', {
+          exists: !!adrGroup,
+          id: adrGroup?.id,
+          display: adrGroup?.style.display,
+          visible: adrGroup?.style.display !== 'none'
+        });
+        
+        console.log('  📦 ADR select:', {
+          exists: !!adrSelect,
+          id: adrSelect?.id,
+          value: adrSelect?.value,
+          disabled: adrSelect?.disabled
+        });
+        
+        // Try programmatic toggle
+        console.log('🧪 Спроба програмного перемикання...');
+        const originalState = adrCheckbox.checked;
+        console.log('📋 Початковий стан:', originalState);
+        
+        // Method 1: Direct property change
+        adrCheckbox.checked = !originalState;
+        console.log('📋 Після прямої зміни:', adrCheckbox.checked);
+        
+        // Method 2: Dispatch change event
+        const changeEvent = new Event('change', { bubbles: true });
+        adrCheckbox.dispatchEvent(changeEvent);
+        console.log('📋 Після change event:', adrCheckbox.checked);
+        
+        // Method 3: Try click
+        adrCheckbox.click();
+        console.log('📋 Після click:', adrCheckbox.checked);
+        
+        // Check final state
+        setTimeout(() => {
+          console.log('📋 Фінальний стан через 100мс:', adrCheckbox.checked);
+          console.log('📋 Група видима:', adrGroup?.style.display !== 'none');
+          
+          // Test form data collection
+          if (adminPanel) {
+            const formData = adminPanel.collectEditFormData();
+            console.log('📋 Зібрані дані форми ADR:', formData.adr);
+          }
+        }, 100);
+        
+      }, 500);
     }
   </script>
 </body>

@@ -1608,9 +1608,9 @@ class EnhancedAdminPanel {
         };
         
         console.log('📝 Updated local data for ID:', id);
-        console.log('📋 Old data:', oldData);
-        console.log('📋 New data:', this.currentData[requestIndex]);
-        console.log('📋 Changes applied:', updates);
+        console.log('📋 Old data:', JSON.stringify(oldData, null, 2));
+        console.log('📋 New data:', JSON.stringify(this.currentData[requestIndex], null, 2));
+        console.log('📋 Changes applied:', JSON.stringify(updates, null, 2));
         
         // Update filtered data as well
         const filteredIndex = this.filteredData.findIndex(item => item.id.toString() === id.toString());
@@ -2376,12 +2376,12 @@ class EnhancedAdminPanel {
     const adrClassGroup = document.getElementById('adrClassGroup');
     const adrClassSelect = document.getElementById('editAdrClass');
 
-    console.log('🔧 Setting up ADR toggle:', {
+    console.log('🔧 Setting up ADR toggle:', JSON.stringify({
       checkbox: !!adrCheckbox,
       group: !!adrClassGroup,
       select: !!adrClassSelect,
       checked: adrCheckbox?.checked
-    });
+    }, null, 2));
 
     if (adrCheckbox && adrClassGroup) {
       // Remove any existing listeners
@@ -2391,11 +2391,13 @@ class EnhancedAdminPanel {
       this.adrChangeHandler = function(event) {
         const isChecked = event.target.checked;
         console.log('🔄 ADR checkbox changed:', isChecked);
-        console.log('🔄 Event target:', event.target);
-        console.log('🔄 Checkbox element:', adrCheckbox);
+        console.log('🔄 Event target checked:', event.target.checked);
+        console.log('🔄 Event target value:', event.target.value);
+        console.log('🔄 Checkbox element checked:', adrCheckbox.checked);
         
         // Update group visibility
         adrClassGroup.style.display = isChecked ? 'block' : 'none';
+        console.log('👁️ Group visibility set to:', adrClassGroup.style.display);
         
         if (!isChecked && adrClassSelect) {
           adrClassSelect.value = '';
@@ -2403,11 +2405,16 @@ class EnhancedAdminPanel {
         }
         
         // Force update of form state
-        console.log('💾 ADR state after change:', {
+        console.log('💾 ADR state after change:', JSON.stringify({
           checked: adrCheckbox.checked,
           groupVisible: adrClassGroup.style.display !== 'none',
           classValue: adrClassSelect?.value
-        });
+        }, null, 2));
+        
+        // Additional verification
+        setTimeout(() => {
+          console.log('🔄 Delayed verification - ADR checkbox state:', adrCheckbox.checked);
+        }, 50);
       };
       
       // Add event listener
@@ -2491,14 +2498,32 @@ class EnhancedAdminPanel {
     
     // Additional ADR debugging
     if (elements.isAdr) {
-      console.log('🔍 ADR checkbox details:', {
+      console.log('🔍 ADR checkbox details:', JSON.stringify({
         type: elements.isAdr.type,
         checked: elements.isAdr.checked,
         value: elements.isAdr.value,
         classList: Array.from(elements.isAdr.classList),
-        id: elements.isAdr.id
+        id: elements.isAdr.id,
+        name: elements.isAdr.name,
+        disabled: elements.isAdr.disabled
+      }, null, 2));
+      
+      // Additional check
+      console.log('🔍 Direct property access:', {
+        checkedProperty: elements.isAdr.checked,
+        checkedAttribute: elements.isAdr.getAttribute('checked'),
+        hasCheckedAttribute: elements.isAdr.hasAttribute('checked')
       });
     }
+
+    // Build form data step by step with logging
+    const adrValue = elements.isAdr?.checked || false;
+    console.log('🎯 ADR value calculation:', {
+      elementExists: !!elements.isAdr,
+      elementChecked: elements.isAdr?.checked,
+      fallbackValue: false,
+      finalValue: adrValue
+    });
 
     const formData = {
       pickupLocation: elements.pickupLocation?.value?.trim(),
@@ -2510,7 +2535,7 @@ class EnhancedAdminPanel {
       height: parseFloat(elements.height?.value) || 0,
       weight: parseInt(elements.weight?.value) || 0,
       quantity: parseInt(elements.quantity?.value) || 1,
-      adr: elements.isAdr?.checked || false,
+      adr: adrValue,
       adrClass: elements.adrClass?.value || null,
       contactName: elements.contactName?.value?.trim(),
       phone: elements.phone?.value?.trim(),
@@ -2520,8 +2545,10 @@ class EnhancedAdminPanel {
       assignedTo: elements.assignedTo?.value?.trim() || null,
       comment: elements.comment?.value?.trim() || null
     };
+    
+    console.log('🎯 Final ADR in formData:', formData.adr);
 
-    console.log('📋 Collected form data:', formData);
+    console.log('📋 Collected form data:', JSON.stringify(formData, null, 2));
     return formData;
   }
 
@@ -2543,13 +2570,13 @@ class EnhancedAdminPanel {
     }
 
     // Numeric fields validation with detailed logging
-    console.log('🧮 Validating numeric fields:', {
+    console.log('🧮 Validating numeric fields:', JSON.stringify({
       length: data.length,
       width: data.width,
       height: data.height,
       weight: data.weight,
       quantity: data.quantity
-    });
+    }, null, 2));
 
     if (isNaN(data.length) || data.length <= 0 || data.length > 15) {
       console.error('❌ Length validation failed:', data.length);
