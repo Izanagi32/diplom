@@ -44,6 +44,7 @@
   
   <div class="test-buttons">
     <button onclick="testEditForm()">Тест форми редагування</button>
+    <button onclick="testEditFormADR()">Тест форми з ADR</button>
     <button onclick="testFormElements()">Перевірити елементи форми</button>
     <button onclick="testAPI()">Тест API</button>
     <button onclick="testStatusUpdate()">Тест оновлення статусу</button>
@@ -119,7 +120,7 @@
           height: 0.6,
           weight: 150,
           quantity: 5,
-          isAdr: false,
+          adr: false, // ✅ Виправлено: використовуємо 'adr' замість 'isAdr'
           adrClass: null,
           contactName: 'Іван Петренко',
           phone: '+380671234567',
@@ -130,6 +131,29 @@
           comment: 'Тестова заявка',
           createdAt: '2024-01-10T10:00:00Z',
           updatedAt: null
+        },
+        {
+          id: 2,
+          pickupLocation: 'Львів',
+          deliveryLocation: 'Берлін',
+          pickupDate: '2024-01-20',
+          cargoType: 'Фармацевтика',
+          length: 0.5,
+          width: 0.3,
+          height: 0.2,
+          weight: 25,
+          quantity: 10,
+          adr: true, // ✅ Тест з ADR вантажем
+          adrClass: 'Клас 6.1',
+          contactName: 'Марія Коваленко',
+          phone: '+380501234567',
+          email: 'maria@example.com',
+          status: 'approved',
+          priority: 'high',
+          assignedTo: 'Олександр',
+          comment: 'Термінова доставка ADR вантажу',
+          createdAt: '2024-01-12T14:30:00Z',
+          updatedAt: '2024-01-12T15:00:00Z'
         }
       ];
       
@@ -156,6 +180,30 @@
       // Test form elements after a delay
       setTimeout(() => {
         testFormElements();
+      }, 500);
+    }
+    
+    function testEditFormADR() {
+      if (!adminPanel) {
+        console.error('Адміністративна панель не ініціалізована');
+        return;
+      }
+      
+      console.log('🧪 Запуск тесту форми редагування з ADR...');
+      adminPanel.testEditForm(2); // Тестуємо з ADR заявкою
+      
+      setTimeout(() => {
+        console.log('🧪 Перевіряємо ADR функціональність...');
+        const adrCheckbox = document.getElementById('editIsAdr');
+        const adrClassGroup = document.getElementById('adrClassGroup');
+        const adrClassSelect = document.getElementById('editAdrClass');
+        
+        console.log('ADR checkbox:', adrCheckbox ? '✅ Found' : '❌ Missing');
+        console.log('ADR checkbox checked:', adrCheckbox?.checked);
+        console.log('ADR class group:', adrClassGroup ? '✅ Found' : '❌ Missing');
+        console.log('ADR class group visible:', adrClassGroup?.style.display !== 'none');
+        console.log('ADR class select:', adrClassSelect ? '✅ Found' : '❌ Missing');
+        console.log('ADR class value:', adrClassSelect?.value);
       }, 500);
     }
     

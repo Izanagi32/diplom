@@ -1967,14 +1967,14 @@ class EnhancedAdminPanel {
                     <input 
                       type="checkbox" 
                       id="editIsAdr" 
-                      ${request.isAdr ? 'checked' : ''}
+                      ${request.adr ? 'checked' : ''}
                     >
                     <span class="checkmark"></span>
                     Вантаж ADR (небезпечний)
                   </label>
                 </div>
 
-                <div class="form-group" id="adrClassGroup" style="display: ${request.isAdr ? 'block' : 'none'}">
+                <div class="form-group" id="adrClassGroup" style="display: ${request.adr ? 'block' : 'none'}">
                   <label for="editAdrClass">Клас небезпеки ADR</label>
                   <select id="editAdrClass" class="form-control">
                     <option value="">Оберіть клас</option>
@@ -2423,7 +2423,7 @@ class EnhancedAdminPanel {
       height: parseFloat(elements.height?.value),
       weight: parseInt(elements.weight?.value),
       quantity: parseInt(elements.quantity?.value),
-      isAdr: elements.isAdr?.checked || false,
+      adr: elements.isAdr?.checked || false, // ✅ Виправлено: використовуємо 'adr' замість 'isAdr'
       adrClass: elements.adrClass?.value || null,
       contactName: elements.contactName?.value?.trim(),
       phone: elements.phone?.value?.trim(),
@@ -2494,7 +2494,7 @@ class EnhancedAdminPanel {
     }
 
     // ADR validation
-    if (data.isAdr && !data.adrClass) {
+    if (data.adr && !data.adrClass) {
       return { isValid: false, message: 'Для ADR вантажу необхідно вказати клас' };
     }
 
