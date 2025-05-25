@@ -247,7 +247,7 @@ exports.handler = async function(event, context) {
       }
       
       const body = JSON.parse(event.body);
-      console.log('PUT /api/requests/:id body:', body, 'ID:', requestId);
+      console.log('PUT /api/requests/:id body:', JSON.stringify(body), 'ID:', requestId);
       
       const updateFields = [];
       const updateValues = [];
@@ -255,18 +255,17 @@ exports.handler = async function(event, context) {
       // Build dynamic update query based on provided fields
       Object.keys(body).forEach(key => {
         if (key !== 'id' && body[key] !== undefined) {
+          updateFields.push(`${key} = ?`);
+          
           // Special handling for adrClass - clear it if adr is false
           if (key === 'adrClass' && !body.adr) {
-            updateFields.push(`${key} = ?`);
             updateValues.push(null); // Clear adrClass when adr is false
-          } else if (body[key] !== null) {
-            updateFields.push(`${key} = ?`);
+          } else if (key === 'adr' || key === 'isAdr') {
             // Handle boolean values for adr field
-            if (key === 'adr' || key === 'isAdr') {
-              updateValues.push(body[key] ? 1 : 0);
-            } else {
-              updateValues.push(body[key]);
-            }
+            updateValues.push(body[key] ? 1 : 0);
+          } else {
+            // Handle all other fields normally
+            updateValues.push(body[key]);
           }
         }
       });
@@ -297,7 +296,8 @@ exports.handler = async function(event, context) {
       }
       
       console.log('UPDATE SQL:', `UPDATE requests SET ${updateFields.join(', ')} WHERE id = ?`);
-      console.log('UPDATE args:', updateValues);
+      console.log('UPDATE args:', JSON.stringify(updateValues));
+      console.log('UPDATE fields count:', updateFields.length, 'values count:', updateValues.length);
       
       // Check data before update
       try {
@@ -305,7 +305,7 @@ exports.handler = async function(event, context) {
           sql: `SELECT * FROM requests WHERE id = ?`,
           args: [requestId]
         });
-        console.log('Data BEFORE update:', beforeUpdate.rows[0]);
+        console.log('Data BEFORE update:', JSON.stringify(beforeUpdate.rows[0]));
       } catch (e) {
         console.log('Could not fetch data before update:', e.message);
       }
@@ -324,7 +324,7 @@ exports.handler = async function(event, context) {
             sql: `SELECT * FROM requests WHERE id = ?`,
             args: [requestId]
           });
-          console.log('Data AFTER update:', afterUpdate.rows[0]);
+          console.log('Data AFTER update:', JSON.stringify(afterUpdate.rows[0]));
         } catch (e) {
           console.log('Could not fetch data after update:', e.message);
         }
