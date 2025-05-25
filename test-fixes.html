@@ -85,6 +85,7 @@
     <button onclick="testADRManual()">🔧 Ручний тест ADR</button>
     <button onclick="testSaveChanges()" class="urgent">💾 Тест збереження</button>
     <button onclick="testVisualADR()">👁️ Тест візуального ADR</button>
+    <button onclick="testDataSync()">🔄 Тест синхронізації даних</button>
     <button onclick="clearConsole()" class="success">🧹 Очистити</button>
   </div>
   
@@ -477,8 +478,82 @@
            }, 100);
          }, 100);
          
-       }, 500);
-     }
-  </script>
+               }, 500);
+      }
+      
+      function testDataSync() {
+        console.log('🔄 Тест синхронізації даних після збереження');
+        
+        if (!adminPanel || !adminPanel.currentData.length) {
+          console.log('❌ Немає даних для тестування');
+          return;
+        }
+        
+        const testId = '15';
+        const currentItem = adminPanel.currentData.find(r => r.id.toString() === testId);
+        
+        if (!currentItem) {
+          console.log('❌ Заявку з ID', testId, 'не знайдено');
+          return;
+        }
+        
+        console.log('📋 Поточні дані для ID', testId, ':', JSON.stringify({
+          length: currentItem.length,
+          width: currentItem.width,
+          height: currentItem.height,
+          adr: currentItem.adr,
+          adrClass: currentItem.adrClass,
+          updatedAt: currentItem.updatedAt
+        }, null, 2));
+        
+        // Test rendered table data
+        const tableRow = document.querySelector(`tr[data-id="${testId}"]`);
+        if (tableRow) {
+          const dimensionsCell = tableRow.querySelector('.dimensions-cell .dimensions');
+          console.log('👁️ Візуальні габарити в таблиці:', dimensionsCell?.textContent || 'Не знайдено');
+          
+          const cargoCell = tableRow.querySelector('.cargo-type-cell');
+          const adrBadge = cargoCell?.querySelector('.adr-badge');
+          console.log('👁️ Візуальний ADR badge в таблиці:', adrBadge ? 'Є' : 'Немає');
+        } else {
+          console.log('❌ Рядок таблиці не знайдено');
+        }
+        
+        // Test server data freshness
+        console.log('🔄 Перевіряємо свіжість даних з сервера...');
+        fetch('/api/requests')
+          .then(r => r.json())
+          .then(serverData => {
+            const serverItem = serverData.find(r => r.id.toString() === testId);
+            if (serverItem) {
+              console.log('📡 Дані з сервера для ID', testId, ':', JSON.stringify({
+                length: serverItem.length,
+                width: serverItem.width,
+                height: serverItem.height,
+                adr: serverItem.adr,
+                adrClass: serverItem.adrClass,
+                updatedAt: serverItem.updatedAt
+              }, null, 2));
+              
+              // Compare local vs server
+              const matches = {
+                length: currentItem.length === serverItem.length,
+                width: currentItem.width === serverItem.width,
+                height: currentItem.height === serverItem.height,
+                adr: currentItem.adr === serverItem.adr,
+                adrClass: currentItem.adrClass === serverItem.adrClass
+              };
+              
+              console.log('🔍 Порівняння локальних і серверних даних:', JSON.stringify(matches, null, 2));
+              
+              const allMatch = Object.values(matches).every(m => m);
+              console.log(allMatch ? '✅ Дані синхронізовані' : '❌ Дані НЕ синхронізовані');
+            } else {
+              console.log('❌ Заявку не знайдено на сервері');
+            }
+          })
+          .catch(err => console.error('❌ Помилка завантаження з сервера:', err));
+      }
+    </script>
 </body>
 </html> 

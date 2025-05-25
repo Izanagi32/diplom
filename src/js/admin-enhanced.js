@@ -633,6 +633,9 @@ class EnhancedAdminPanel {
         throw new Error('Invalid data format received');
       }
       
+      console.log('🔄 Raw data from server:', data.length, 'items');
+      console.log('🔄 Server data sample:', data.length > 0 ? JSON.stringify(data[0], null, 2) : 'No data');
+      
       // Enhance data with additional fields for admin panel
       this.currentData = data.map(item => ({
         ...item,
@@ -1624,7 +1627,17 @@ class EnhancedAdminPanel {
       }
 
       this.showToast('Заявку оновлено', 'success');
+      
+      // Add logging before server reload
+      console.log('🔄 About to reload from server - current local data for ID', id, ':', 
+        JSON.stringify(this.currentData.find(r => r.id.toString() === id.toString()), null, 2));
+      
       await this.loadRequests(); // Reload from server to ensure sync
+      
+      // Add logging after server reload  
+      console.log('✅ After server reload - data for ID', id, ':', 
+        JSON.stringify(this.currentData.find(r => r.id.toString() === id.toString()), null, 2));
+        
       this.closeModal();
     } catch (error) {
       console.error('Update error details:', {
