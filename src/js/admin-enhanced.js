@@ -1714,72 +1714,74 @@ class EnhancedAdminPanel {
             <div class="form-section">
               <h4 class="section-title">
                 <i class="fas fa-route"></i>
-                Маршрут
+                Маршрут та основна інформація
               </h4>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="editPickupLocation">Звідки <span class="required">*</span></label>
-                  <input 
-                    type="text" 
-                    id="editPickupLocation" 
-                    class="form-control" 
-                    value="${request.pickupLocation || ''}"
-                    required
-                    placeholder="Місто відправлення"
-                  >
+              <div class="form-card">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="editPickupLocation">Звідки <span class="required">*</span></label>
+                    <input 
+                      type="text" 
+                      id="editPickupLocation" 
+                      class="form-control" 
+                      value="${request.pickupLocation || ''}"
+                      required
+                      placeholder="Місто відправлення"
+                    >
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="editDeliveryLocation">Куди <span class="required">*</span></label>
+                    <input 
+                      type="text" 
+                      id="editDeliveryLocation" 
+                      class="form-control" 
+                      value="${request.deliveryLocation || ''}"
+                      required
+                      placeholder="Місто призначення"
+                    >
+                  </div>
                 </div>
-                
-                <div class="form-group">
-                  <label for="editDeliveryLocation">Куди <span class="required">*</span></label>
-                  <input 
-                    type="text" 
-                    id="editDeliveryLocation" 
-                    class="form-control" 
-                    value="${request.deliveryLocation || ''}"
-                    required
-                    placeholder="Місто призначення"
-                  >
-                </div>
-              </div>
 
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="editPickupDate">Дата подачі <span class="required">*</span></label>
-                  <input 
-                    type="date" 
-                    id="editPickupDate" 
-                    class="form-control" 
-                    value="${request.pickupDate || ''}"
-                    required
-                  >
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="editPickupDate">Дата подачі <span class="required">*</span></label>
+                    <input 
+                      type="date" 
+                      id="editPickupDate" 
+                      class="form-control" 
+                      value="${request.pickupDate || ''}"
+                      required
+                    >
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="editCargoType">Тип вантажу <span class="required">*</span></label>
+                    <select id="editCargoType" class="form-control" required>
+                      <option value="">Оберіть тип</option>
+                      <option value="Електроніка" ${request.cargoType === 'Електроніка' ? 'selected' : ''}>Електроніка</option>
+                      <option value="Будматеріали" ${request.cargoType === 'Будматеріали' ? 'selected' : ''}>Будматеріали</option>
+                      <option value="Текстиль" ${request.cargoType === 'Текстиль' ? 'selected' : ''}>Текстиль</option>
+                      <option value="Автозапчастини" ${request.cargoType === 'Автозапчастини' ? 'selected' : ''}>Автозапчастини</option>
+                      <option value="Продукти харчування" ${request.cargoType === 'Продукти харчування' ? 'selected' : ''}>Продукти харчування</option>
+                      <option value="Фармацевтика" ${request.cargoType === 'Фармацевтика' ? 'selected' : ''}>Фармацевтика</option>
+                      <option value="Промислове обладнання" ${request.cargoType === 'Промислове обладнання' ? 'selected' : ''}>Промислове обладнання</option>
+                      <option value="Документи" ${request.cargoType === 'Документи' ? 'selected' : ''}>Документи</option>
+                      <option value="Ювелірні вироби" ${request.cargoType === 'Ювелірні вироби' ? 'selected' : ''}>Ювелірні вироби</option>
+                      <option value="Інше" ${request.cargoType === 'Інше' ? 'selected' : ''}>Інше</option>
+                    </select>
+                  </div>
                 </div>
-                
-                <div class="form-group">
-                  <label for="editCargoType">Тип вантажу <span class="required">*</span></label>
-                  <select id="editCargoType" class="form-control" required>
-                    <option value="">Оберіть тип</option>
-                    <option value="Електроніка" ${request.cargoType === 'Електроніка' ? 'selected' : ''}>Електроніка</option>
-                    <option value="Будматеріали" ${request.cargoType === 'Будматеріали' ? 'selected' : ''}>Будматеріали</option>
-                    <option value="Текстиль" ${request.cargoType === 'Текстиль' ? 'selected' : ''}>Текстиль</option>
-                    <option value="Автозапчастини" ${request.cargoType === 'Автозапчастини' ? 'selected' : ''}>Автозапчастини</option>
-                    <option value="Продукти харчування" ${request.cargoType === 'Продукти харчування' ? 'selected' : ''}>Продукти харчування</option>
-                    <option value="Фармацевтика" ${request.cargoType === 'Фармацевтика' ? 'selected' : ''}>Фармацевтика</option>
-                    <option value="Промислове обладнання" ${request.cargoType === 'Промислове обладнання' ? 'selected' : ''}>Промислове обладнання</option>
-                    <option value="Документи" ${request.cargoType === 'Документи' ? 'selected' : ''}>Документи</option>
-                    <option value="Ювелірні вироби" ${request.cargoType === 'Ювелірні вироби' ? 'selected' : ''}>Ювелірні вироби</option>
-                    <option value="Інше" ${request.cargoType === 'Інше' ? 'selected' : ''}>Інше</option>
-                  </select>
-                </div>
-              </div>
 
-              <div class="form-group">
-                <label for="editComment">Коментар</label>
-                <textarea 
-                  id="editComment" 
-                  class="form-control" 
-                  rows="3" 
-                  placeholder="Додаткова інформація про заявку"
-                >${request.comment || ''}</textarea>
+                <div class="form-group">
+                  <label for="editComment">Коментар</label>
+                  <textarea 
+                    id="editComment" 
+                    class="form-control" 
+                    rows="3" 
+                    placeholder="Додаткова інформація про заявку"
+                  >${request.comment || ''}</textarea>
+                </div>
               </div>
             </div>
           </div>
@@ -1791,82 +1793,89 @@ class EnhancedAdminPanel {
                 <i class="fas fa-cube"></i>
                 Габарити та вага
               </h4>
-              <div class="form-row form-row--4">
-                <div class="form-group">
-                  <label for="editLength">Довжина (м) <span class="required">*</span></label>
-                  <input 
-                    type="number" 
-                    id="editLength" 
-                    class="form-control" 
-                    value="${request.length || ''}"
-                    step="0.1" 
-                    min="0.1" 
-                    max="15"
-                    required
-                  >
-                </div>
-                
-                <div class="form-group">
-                  <label for="editWidth">Ширина (м) <span class="required">*</span></label>
-                  <input 
-                    type="number" 
-                    id="editWidth" 
-                    class="form-control" 
-                    value="${request.width || ''}"
-                    step="0.1" 
-                    min="0.1" 
-                    max="15"
-                    required
-                  >
-                </div>
-                
-                <div class="form-group">
-                  <label for="editHeight">Висота (м) <span class="required">*</span></label>
-                  <input 
-                    type="number" 
-                    id="editHeight" 
-                    class="form-control" 
-                    value="${request.height || ''}"
-                    step="0.1" 
-                    min="0.1" 
-                    max="15"
-                    required
-                  >
-                </div>
+              <div class="form-card">
+                <div class="form-row form-row--4">
+                  <div class="form-group">
+                    <label for="editLength">Довжина (м) <span class="required">*</span></label>
+                    <input 
+                      type="number" 
+                      id="editLength" 
+                      class="form-control" 
+                      value="${request.length || ''}"
+                      step="0.1" 
+                      min="0.1" 
+                      max="15"
+                      required
+                      placeholder="0.0"
+                    >
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="editWidth">Ширина (м) <span class="required">*</span></label>
+                    <input 
+                      type="number" 
+                      id="editWidth" 
+                      class="form-control" 
+                      value="${request.width || ''}"
+                      step="0.1" 
+                      min="0.1" 
+                      max="15"
+                      required
+                      placeholder="0.0"
+                    >
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="editHeight">Висота (м) <span class="required">*</span></label>
+                    <input 
+                      type="number" 
+                      id="editHeight" 
+                      class="form-control" 
+                      value="${request.height || ''}"
+                      step="0.1" 
+                      min="0.1" 
+                      max="15"
+                      required
+                      placeholder="0.0"
+                    >
+                  </div>
 
-                <div class="form-group calc-volume">
-                  <label>Об'єм (м³)</label>
-                  <div class="calculated-value" id="calculatedVolume">
-                    ${((request.length || 0) * (request.width || 0) * (request.height || 0) * (request.quantity || 1)).toFixed(2)}
+                  <div class="form-group calc-volume">
+                    <label>Об'єм (м³)</label>
+                    <div class="calculated-value" id="calculatedVolume">
+                      ${((request.length || 0) * (request.width || 0) * (request.height || 0) * (request.quantity || 1)).toFixed(2)}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="editWeight">Вага (кг) <span class="required">*</span></label>
-                  <input 
-                    type="number" 
-                    id="editWeight" 
-                    class="form-control" 
-                    value="${request.weight || ''}"
-                    min="1" 
-                    max="50000"
-                    required
-                  >
-                </div>
-                
-                <div class="form-group">
-                  <label for="editQuantity">Кількість <span class="required">*</span></label>
-                  <input 
-                    type="number" 
-                    id="editQuantity" 
-                    class="form-control" 
-                    value="${request.quantity || ''}"
-                    min="1" 
-                    max="1000"
-                    required
-                  >
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="editWeight">Вага (кг) <span class="required">*</span></label>
+                    <input 
+                      type="number" 
+                      id="editWeight" 
+                      class="form-control" 
+                      value="${request.weight || ''}"
+                      min="1" 
+                      max="50000"
+                      required
+                      placeholder="1"
+                    >
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="editQuantity">Кількість <span class="required">*</span></label>
+                    <input 
+                      type="number" 
+                      id="editQuantity" 
+                      class="form-control" 
+                      value="${request.quantity || ''}"
+                      min="1" 
+                      max="1000"
+                      required
+                      placeholder="1"
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -1876,32 +1885,38 @@ class EnhancedAdminPanel {
                 <i class="fas fa-exclamation-triangle"></i>
                 ADR та спеціальні вимоги
               </h4>
-              <div class="form-group">
-                <label class="checkbox-label">
-                  <input 
-                    type="checkbox" 
-                    id="editAdr" 
-                    ${request.adr ? 'checked' : ''}
-                  >
-                  <span class="checkmark"></span>
-                  Вантаж ADR (небезпечний вантаж)
-                </label>
-              </div>
-              
-              <div class="form-group" id="adrClassGroup" style="display: ${request.adr ? 'block' : 'none'}">
-                <label for="editAdrClass">Клас ADR</label>
-                <select id="editAdrClass" class="form-control">
-                  <option value="">Оберіть клас</option>
-                  <option value="ADR 1" ${request.adrClass === 'ADR 1' ? 'selected' : ''}>ADR 1 - Вибухові речовини</option>
-                  <option value="ADR 2" ${request.adrClass === 'ADR 2' ? 'selected' : ''}>ADR 2 - Гази</option>
-                  <option value="ADR 3" ${request.adrClass === 'ADR 3' ? 'selected' : ''}>ADR 3 - Легкозаймисті рідини</option>
-                  <option value="ADR 4" ${request.adrClass === 'ADR 4' ? 'selected' : ''}>ADR 4 - Легкозаймисті тверді речовини</option>
-                  <option value="ADR 5" ${request.adrClass === 'ADR 5' ? 'selected' : ''}>ADR 5 - Окислювачі</option>
-                  <option value="ADR 6" ${request.adrClass === 'ADR 6' ? 'selected' : ''}>ADR 6 - Отруйні речовини</option>
-                  <option value="ADR 7" ${request.adrClass === 'ADR 7' ? 'selected' : ''}>ADR 7 - Радіоактивні матеріали</option>
-                  <option value="ADR 8" ${request.adrClass === 'ADR 8' ? 'selected' : ''}>ADR 8 - Їдкі речовини</option>
-                  <option value="ADR 9" ${request.adrClass === 'ADR 9' ? 'selected' : ''}>ADR 9 - Інші небезпечні речовини</option>
-                </select>
+              <div class="form-card">
+                <div class="form-group">
+                  <label class="checkbox-label">
+                    <input 
+                      type="checkbox" 
+                      id="editIsAdr" 
+                      ${request.isAdr ? 'checked' : ''}
+                    >
+                    <span class="checkmark"></span>
+                    Вантаж ADR (небезпечний)
+                  </label>
+                </div>
+
+                <div class="form-group" id="adrClassGroup" style="display: ${request.isAdr ? 'block' : 'none'}">
+                  <label for="editAdrClass">Клас небезпеки ADR</label>
+                  <select id="editAdrClass" class="form-control">
+                    <option value="">Оберіть клас</option>
+                    <option value="Клас 1" ${request.adrClass === 'Клас 1' ? 'selected' : ''}>Клас 1 - Вибухові речовини</option>
+                    <option value="Клас 2" ${request.adrClass === 'Клас 2' ? 'selected' : ''}>Клас 2 - Гази</option>
+                    <option value="Клас 3" ${request.adrClass === 'Клас 3' ? 'selected' : ''}>Клас 3 - Легкозаймисті рідини</option>
+                    <option value="Клас 4.1" ${request.adrClass === 'Клас 4.1' ? 'selected' : ''}>Клас 4.1 - Легкозаймисті тверді речовини</option>
+                    <option value="Клас 4.2" ${request.adrClass === 'Клас 4.2' ? 'selected' : ''}>Клас 4.2 - Самозаймисті речовини</option>
+                    <option value="Клас 4.3" ${request.adrClass === 'Клас 4.3' ? 'selected' : ''}>Клас 4.3 - Речовини, що виділяють горючі гази</option>
+                    <option value="Клас 5.1" ${request.adrClass === 'Клас 5.1' ? 'selected' : ''}>Клас 5.1 - Окислювачі</option>
+                    <option value="Клас 5.2" ${request.adrClass === 'Клас 5.2' ? 'selected' : ''}>Клас 5.2 - Органічні пероксиди</option>
+                    <option value="Клас 6.1" ${request.adrClass === 'Клас 6.1' ? 'selected' : ''}>Клас 6.1 - Токсичні речовини</option>
+                    <option value="Клас 6.2" ${request.adrClass === 'Клас 6.2' ? 'selected' : ''}>Клас 6.2 - Інфекційні речовини</option>
+                    <option value="Клас 7" ${request.adrClass === 'Клас 7' ? 'selected' : ''}>Клас 7 - Радіоактивні матеріали</option>
+                    <option value="Клас 8" ${request.adrClass === 'Клас 8' ? 'selected' : ''}>Клас 8 - Корозійні речовини</option>
+                    <option value="Клас 9" ${request.adrClass === 'Клас 9' ? 'selected' : ''}>Клас 9 - Інші небезпечні речовини</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -1913,42 +1928,44 @@ class EnhancedAdminPanel {
                 <i class="fas fa-address-book"></i>
                 Контактна інформація
               </h4>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="editContactName">Контактна особа <span class="required">*</span></label>
-                  <input 
-                    type="text" 
-                    id="editContactName" 
-                    class="form-control" 
-                    value="${request.contactName || ''}"
-                    required
-                    placeholder="Ім'я та прізвище"
-                  >
+              <div class="form-card">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="editContactName">Контактна особа <span class="required">*</span></label>
+                    <input 
+                      type="text" 
+                      id="editContactName" 
+                      class="form-control" 
+                      value="${request.contactName || ''}"
+                      required
+                      placeholder="Ім'я та прізвище"
+                    >
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="editPhone">Телефон <span class="required">*</span></label>
+                    <input 
+                      type="tel" 
+                      id="editPhone" 
+                      class="form-control" 
+                      value="${request.phone || ''}"
+                      required
+                      placeholder="+380671234567"
+                      pattern="^\\+380\\d{9}$"
+                    >
+                  </div>
                 </div>
                 
                 <div class="form-group">
-                  <label for="editPhone">Телефон <span class="required">*</span></label>
+                  <label for="editEmail">Email</label>
                   <input 
-                    type="tel" 
-                    id="editPhone" 
+                    type="email" 
+                    id="editEmail" 
                     class="form-control" 
-                    value="${request.phone || ''}"
-                    required
-                    placeholder="+380671234567"
-                    pattern="^\\+380\\d{9}$"
+                    value="${request.email || ''}"
+                    placeholder="example@email.com"
                   >
                 </div>
-              </div>
-              
-              <div class="form-group">
-                <label for="editEmail">Email</label>
-                <input 
-                  type="email" 
-                  id="editEmail" 
-                  class="form-control" 
-                  value="${request.email || ''}"
-                  placeholder="example@email.com"
-                >
               </div>
             </div>
           </div>
@@ -1960,38 +1977,40 @@ class EnhancedAdminPanel {
                 <i class="fas fa-tasks"></i>
                 Статус та пріоритет
               </h4>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="editStatus">Статус заявки</label>
-                  <select id="editStatus" class="form-control">
-                    <option value="pending" ${request.status === 'pending' ? 'selected' : ''}>В очікуванні</option>
-                    <option value="approved" ${request.status === 'approved' ? 'selected' : ''}>Схвалено</option>
-                    <option value="in-progress" ${request.status === 'in-progress' ? 'selected' : ''}>В процесі</option>
-                    <option value="completed" ${request.status === 'completed' ? 'selected' : ''}>Завершено</option>
-                    <option value="rejected" ${request.status === 'rejected' ? 'selected' : ''}>Відхилено</option>
-                  </select>
+              <div class="form-card">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="editStatus">Статус заявки</label>
+                    <select id="editStatus" class="form-control">
+                      <option value="pending" ${request.status === 'pending' ? 'selected' : ''}>В очікуванні</option>
+                      <option value="approved" ${request.status === 'approved' ? 'selected' : ''}>Схвалено</option>
+                      <option value="in-progress" ${request.status === 'in-progress' ? 'selected' : ''}>В процесі</option>
+                      <option value="completed" ${request.status === 'completed' ? 'selected' : ''}>Завершено</option>
+                      <option value="rejected" ${request.status === 'rejected' ? 'selected' : ''}>Відхилено</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="editPriority">Пріоритет</label>
+                    <select id="editPriority" class="form-control">
+                      <option value="low" ${request.priority === 'low' ? 'selected' : ''}>Низький</option>
+                      <option value="medium" ${request.priority === 'medium' ? 'selected' : ''}>Середній</option>
+                      <option value="high" ${request.priority === 'high' ? 'selected' : ''}>Високий</option>
+                      <option value="urgent" ${request.priority === 'urgent' ? 'selected' : ''}>Терміновий</option>
+                    </select>
+                  </div>
                 </div>
                 
                 <div class="form-group">
-                  <label for="editPriority">Пріоритет</label>
-                  <select id="editPriority" class="form-control">
-                    <option value="low" ${request.priority === 'low' ? 'selected' : ''}>Низький</option>
-                    <option value="medium" ${request.priority === 'medium' ? 'selected' : ''}>Середній</option>
-                    <option value="high" ${request.priority === 'high' ? 'selected' : ''}>Високий</option>
-                    <option value="urgent" ${request.priority === 'urgent' ? 'selected' : ''}>Терміновий</option>
-                  </select>
+                  <label for="editAssignedTo">Призначити:</label>
+                  <input 
+                    type="text" 
+                    id="editAssignedTo" 
+                    class="form-control" 
+                    value="${request.assignedTo || ''}"
+                    placeholder="Ім'я відповідального"
+                  >
                 </div>
-              </div>
-              
-              <div class="form-group">
-                <label for="editAssignedTo">Призначити:</label>
-                <input 
-                  type="text" 
-                  id="editAssignedTo" 
-                  class="form-control" 
-                  value="${request.assignedTo || ''}"
-                  placeholder="Ім'я відповідального"
-                >
               </div>
             </div>
 
@@ -2000,18 +2019,20 @@ class EnhancedAdminPanel {
                 <i class="fas fa-info-circle"></i>
                 Додаткова інформація
               </h4>
-              <div class="info-grid">
-                <div class="info-item">
-                  <label>ID заявки:</label>
-                  <span>#${request.id}</span>
-                </div>
-                <div class="info-item">
-                  <label>Створено:</label>
-                  <span>${this.formatDateTime(request.createdAt)}</span>
-                </div>
-                <div class="info-item">
-                  <label>Останнє оновлення:</label>
-                  <span>${this.formatDateTime(request.updatedAt) || 'Немає'}</span>
+              <div class="form-card">
+                <div class="info-grid">
+                  <div class="info-item">
+                    <label>ID заявки:</label>
+                    <span>#${request.id}</span>
+                  </div>
+                  <div class="info-item">
+                    <label>Створено:</label>
+                    <span>${this.formatDateTime(request.createdAt)}</span>
+                  </div>
+                  <div class="info-item">
+                    <label>Останнє оновлення:</label>
+                    <span>${this.formatDateTime(request.updatedAt) || 'Немає'}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2091,7 +2112,7 @@ class EnhancedAdminPanel {
         }
 
         // Setup ADR toggle
-        document.getElementById('editAdr').addEventListener('change', function() {
+        document.getElementById('editIsAdr').addEventListener('change', function() {
           const adrClassGroup = document.getElementById('adrClassGroup');
           adrClassGroup.style.display = this.checked ? 'block' : 'none';
           if (!this.checked) {
@@ -2233,7 +2254,7 @@ class EnhancedAdminPanel {
       height: parseFloat(document.getElementById('editHeight')?.value),
       weight: parseInt(document.getElementById('editWeight')?.value),
       quantity: parseInt(document.getElementById('editQuantity')?.value),
-      adr: document.getElementById('editAdr')?.checked || false,
+      isAdr: document.getElementById('editIsAdr')?.checked || false,
       adrClass: document.getElementById('editAdrClass')?.value || null,
       contactName: document.getElementById('editContactName')?.value?.trim(),
       phone: document.getElementById('editPhone')?.value?.trim(),
@@ -2307,7 +2328,7 @@ class EnhancedAdminPanel {
     }
 
     // ADR validation
-    if (data.adr && !data.adrClass) {
+    if (data.isAdr && !data.adrClass) {
       return { isValid: false, message: 'Для ADR вантажу необхідно вказати клас' };
     }
 
