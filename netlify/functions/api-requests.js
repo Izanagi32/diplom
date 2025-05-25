@@ -144,13 +144,144 @@ exports.handler = async function(event, context) {
         contactName: row.contact_name,
         phone: row.phone,
         email: row.email,
+        status: row.status || 'pending',
+        priority: row.priority || 'medium',
+        statusComment: row.status_comment,
         createdAt: row.created_at,
+        updatedAt: row.updated_at,
       }));
 
       return {
         statusCode: 200,
         body: JSON.stringify(rows),
       };
+
+    } else if (event.httpMethod === 'PUT') {
+      // Оновлення заявки (статус, пріоритет тощо)
+      const body = JSON.parse(event.body);
+      console.log('PUT /api/requests body:', body);
+      const { id, ...updateData } = body;
+
+      if (!id) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'ID is required for update' }),
+        };
+      }
+
+      try {
+        // Перетворення назв полів для Supabase
+        const supabaseData = {};
+        if (updateData.status !== undefined) supabaseData.status = updateData.status;
+        if (updateData.priority !== undefined) supabaseData.priority = updateData.priority;
+        if (updateData.statusComment !== undefined) supabaseData.status_comment = updateData.statusComment;
+        if (updateData.pickupLocation !== undefined) supabaseData.pickup_location = updateData.pickupLocation;
+        if (updateData.deliveryLocation !== undefined) supabaseData.delivery_location = updateData.deliveryLocation;
+        if (updateData.length !== undefined) supabaseData.length = updateData.length;
+        if (updateData.width !== undefined) supabaseData.width = updateData.width;
+        if (updateData.height !== undefined) supabaseData.height = updateData.height;
+        if (updateData.weight !== undefined) supabaseData.weight = updateData.weight;
+        if (updateData.quantity !== undefined) supabaseData.quantity = updateData.quantity;
+        if (updateData.cargoType !== undefined) supabaseData.cargo_type = updateData.cargoType;
+        if (updateData.adr !== undefined) supabaseData.adr = updateData.adr;
+        if (updateData.adrClass !== undefined) supabaseData.adr_class = updateData.adrClass;
+        if (updateData.comment !== undefined) supabaseData.comment = updateData.comment;
+        if (updateData.pickupDate !== undefined) supabaseData.pickup_date = updateData.pickupDate;
+        if (updateData.contactName !== undefined) supabaseData.contact_name = updateData.contactName;
+        if (updateData.phone !== undefined) supabaseData.phone = updateData.phone;
+        if (updateData.email !== undefined) supabaseData.email = updateData.email;
+
+        const { data, error } = await supabase
+          .from('requests')
+          .update(supabaseData)
+          .eq('id', id)
+          .select();
+
+        if (error) {
+          console.error('Supabase update error:', error);
+          throw error;
+        }
+
+        if (!data || data.length === 0) {
+          return {
+            statusCode: 404,
+            body: JSON.stringify({ error: 'Request not found' }),
+          };
+        }
+
+        console.log('Supabase update result:', data[0]);
+
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ 
+            success: true, 
+            data: {
+              id: data[0].id,
+              status: data[0].status,
+              priority: data[0].priority,
+              statusComment: data[0].status_comment,
+              updatedAt: data[0].updated_at
+            }
+          }),
+        };
+
+      } catch (error) {
+        console.error('Update failed:', error);
+        return {
+          statusCode: 500,
+          body: JSON.stringify({ error: error.message }),
+        };
+      }
+
+    } else if (event.httpMethod === 'DELETE') {
+      // Видалення заявки
+      const url = new URL(event.rawUrl || `https://example.com${event.path}`);
+      const id = url.searchParams.get('id');
+
+      if (!id) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'ID is required for delete' }),
+        };
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('requests')
+          .delete()
+          .eq('id', id)
+          .select();
+
+        if (error) {
+          console.error('Supabase delete error:', error);
+          throw error;
+        }
+
+        if (!data || data.length === 0) {
+          return {
+            statusCode: 404,
+            body: JSON.stringify({ error: 'Request not found' }),
+          };
+        }
+
+        console.log('Supabase delete result:', data[0]);
+
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ 
+            success: true, 
+            message: 'Request deleted successfully',
+            deletedId: id
+          }),
+        };
+
+      } catch (error) {
+        console.error('Delete failed:', error);
+        return {
+          statusCode: 500,
+          body: JSON.stringify({ error: error.message }),
+        };
+      }
 
     } else {
       return {

@@ -562,15 +562,31 @@ class AdminPanel {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      this.showLoading();
       
+      // Send delete request to API
+      const response = await fetch(`/api/requests?id=${id}`, {
+        method: 'DELETE'
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      console.log('Delete result:', result);
+      
+      // Remove from local data
       this.currentData = this.currentData.filter(item => item.id != id);
       this.applyFilters();
       this.renderStats();
       this.showSuccess('Заявку успішно видалено');
     } catch (error) {
+      console.error('Delete error:', error);
       this.showError('Помилка при видаленні заявки: ' + error.message);
+    } finally {
+      this.hideLoading();
     }
   }
 
@@ -1028,18 +1044,59 @@ async function handleEditSubmit(form) {
   const data = Object.fromEntries(formData.entries());
   
   try {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Get request ID from modal title
+    const requestId = parseInt(document.querySelector('.modal h3').textContent.match(/\d+/)[0]);
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Збереження...';
+    submitBtn.disabled = true;
+    
+    // Prepare data for API
+    const updateData = {
+      id: requestId,
+      pickupLocation: data.pickupLocation,
+      deliveryLocation: data.deliveryLocation,
+      length: parseFloat(data.length),
+      width: parseFloat(data.width),
+      height: parseFloat(data.height),
+      weight: parseFloat(data.weight),
+      quantity: parseInt(data.quantity),
+      cargoType: data.cargoType,
+      adr: data.adr === 'true',
+      adrClass: data.adrClass,
+      comment: data.comment,
+      pickupDate: data.pickupDate,
+      contactName: data.contactName,
+      phone: data.phone,
+      email: data.email
+    };
+    
+    // Send update request to API
+    const response = await fetch('/api/requests', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updateData)
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+    }
+    
+    const result = await response.json();
+    console.log('Edit update result:', result);
     
     // Update local data
-    const requestId = parseInt(document.querySelector('.modal h3').textContent.match(/\d+/)[0]);
     const requestIndex = adminPanel.currentData.findIndex(item => item.id === requestId);
     
     if (requestIndex !== -1) {
       adminPanel.currentData[requestIndex] = {
         ...adminPanel.currentData[requestIndex],
         ...data,
-        adr: data.adr === 'true'
+        adr: data.adr === 'true',
+        updatedAt: result.data.updatedAt
       };
       
       adminPanel.applyFilters();
@@ -1048,7 +1105,15 @@ async function handleEditSubmit(form) {
     }
     
   } catch (error) {
+    console.error('Edit update error:', error);
     adminPanel.showError('Помилка при оновленні заявки: ' + error.message);
+    
+    // Restore button state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.innerHTML = '<i class="fas fa-save"></i> Зберегти зміни';
+      submitBtn.disabled = false;
+    }
   }
 }
 
@@ -1057,11 +1122,36 @@ async function handleStatusSubmit(form) {
   const data = Object.fromEntries(formData.entries());
   
   try {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Get request ID from modal title
+    const requestId = parseInt(document.querySelector('.modal h3').textContent.match(/\d+/)[0]);
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Оновлення...';
+    submitBtn.disabled = true;
+    
+    // Send update request to API
+    const response = await fetch('/api/requests', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: requestId,
+        status: data.status,
+        priority: data.priority,
+        statusComment: data.statusComment
+      })
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+    }
+    
+    const result = await response.json();
+    console.log('Status update result:', result);
     
     // Update local data
-    const requestId = parseInt(document.querySelector('.modal h3').textContent.match(/\d+/)[0]);
     const requestIndex = adminPanel.currentData.findIndex(item => item.id === requestId);
     
     if (requestIndex !== -1) {
@@ -1069,7 +1159,8 @@ async function handleStatusSubmit(form) {
         ...adminPanel.currentData[requestIndex],
         status: data.status,
         priority: data.priority,
-        statusComment: data.statusComment
+        statusComment: data.statusComment,
+        updatedAt: result.data.updatedAt
       };
       
       adminPanel.applyFilters();
@@ -1079,6 +1170,14 @@ async function handleStatusSubmit(form) {
     }
     
   } catch (error) {
+    console.error('Status update error:', error);
     adminPanel.showError('Помилка при оновленні статусу: ' + error.message);
+    
+    // Restore button state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.innerHTML = '<i class="fas fa-check"></i> Оновити статус';
+      submitBtn.disabled = false;
+    }
   }
 } 
