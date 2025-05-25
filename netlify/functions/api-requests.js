@@ -236,8 +236,16 @@ exports.handler = async function(event, context) {
       // Update request
       const pathParts = event.path.split('/');
       const requestId = pathParts[pathParts.length - 1];
-      const body = JSON.parse(event.body);
       
+      if (!requestId || requestId === 'requests') {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ error: 'Missing request ID' }),
+        };
+      }
+      
+      const body = JSON.parse(event.body);
       console.log('PUT /api/requests/:id body:', body, 'ID:', requestId);
       
       const updateFields = [];
@@ -245,34 +253,63 @@ exports.handler = async function(event, context) {
       
       // Build dynamic update query based on provided fields
       Object.keys(body).forEach(key => {
-        if (key !== 'id' && body[key] !== undefined) {
+        if (key !== 'id' && body[key] !== undefined && body[key] !== null) {
           updateFields.push(`${key} = ?`);
-          updateValues.push(body[key]);
+          // Handle boolean values for adr field
+          if (key === 'adr' || key === 'isAdr') {
+            updateValues.push(body[key] ? 1 : 0);
+          } else {
+            updateValues.push(body[key]);
+          }
         }
       });
       
       // Always update the updatedAt field
       updateFields.push('updatedAt = CURRENT_TIMESTAMP');
+      
+      // Add requestId at the end for WHERE clause
       updateValues.push(requestId);
       
-      const updateResult = await db.execute({
-        sql: `UPDATE requests SET ${updateFields.join(', ')} WHERE id = ?`,
-        args: updateValues
-      });
-      
-      if (updateResult.rowsAffected === 0) {
+      if (updateFields.length === 1) { // Only updatedAt field
         return {
-          statusCode: 404,
+          statusCode: 400,
           headers,
-          body: JSON.stringify({ error: 'Request not found' }),
+          body: JSON.stringify({ error: 'No fields to update' }),
         };
       }
       
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ success: true, updated: true }),
-      };
+      console.log('UPDATE SQL:', `UPDATE requests SET ${updateFields.join(', ')} WHERE id = ?`);
+      console.log('UPDATE args:', updateValues);
+      
+      try {
+        const updateResult = await db.execute({
+          sql: `UPDATE requests SET ${updateFields.join(', ')} WHERE id = ?`,
+          args: updateValues
+        });
+        
+        console.log('Update result:', updateResult);
+        
+        if (updateResult.rowsAffected === 0) {
+          return {
+            statusCode: 404,
+            headers,
+            body: JSON.stringify({ error: 'Request not found' }),
+          };
+        }
+        
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({ success: true, updated: true, rowsAffected: updateResult.rowsAffected }),
+        };
+      } catch (updateError) {
+        console.error('Update query failed:', updateError);
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({ error: `Update failed: ${updateError.message}` }),
+        };
+      }
 
     } else if (event.httpMethod === 'DELETE') {
       // Delete request

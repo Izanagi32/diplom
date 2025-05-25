@@ -1501,51 +1501,107 @@ class EnhancedAdminPanel {
 
   async updateRequestStatus(id, newStatus) {
     try {
+      console.log('Updating request status:', { id, newStatus });
+      
+      const updateData = { 
+        status: newStatus,
+        updatedAt: new Date().toISOString()
+      };
+      
+      console.log('Update data:', updateData);
+      
       const response = await fetch(`/api/requests/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ 
-          status: newStatus,
-          updatedAt: new Date().toISOString()
-        })
+        body: JSON.stringify(updateData)
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response headers:', [...response.headers.entries()]);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Server error response:', errorText);
+        
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorJson = JSON.parse(errorText);
+          errorMessage += `: ${errorJson.error || errorJson.message || 'Unknown error'}`;
+        } catch (e) {
+          errorMessage += `: ${errorText}`;
+        }
+        
+        throw new Error(errorMessage);
       }
+
+      const result = await response.json();
+      console.log('Update result:', result);
 
       this.showToast('Статус оновлено', 'success');
       await this.loadRequests();
     } catch (error) {
-      console.error('Update error:', error);
+      console.error('Update error details:', {
+        message: error.message,
+        stack: error.stack,
+        id: id,
+        newStatus: newStatus
+      });
       this.showToast('Помилка оновлення: ' + error.message, 'error');
     }
   }
 
   async updateRequest(id, updates) {
     try {
+      console.log('Updating request:', { id, updates });
+      
+      const updateData = {
+        ...updates,
+        updatedAt: new Date().toISOString()
+      };
+      
+      console.log('Update data:', updateData);
+      
       const response = await fetch(`/api/requests/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          ...updates,
-          updatedAt: new Date().toISOString()
-        })
+        body: JSON.stringify(updateData)
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response headers:', [...response.headers.entries()]);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Server error response:', errorText);
+        
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorJson = JSON.parse(errorText);
+          errorMessage += `: ${errorJson.error || errorJson.message || 'Unknown error'}`;
+        } catch (e) {
+          errorMessage += `: ${errorText}`;
+        }
+        
+        throw new Error(errorMessage);
       }
+
+      const result = await response.json();
+      console.log('Update result:', result);
 
       this.showToast('Заявку оновлено', 'success');
       await this.loadRequests();
       this.closeModal();
     } catch (error) {
-      console.error('Update error:', error);
+      console.error('Update error details:', {
+        message: error.message,
+        stack: error.stack,
+        id: id,
+        updates: updates
+      });
       this.showToast('Помилка оновлення: ' + error.message, 'error');
     }
   }
@@ -2532,6 +2588,7 @@ class EnhancedAdminPanel {
   // Add this method to window for easy access in console
   exposeDebugMethods() {
     window.testAPI = () => this.testAPIConnection();
+    window.testUpdateStatus = (id, status) => this.testUpdateStatus(id, status);
     window.debugDelete = (id) => {
       console.log('🐛 Debug delete for ID:', id);
       const request = this.currentData.find(item => item.id.toString() === id.toString());
@@ -2540,7 +2597,30 @@ class EnhancedAdminPanel {
     };
     window.testEditForm = (id = 1) => this.testEditForm(id);
     window.testFormElements = () => this.testFormElements();
-    console.log('🔧 Debug methods available: testAPI(), debugDelete(id), testEditForm(id), testFormElements()');
+    console.log('🔧 Debug methods available: testAPI(), testUpdateStatus(id, status), debugDelete(id), testEditForm(id), testFormElements()');
+  }
+
+  async testUpdateStatus(id, status = 'approved') {
+    console.log('🧪 Testing status update...');
+    console.log('Parameters:', { id, status });
+    
+    const request = this.currentData.find(item => item.id.toString() === id.toString());
+    if (!request) {
+      console.error('❌ Request not found with ID:', id);
+      console.log('Available requests:', this.currentData.map(r => ({ id: r.id, status: r.status })));
+      return;
+    }
+    
+    console.log('✅ Found request:', request);
+    console.log('Current status:', request.status);
+    console.log('New status:', status);
+    
+    try {
+      await this.updateRequestStatus(id, status);
+      console.log('✅ Status update completed');
+    } catch (error) {
+      console.error('❌ Status update failed:', error);
+    }
   }
 
   testEditForm(id = 1) {

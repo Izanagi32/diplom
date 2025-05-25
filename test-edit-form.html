@@ -46,6 +46,7 @@
     <button onclick="testEditForm()">Тест форми редагування</button>
     <button onclick="testFormElements()">Перевірити елементи форми</button>
     <button onclick="testAPI()">Тест API</button>
+    <button onclick="testStatusUpdate()">Тест оновлення статусу</button>
     <button onclick="clearConsole()">Очистити консоль</button>
   </div>
   
@@ -174,6 +175,48 @@
       }
       
       adminPanel.testAPIConnection();
+    }
+    
+    function testStatusUpdate() {
+      if (!adminPanel) {
+        console.error('Адміністративна панель не ініціалізована');
+        return;
+      }
+      
+      console.log('🧪 Запуск тесту оновлення статусу...');
+      
+      if (adminPanel.currentData.length === 0) {
+        console.error('❌ Немає заявок для тестування');
+        return;
+      }
+      
+      const testId = adminPanel.currentData[0].id;
+      console.log('Використовуємо ID:', testId);
+      
+      // Тест різних статусів
+      const statuses = ['approved', 'in-progress', 'completed', 'rejected', 'pending'];
+      let currentStatusIndex = 0;
+      
+      const testNextStatus = async () => {
+        if (currentStatusIndex < statuses.length) {
+          const status = statuses[currentStatusIndex];
+          console.log(`Тестуємо статус: ${status}`);
+          
+          try {
+            await adminPanel.testUpdateStatus(testId, status);
+            currentStatusIndex++;
+            
+            // Невелика затримка між тестами
+            setTimeout(testNextStatus, 2000);
+          } catch (error) {
+            console.error('❌ Помилка тесту:', error);
+          }
+        } else {
+          console.log('✅ Всі тести статусів завершені');
+        }
+      };
+      
+      testNextStatus();
     }
   </script>
 </body>
