@@ -1,40 +1,16 @@
 require('dotenv').config();
-const { createClient } = require('@libsql/client');
+const { createClient } = require('@supabase/supabase-js');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-const db = createClient({
-  url: process.env.TURSO_DATABASE_URL,
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
+// Ініціалізація Supabase клієнта
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 exports.handler = async function(event, context) {
   try {
     console.log('Telegram ENV >> BOT_TOKEN:', process.env.TELEGRAM_BOT_TOKEN, 'CHAT_ID:', process.env.TELEGRAM_CHAT_ID);
-    await db.execute({
-      sql: `
-        CREATE TABLE IF NOT EXISTS requests (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          pickupLocation TEXT,
-          deliveryLocation TEXT,
-          length REAL,
-          width REAL,
-          height REAL,
-          weight REAL,
-          quantity INTEGER,
-          cargoType TEXT,
-          adr BOOLEAN,
-          adrClass TEXT,
-          comment TEXT,
-          pickupDate TEXT,
-          contactName TEXT,
-          phone TEXT,
-          email TEXT,
-          createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-      `,
-      args: []
-    });
-
+    
     if (event.httpMethod === 'POST') {
       const body = JSON.parse(event.body);
       console.log('POST /api/requests body:', body);
@@ -58,37 +34,44 @@ exports.handler = async function(event, context) {
 
       let insertResult;
       try {
-        insertResult = await db.execute({
-          sql: `INSERT INTO requests (
-            pickupLocation, deliveryLocation, length, width, height,
-            weight, quantity, cargoType, adr, adrClass,
-            comment, pickupDate, contactName, phone, email, createdAt
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
-          args: [
-            pickupLocation,
-            deliveryLocation,
-            length,
-            width,
-            height,
-            weight,
-            quantity,
-            cargoType,
-            adr ? 1 : 0,
-            adrClass,
-            comment,
-            pickupDate,
-            contactName,
-            phone,
-            email,
-          ],
-        });
-        console.log('db.execute insertResult:', insertResult);
+        // Вставка даних в Supabase
+        const { data, error } = await supabase
+          .from('requests')
+          .insert([
+            {
+              pickup_location: pickupLocation,
+              delivery_location: deliveryLocation,
+              length: length,
+              width: width,
+              height: height,
+              weight: weight,
+              quantity: quantity,
+              cargo_type: cargoType,
+              adr: adr,
+              adr_class: adrClass,
+              comment: comment,
+              pickup_date: pickupDate,
+              contact_name: contactName,
+              phone: phone,
+              email: email,
+              created_at: new Date().toISOString()
+            }
+          ])
+          .select();
+
+        if (error) {
+          console.error('Supabase insert error:', error);
+          throw error;
+        }
+
+        insertResult = data[0];
+        console.log('Supabase insert result:', insertResult);
       } catch (error) {
         console.error('Insert failed:', error);
         throw error;
       }
-      const insertedId = insertResult.lastInsertRowid;
 
+      const insertedId = insertResult.id;
       const fileNameToShow = 'немає';
       const volume = (length * width * height * quantity).toFixed(2);
       const message =
@@ -105,6 +88,7 @@ exports.handler = async function(event, context) {
         `📞 Контакт: ${contactName}, ${phone}\n` +
         `✉️ Email: ${email}\n` +
         `📎 Файл: ${fileNameToShow}`;
+      
       try {
         console.log('Sending Telegram via POST');
         const telegramResponse = await fetch(
@@ -131,28 +115,36 @@ exports.handler = async function(event, context) {
       };
 
     } else if (event.httpMethod === 'GET') {
-      const result = await db.execute({
-        sql: 'SELECT * FROM requests ORDER BY createdAt DESC',
-        args: []
-      });
-      const rows = result.rows.map(row => ({
-        id: row.id instanceof BigInt ? row.id.toString() : row.id,
-        pickupLocation: row.pickupLocation,
-        deliveryLocation: row.deliveryLocation,
+      // Отримання всіх заявок з Supabase
+      const { data, error } = await supabase
+        .from('requests')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Supabase select error:', error);
+        throw error;
+      }
+
+      // Перетворення назв полів для сумісності з фронтендом
+      const rows = data.map(row => ({
+        id: row.id,
+        pickupLocation: row.pickup_location,
+        deliveryLocation: row.delivery_location,
         length: row.length,
         width: row.width,
         height: row.height,
         weight: row.weight,
         quantity: row.quantity,
-        cargoType: row.cargoType,
-        adr: !!row.adr,
-        adrClass: row.adrClass,
+        cargoType: row.cargo_type,
+        adr: row.adr,
+        adrClass: row.adr_class,
         comment: row.comment,
-        pickupDate: row.pickupDate,
-        contactName: row.contactName,
+        pickupDate: row.pickup_date,
+        contactName: row.contact_name,
         phone: row.phone,
         email: row.email,
-        createdAt: row.createdAt,
+        createdAt: row.created_at,
       }));
 
       return {
