@@ -878,17 +878,38 @@ class AdminPanel {
     if (!dateString) return 'Не вказано';
     
     try {
-      const utcString = dateString.replace(' ', 'T') + 'Z';
-      const date = new Date(utcString);
+      // Обробка різних форматів дати
+      let date;
+      
+      if (dateString.includes('+')) {
+        // Формат PostgreSQL: 2025-05-25 23:17:57.893016+00
+        date = new Date(dateString);
+      } else if (dateString.includes('T')) {
+        // ISO формат: 2025-05-25T23:17:57.893Z
+        date = new Date(dateString);
+      } else {
+        // Простий формат: 2025-05-25 23:17:57
+        const utcString = dateString.replace(' ', 'T') + 'Z';
+        date = new Date(utcString);
+      }
+      
+      // Перевірка чи дата валідна
+      if (isNaN(date.getTime())) {
+        console.warn('Invalid date:', dateString);
+        return dateString;
+      }
+      
       return date.toLocaleString('uk-UA', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit'
+        second: '2-digit',
+        timeZone: 'Europe/Kiev'
       });
     } catch (error) {
+      console.error('Date formatting error:', error, 'for date:', dateString);
       return dateString;
     }
   }
