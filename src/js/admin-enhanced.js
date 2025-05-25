@@ -1504,11 +1504,13 @@ class EnhancedAdminPanel {
       console.log('Updating request status:', { id, newStatus });
       
       const updateData = { 
-        status: newStatus,
-        updatedAt: new Date().toISOString()
+        status: newStatus
+        // updatedAt автоматично встановлюється сервером через CURRENT_TIMESTAMP
       };
       
       console.log('Update data:', updateData);
+      console.log('Update data keys:', Object.keys(updateData));
+      console.log('Update data values:', Object.values(updateData));
       
       const response = await fetch(`/api/requests/${id}`, {
         method: 'PUT',
@@ -1557,11 +1559,13 @@ class EnhancedAdminPanel {
       console.log('Updating request:', { id, updates });
       
       const updateData = {
-        ...updates,
-        updatedAt: new Date().toISOString()
+        ...updates
+        // updatedAt автоматично встановлюється сервером через CURRENT_TIMESTAMP
       };
       
       console.log('Update data:', updateData);
+      console.log('Update data keys:', Object.keys(updateData));
+      console.log('Update data values:', Object.values(updateData));
       
       const response = await fetch(`/api/requests/${id}`, {
         method: 'PUT',

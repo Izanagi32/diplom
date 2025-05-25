@@ -94,8 +94,9 @@ exports.handler = async function(event, context) {
         sql: `ALTER TABLE requests ADD COLUMN updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP`,
         args: []
       });
+      console.log('Added updatedAt column successfully');
     } catch (e) {
-      // Column already exists
+      console.log('updatedAt column already exists or failed to create:', e.message);
     }
 
     if (event.httpMethod === 'POST') {
@@ -264,8 +265,19 @@ exports.handler = async function(event, context) {
         }
       });
       
-      // Always update the updatedAt field
-      updateFields.push('updatedAt = CURRENT_TIMESTAMP');
+      // Try to update the updatedAt field if it exists
+      try {
+        // Check if updatedAt column exists by trying to reference it
+        const checkColumn = await db.execute({
+          sql: `SELECT updatedAt FROM requests LIMIT 1`,
+          args: []
+        });
+        // If no error, column exists, so add it to update
+        updateFields.push('updatedAt = CURRENT_TIMESTAMP');
+      } catch (e) {
+        console.log('updatedAt column does not exist, skipping:', e.message);
+        // Column doesn't exist, continue without it
+      }
       
       // Add requestId at the end for WHERE clause
       updateValues.push(requestId);
