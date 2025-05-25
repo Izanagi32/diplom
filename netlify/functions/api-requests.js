@@ -257,14 +257,11 @@ exports.handler = async function(event, context) {
         if (key !== 'id' && body[key] !== undefined) {
           updateFields.push(`${key} = ?`);
           
-          // Special handling for adrClass - clear it if adr is false
           if (key === 'adrClass' && !body.adr) {
-            updateValues.push(null); // Clear adrClass when adr is false
+            updateValues.push(null);
           } else if (key === 'adr' || key === 'isAdr') {
-            // Handle boolean values for adr field
             updateValues.push(body[key] ? 1 : 0);
           } else {
-            // Handle all other fields normally
             updateValues.push(body[key]);
           }
         }
