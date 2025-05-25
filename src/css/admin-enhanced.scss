@@ -1,24 +1,17 @@
-// ===== ENHANCED ADMIN PANEL STYLES =====
-
-// === Design System Variables ===
 $colors: (
-    // Primary Brand
     primary: #1e40af,
     primary-hover: #1d4ed8,
     primary-light: #dbeafe,
     primary-dark: #1e3a8a,
 
-    // Secondary Colors
     secondary: #6366f1,
     secondary-hover: #7c3aed,
     secondary-light: #e0e7ff,
 
-    // Accent Colors
     accent: #f59e0b,
     accent-hover: #d97706,
     accent-light: #fef3c7,
 
-    // Semantic Colors
     success: #10b981,
     success-hover: #059669,
     success-light: #d1fae5,
@@ -32,7 +25,6 @@ $colors: (
     info-hover: #2563eb,
     info-light: #dbeafe,
 
-    // Neutral Colors
     white: #ffffff,
     gray-50: #f9fafb,
     gray-100: #f3f4f6,
@@ -45,25 +37,21 @@ $colors: (
     gray-800: #1f2937,
     gray-900: #111827,
 
-    // Background Colors
     bg-primary: #f8fafc,
     bg-secondary: #ffffff,
     bg-card: #ffffff,
     bg-hover: #f1f5f9,
 
-    // Text Colors
     text-primary: #0f172a,
     text-secondary: #475569,
     text-tertiary: #64748b,
     text-inverse: #ffffff,
 
-    // Border Colors
     border-light: #f1f5f9,
     border-medium: #e2e8f0,
     border-dark: #cbd5e1,
 );
 
-// Shadow System
 $shadows: (
     sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
     base: (0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)),
@@ -74,74 +62,44 @@ $shadows: (
     inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06),
 );
 
-// Typography Scale
 $font-sizes: (
     xs: 0.75rem,
-    // 12px
     sm: 0.875rem,
-    // 14px
     base: 1rem,
-    // 16px
     lg: 1.125rem,
-    // 18px
     xl: 1.25rem,
-    // 20px
     2xl: 1.5rem,
-    // 24px
     3xl: 1.875rem,
-    // 30px
     4xl: 2.25rem,
-    // 36px
 );
 
-// Spacing Scale
 $spacing: (
     0: 0,
     1: 0.25rem,
-    // 4px
     2: 0.5rem,
-    // 8px
     3: 0.75rem,
-    // 12px
     4: 1rem,
-    // 16px
     5: 1.25rem,
-    // 20px
     6: 1.5rem,
-    // 24px
     8: 2rem,
-    // 32px
     10: 2.5rem,
-    // 40px
     12: 3rem,
-    // 48px
     16: 4rem,
-    // 64px
     20: 5rem,
-    // 80px
 );
 
-// Border Radius
 $radius: (
     none: 0,
     sm: 0.125rem,
-    // 2px
     base: 0.25rem,
-    // 4px
     md: 0.375rem,
-    // 6px
     lg: 0.5rem,
-    // 8px
     xl: 0.75rem,
-    // 12px
     2xl: 1rem,
-    // 16px
     3xl: 1.5rem,
-    // 24px
     full: 9999px,
 );
 
-// Transitions
 $transitions: (
     all: all 0.15s ease-in-out,
     opacity: opacity 0.15s ease-in-out,
@@ -149,7 +107,6 @@ $transitions: (
     colors: (background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out),
 );
 
-// Breakpoints
 $breakpoints: (
     sm: 640px,
     md: 768px,
@@ -158,7 +115,6 @@ $breakpoints: (
     2xl: 1536px,
 );
 
-// === Helper Functions ===
 @function color($name) {
     @return map-get($colors, $name);
 }
@@ -183,7 +139,6 @@ $breakpoints: (
     @return map-get($transitions, $name);
 }
 
-// === Mixins ===
 @mixin button-variant($bg-color, $text-color: color(white), $hover-bg: null) {
     background-color: $bg-color;
     color: $text-color;
@@ -286,7 +241,6 @@ $breakpoints: (
     }
 }
 
-// === Base Styles ===
 * {
     box-sizing: border-box;
     margin: 0;
@@ -323,7 +277,6 @@ textarea {
     font-family: inherit;
 }
 
-// === Enhanced Admin Layout ===
 .admin-container {
     display: grid;
     grid-template-areas:
@@ -338,7 +291,6 @@ textarea {
     }
 }
 
-// === Enhanced Header ===
 .admin-header {
     grid-row: 1;
     grid-column: 1 / 3;
@@ -489,7 +441,6 @@ textarea {
     }
 }
 
-// === Enhanced Sidebar ===
 .admin-sidebar {
     grid-row: 2;
     grid-column: 1;
@@ -587,7 +538,6 @@ textarea {
     }
 }
 
-// === Enhanced Main Content ===
 .admin-content {
     grid-row: 2;
     grid-column: 2;
@@ -644,7 +594,6 @@ textarea {
     }
 }
 
-// === Enhanced Statistics Cards ===
 .stats-grid {
     display: grid;
     -ms-grid-columns: 1fr;
@@ -755,7 +704,6 @@ textarea {
     }
 }
 
-// === Enhanced Filters ===
 .filters-panel {
     @include card();
     padding: spacing(6);
@@ -824,7 +772,6 @@ textarea {
     }
 }
 
-// === Enhanced Buttons ===
 .btn {
     display: inline-flex;
     align-items: center;
@@ -894,7 +841,6 @@ textarea {
     }
 }
 
-// === Enhanced Data Table ===
 .data-table-container {
     @include card();
     overflow: hidden;
@@ -1011,7 +957,6 @@ textarea {
     }
 }
 
-// === Enhanced Status Badges ===
 .status-badge {
     @include status-badge(color(gray-500));
 
@@ -1043,7 +988,6 @@ textarea {
     }
 }
 
-// === Enhanced Priority Badges ===
 .priority-badge {
     @include status-badge(color(gray-500));
 
@@ -1065,7 +1009,6 @@ textarea {
     }
 }
 
-// === Enhanced Modals ===
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -1229,7 +1172,6 @@ textarea {
     }
 }
 
-// === Enhanced Pagination ===
 .pagination {
     display: flex;
     justify-content: space-between;
@@ -1283,7 +1225,6 @@ textarea {
     }
 }
 
-// === Animations ===
 @keyframes pulse {
 
     0%,
@@ -1326,7 +1267,6 @@ textarea {
     animation: fadeIn 0.3s ease-out;
 }
 
-// === Responsive Design ===
 @include responsive(lg) {
     .admin-container {
         grid-template-columns: 280px 1fr;
@@ -1374,7 +1314,6 @@ textarea {
     }
 }
 
-// === Utility Classes ===
 .sr-only {
     position: absolute;
     width: 1px;
@@ -1415,7 +1354,6 @@ textarea {
     }
 }
 
-// === Print Styles ===
 @media print {
 
     .admin-sidebar,
@@ -1444,7 +1382,6 @@ textarea {
     }
 }
 
-// === Toast Notifications ===
 .toast-container {
     position: fixed;
     top: spacing(6);
@@ -1538,7 +1475,6 @@ textarea {
     }
 }
 
-// === User Dropdown ===
 .user-dropdown {
     position: fixed;
     min-width: 200px;
@@ -1578,7 +1514,6 @@ textarea {
     }
 }
 
-// === Notifications Dropdown ===
 .notifications-dropdown {
     position: fixed;
     width: 320px;
@@ -1703,7 +1638,6 @@ textarea {
     font-size: font-size(sm);
 }
 
-// === Mobile Menu Toggle ===
 .mobile-menu-toggle {
     display: none;
     padding: spacing(2);
@@ -1724,7 +1658,6 @@ textarea {
     }
 }
 
-// === Loading States ===
 .loading-state,
 .error-state {
     display: flex;
@@ -1752,7 +1685,6 @@ textarea {
     }
 }
 
-// === Empty State ===
 .empty-state {
     text-align: center;
     padding: spacing(16);
@@ -1770,7 +1702,6 @@ textarea {
     }
 }
 
-// === Bulk Actions ===
 .bulk-actions {
     @include card();
     padding: spacing(4) spacing(6);
@@ -1796,7 +1727,6 @@ textarea {
     }
 }
 
-// === Table Enhancements ===
 .route-info {
     display: flex;
     align-items: center;
@@ -1884,7 +1814,6 @@ textarea {
     }
 }
 
-// === Tab Content ===
 .tab-content {
     display: none;
 
@@ -1894,7 +1823,6 @@ textarea {
     }
 }
 
-// === Detail View ===
 .request-details {
     .details-grid {
         display: grid;
@@ -1957,7 +1885,6 @@ textarea {
     }
 }
 
-// === Search Input ===
 .search-input {
     @include input-base();
     min-width: 200px;
@@ -1967,7 +1894,6 @@ textarea {
     }
 }
 
-// === Additional Responsive Styles ===
 @media (max-width: 768px) {
     .admin-content__header {
         flex-direction: column;
@@ -2005,19 +1931,16 @@ textarea {
     }
 }
 
-// === CSS Custom Properties for Dynamic Theming ===
 :root {
     --stat-color: #{color(primary)};
     --stat-color-light: #{color(primary-light)};
 }
 
-// === Focus Styles ===
 *:focus {
     outline: 2px solid rgba(color(primary), 0.5);
     outline-offset: 2px;
 }
 
-// === High Contrast Mode Support ===
 @media (prefers-contrast: high) {
 
     .status-badge,
@@ -2034,7 +1957,6 @@ textarea {
     }
 }
 
-// === Reduced Motion Support ===
 @media (prefers-reduced-motion: reduce) {
 
     *,
@@ -2046,7 +1968,6 @@ textarea {
     }
 }
 
-// === Edit Request Form ===
 .edit-request-form {
     max-width: none;
 
@@ -2262,7 +2183,6 @@ textarea {
     }
 }
 
-// Form validation styles
 .form-error {
     color: color(error);
     font-size: font-size(xs);
@@ -2289,7 +2209,6 @@ textarea {
     }
 }
 
-// Modal size adjustments for edit form
 .modal--edit {
     width: 90vw;
     max-width: 900px;
@@ -2302,7 +2221,6 @@ textarea {
     }
 }
 
-// Enhanced action buttons in table
 .action-buttons {
     display: flex;
     gap: spacing(1);
@@ -2323,7 +2241,6 @@ textarea {
             box-shadow: shadow(md);
         }
 
-        // Specific button colors
         &[title*="Переглянути"] {
             background-color: color(info);
             border-color: color(info);
@@ -2370,7 +2287,6 @@ textarea {
     }
 }
 
-// Confirmation dialog styles
 .confirm-dialog {
     text-align: center;
     padding: spacing(6);
@@ -2402,7 +2318,6 @@ textarea {
     }
 }
 
-// Loading states for buttons
 .btn--loading {
     position: relative;
     color: transparent !important;
@@ -2422,7 +2337,6 @@ textarea {
     }
 }
 
-// Responsive improvements for edit form
 @media (max-width: 768px) {
     .edit-request-form {
         .form-fieldset {
@@ -2461,7 +2375,6 @@ textarea {
     }
 }
 
-// Print styles for forms
 @media print {
     .edit-request-form {
         .form-fieldset {
@@ -2475,7 +2388,6 @@ textarea {
     }
 }
 
-// === Enhanced Edit Form with Tabs ===
 .edit-form-container {
     max-width: 100%;
     height: 100%;
@@ -2594,7 +2506,6 @@ textarea {
             animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        // Enhanced scrollbar
         &::-webkit-scrollbar {
             width: 8px;
         }
@@ -2946,7 +2857,6 @@ textarea {
     }
 }
 
-// Improved form controls for edit form
 .edit-request-form {
     .form-group {
         display: flex;
@@ -3101,7 +3011,6 @@ textarea {
     }
 }
 
-// Mobile responsive improvements
 @media (max-width: 768px) {
     .modal-overlay {
         padding: spacing(1);
@@ -3210,7 +3119,6 @@ textarea {
     }
 }
 
-// Extra small screens
 @media (max-width: 480px) {
     .modal-overlay {
         padding: 0;
@@ -3286,7 +3194,6 @@ textarea {
     }
 }
 
-// Enhanced form controls for edit form
 .edit-request-form {
     .form-group {
         display: flex;
@@ -3514,7 +3421,6 @@ textarea {
     }
 }
 
-// Enhanced animations
 @keyframes slideInUp {
     from {
         transform: translateY(30px);
@@ -3581,7 +3487,6 @@ textarea {
     }
 }
 
-// Enhanced phone input styling
 .form-group input[type="tel"] {
     font-family: monospace;
     letter-spacing: 1px;
@@ -3591,7 +3496,6 @@ textarea {
     }
 }
 
-// Enhanced number inputs
 .form-group input[type="number"] {
     text-align: center;
     font-weight: 600;
@@ -3609,7 +3513,6 @@ textarea {
     }
 }
 
-// Loading state for form
 .form-loading {
     position: relative;
 
@@ -3645,7 +3548,6 @@ textarea {
     }
 }
 
-// Form validation messages with enhanced styling
 .form-error {
     color: color(error);
     font-size: font-size(xs);
@@ -3695,13 +3597,11 @@ textarea {
     }
 }
 
-// Enhanced focus visible for accessibility
 .edit-request-form .form-control:focus-visible {
     outline: 3px solid rgba(color(primary), 0.5);
     outline-offset: 2px;
 }
 
-// Dark mode support (if needed)
 @media (prefers-color-scheme: dark) {
     .edit-form-container {
         .form-tabs {
