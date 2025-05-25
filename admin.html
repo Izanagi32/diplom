@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Euro Tandem - Панель Адміністратора</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
@@ -20,7 +20,7 @@
       <header class="admin-header">
         <div class="admin-header__logo">
           <img src="./src/img/Logo.avif" alt="Euro Tandem Logo" />
-          <h1>Панель Адміністратора</h1>
+          <h1>Euro Tandem Admin</h1>
         </div>
         <div class="admin-header__user">
           <span class="admin-header__username"
@@ -93,7 +93,6 @@
           </div>
         </div>
 
-        <!-- Filters Section -->
         <div class="filters" id="filtersSection" style="display: none">
           <div class="filters__row">
             <div class="form-group">
@@ -135,7 +134,6 @@
           </div>
         </div>
 
-        <!-- Bulk Actions -->
         <div
           id="bulkActions"
           class="admin-card"
@@ -171,10 +169,8 @@
           </div>
         </div>
 
-        <!-- Messages -->
         <div id="error" class="admin-message"></div>
 
-        <!-- Main Table -->
         <div class="admin-card">
           <div id="requests-table-container" class="admin-table-container">
             <table id="requests-table" class="admin-table">
@@ -201,7 +197,6 @@
           </div>
         </div>
 
-        <!-- Pagination -->
         <div class="admin-pagination"></div>
       </main>
     </div>
@@ -209,9 +204,7 @@
     <script src="./src/js/admin.js"></script>
     <script src="./src/js/analytics.js"></script>
     <script>
-      // Additional UI interactions
       document.addEventListener("DOMContentLoaded", () => {
-        // Toggle filters
         const toggleFiltersBtn = document.getElementById("toggleFilters");
         const filtersSection = document.getElementById("filtersSection");
 
@@ -225,7 +218,6 @@
           });
         }
 
-        // Clear filters
         const clearFiltersBtn = document.getElementById("clearFilters");
         if (clearFiltersBtn) {
           clearFiltersBtn.addEventListener("click", () => {
@@ -245,7 +237,6 @@
           });
         }
 
-        // Apply filters button
         const applyFiltersBtn = document.getElementById("applyFilters");
         if (applyFiltersBtn) {
           applyFiltersBtn.addEventListener("click", () => {
@@ -255,7 +246,6 @@
           });
         }
 
-        // Table sorting
         document.addEventListener("click", (e) => {
           if (e.target.closest(".sortable")) {
             const header = e.target.closest(".sortable");
@@ -266,7 +256,6 @@
           }
         });
 
-        // Bulk actions
         const bulkStatusChangeBtn = document.getElementById("bulkStatusChange");
         const bulkDeleteBtn = document.getElementById("bulkDelete");
 

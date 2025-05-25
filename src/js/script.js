@@ -1,4 +1,4 @@
-// Tabs functionality with back and forth navigation
+
 document.addEventListener('DOMContentLoaded', function() {
   const tabButtons = document.querySelectorAll('.tabs__button');
   const tabPanels = document.querySelectorAll('.tabs__panel');

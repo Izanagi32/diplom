@@ -1,5 +1,3 @@
-// src/js/feedback-modal.js
-// Logic for opening, closing and validating the feedback modal on the Home page
 
 document.addEventListener('DOMContentLoaded', () => {
   class FeedbackModal {
