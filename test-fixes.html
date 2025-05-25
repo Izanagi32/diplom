@@ -84,6 +84,7 @@
     <button onclick="testADRToggle()">✅ Тест ADR перемикання</button>
     <button onclick="testADRManual()">🔧 Ручний тест ADR</button>
     <button onclick="testSaveChanges()" class="urgent">💾 Тест збереження</button>
+    <button onclick="testVisualADR()">👁️ Тест візуального ADR</button>
     <button onclick="clearConsole()" class="success">🧹 Очистити</button>
   </div>
   
@@ -223,12 +224,12 @@
       setTimeout(() => {
         const checkbox = document.getElementById('editIsAdr');
         const group = document.getElementById('adrClassGroup');
-        console.log('🔍 ADR елементи після відкриття:', {
+        console.log('🔍 ADR елементи після відкриття:', JSON.stringify({
           checkbox: !!checkbox,
           checked: checkbox?.checked,
           group: !!group,
           visible: group?.style.display !== 'none'
-        });
+        }, null, 2));
       }, 1000);
     }
     
@@ -252,11 +253,11 @@
       // Перевіримо поле пріоритету через 1 секунду
       setTimeout(() => {
         const prioritySelect = document.getElementById('editPriority');
-        console.log('🔍 Поле пріоритету:', {
+        console.log('🔍 Поле пріоритету:', JSON.stringify({
           element: !!prioritySelect,
           value: prioritySelect?.value,
           options: Array.from(prioritySelect?.options || []).map(o => o.value)
-        });
+        }, null, 2));
       }, 1000);
     }
     
@@ -374,7 +375,7 @@
         }
         
         console.log('🔍 Детальний аналіз ADR елементів:');
-        console.log('  📦 ADR checkbox:', {
+        console.log('  📦 ADR checkbox:', JSON.stringify({
           exists: !!adrCheckbox,
           id: adrCheckbox.id,
           type: adrCheckbox.type,
@@ -382,21 +383,21 @@
           value: adrCheckbox.value,
           disabled: adrCheckbox.disabled,
           className: adrCheckbox.className
-        });
+        }, null, 2));
         
-        console.log('  📦 ADR group:', {
+        console.log('  📦 ADR group:', JSON.stringify({
           exists: !!adrGroup,
           id: adrGroup?.id,
           display: adrGroup?.style.display,
           visible: adrGroup?.style.display !== 'none'
-        });
+        }, null, 2));
         
-        console.log('  📦 ADR select:', {
+        console.log('  📦 ADR select:', JSON.stringify({
           exists: !!adrSelect,
           id: adrSelect?.id,
           value: adrSelect?.value,
           disabled: adrSelect?.disabled
-        });
+        }, null, 2));
         
         // Try programmatic toggle
         console.log('🧪 Спроба програмного перемикання...');
@@ -428,8 +429,56 @@
           }
         }, 100);
         
-      }, 500);
-    }
+             }, 500);
+     }
+     
+     function testVisualADR() {
+       console.log('👁️ Тест візуального стану ADR checkbox');
+       
+       setTimeout(() => {
+         const adrCheckbox = document.getElementById('editIsAdr');
+         const adrLabel = adrCheckbox?.closest('.checkbox-label');
+         const checkmarkSpan = adrLabel?.querySelector('.checkmark');
+         
+         if (!adrCheckbox || !adrLabel || !checkmarkSpan) {
+           console.log('❌ ADR елементи не знайдені, відкрийте форму редагування');
+           return;
+         }
+         
+         console.log('👁️ Поточний візуальний стан:', JSON.stringify({
+           checkboxChecked: adrCheckbox.checked,
+           checkmarkVisible: window.getComputedStyle(checkmarkSpan).display !== 'none',
+           checkmarkOpacity: window.getComputedStyle(checkmarkSpan).opacity,
+           labelClass: adrLabel.className,
+           checkmarkClass: checkmarkSpan.className
+         }, null, 2));
+         
+         // Спробуємо клікнути по label
+         console.log('🏷️ Кліку по label...');
+         adrLabel.click();
+         
+         setTimeout(() => {
+           console.log('👁️ Стан після кліку по label:', JSON.stringify({
+             checkboxChecked: adrCheckbox.checked,
+             checkmarkVisible: window.getComputedStyle(checkmarkSpan).display !== 'none',
+             checkmarkOpacity: window.getComputedStyle(checkmarkSpan).opacity
+           }, null, 2));
+           
+           // Спробуємо клікнути по checkmark
+           console.log('✅ Кліку по checkmark...');
+           checkmarkSpan.click();
+           
+           setTimeout(() => {
+             console.log('👁️ Стан після кліку по checkmark:', JSON.stringify({
+               checkboxChecked: adrCheckbox.checked,
+               checkmarkVisible: window.getComputedStyle(checkmarkSpan).display !== 'none',
+               checkmarkOpacity: window.getComputedStyle(checkmarkSpan).opacity
+             }, null, 2));
+           }, 100);
+         }, 100);
+         
+       }, 500);
+     }
   </script>
 </body>
 </html> 

@@ -2404,6 +2404,20 @@ class EnhancedAdminPanel {
           console.log('🧹 Cleared ADR class select');
         }
         
+        // 🔧 CRITICAL FIX: Force CSS visual update for custom checkbox
+        const checkmarkSpan = adrCheckbox.parentElement.querySelector('.checkmark');
+        if (checkmarkSpan) {
+          // Force re-render by temporarily changing a style property
+          checkmarkSpan.style.display = 'none';
+          setTimeout(() => {
+            checkmarkSpan.style.display = '';
+          }, 1);
+          console.log('🎨 Forced checkmark visual update');
+        }
+        
+        // Force browser to recalculate styles
+        adrCheckbox.parentElement.offsetHeight; // Trigger reflow
+        
         // Force update of form state
         console.log('💾 ADR state after change:', JSON.stringify({
           checked: adrCheckbox.checked,
@@ -2414,6 +2428,8 @@ class EnhancedAdminPanel {
         // Additional verification
         setTimeout(() => {
           console.log('🔄 Delayed verification - ADR checkbox state:', adrCheckbox.checked);
+          console.log('🔄 Delayed verification - checkmark visible state:', 
+            window.getComputedStyle(checkmarkSpan || {}).display !== 'none');
         }, 50);
       };
       
@@ -2424,6 +2440,25 @@ class EnhancedAdminPanel {
       adrCheckbox.addEventListener('click', function(event) {
         console.log('👆 ADR checkbox clicked:', event.target.checked);
       });
+      
+      // Add label click handler to ensure proper custom checkbox behavior
+      const adrLabel = adrCheckbox.closest('.checkbox-label');
+      if (adrLabel) {
+        adrLabel.addEventListener('click', function(event) {
+          // Prevent double handling if clicked directly on checkbox
+          if (event.target === adrCheckbox) return;
+          
+          console.log('🏷️ ADR label clicked, toggling checkbox');
+          adrCheckbox.checked = !adrCheckbox.checked;
+          
+          // Trigger change event
+          const changeEvent = new Event('change', { bubbles: true });
+          adrCheckbox.dispatchEvent(changeEvent);
+          
+          event.preventDefault();
+        });
+        console.log('🏷️ ADR label click handler attached');
+      }
 
       // Set initial state
       const initialState = adrCheckbox.checked;
@@ -2509,21 +2544,21 @@ class EnhancedAdminPanel {
       }, null, 2));
       
       // Additional check
-      console.log('🔍 Direct property access:', {
+      console.log('🔍 Direct property access:', JSON.stringify({
         checkedProperty: elements.isAdr.checked,
         checkedAttribute: elements.isAdr.getAttribute('checked'),
         hasCheckedAttribute: elements.isAdr.hasAttribute('checked')
-      });
+      }, null, 2));
     }
 
     // Build form data step by step with logging
     const adrValue = elements.isAdr?.checked || false;
-    console.log('🎯 ADR value calculation:', {
+    console.log('🎯 ADR value calculation:', JSON.stringify({
       elementExists: !!elements.isAdr,
       elementChecked: elements.isAdr?.checked,
       fallbackValue: false,
       finalValue: adrValue
-    });
+    }, null, 2));
 
     const formData = {
       pickupLocation: elements.pickupLocation?.value?.trim(),
