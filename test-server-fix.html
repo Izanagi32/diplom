@@ -36,6 +36,12 @@
         button:hover {
             background: #45a049;
         }
+        .button-danger {
+            background: #f44336;
+        }
+        .button-danger:hover {
+            background: #da190b;
+        }
         .log {
             background: #f0f0f0;
             padding: 10px;
@@ -46,16 +52,41 @@
             overflow-y: auto;
             border: 1px solid #ccc;
         }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🔧 Тест серверного виправлення</h1>
         
+        <div id="currentStatus" class="status"></div>
+        
         <div class="test-section">
             <h3>📡 Тест Production API</h3>
-            <button onclick="testProductionAPI()">Тест Production PUT запиту</button>
-            <button onclick="loadProductionData()">Завантажити дані з Production</button>
+            <button onclick="testProductionAPI()">Тест PUT запиту (зміна довжини)</button>
+            <button onclick="testADRUpdate()">Тест оновлення ADR</button>
+            <button onclick="loadProductionData()">Завантажити свіжі дані</button>
+            <button onclick="testMultipleUpdates()" class="button-danger">Тест множинних оновлень</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🔍 Діагностика сервера</h3>
+            <button onclick="diagnoseServerIssue()">Діагностувати проблему сервера</button>
+            <button onclick="testMinimalUpdate()">Мінімальний тест оновлення</button>
         </div>
 
         <div class="test-section">
@@ -69,12 +100,19 @@
         const API_BASE = 'https://glittering-crostata-54bde1.netlify.app/api';
         let requests = [];
 
-        function log(message) {
+        function log(message, type = 'info') {
             const timestamp = new Date().toLocaleTimeString();
             const logDiv = document.getElementById('log');
-            logDiv.textContent += `[${timestamp}] ${message}\n`;
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
+            logDiv.textContent += `[${timestamp}] ${prefix} ${message}\n`;
             logDiv.scrollTop = logDiv.scrollHeight;
             console.log(message);
+        }
+
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('currentStatus');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
         }
 
         function clearLog() {
@@ -87,16 +125,118 @@
                 const response = await fetch(`${API_BASE}/requests`);
                 const data = await response.json();
                 requests = data;
-                log(`✅ Завантажено ${data.length} заявок`);
+                log(`✅ Завантажено ${data.length} заявок`, 'success');
                 
                 if (data.length > 0) {
                     log(`📋 Перша заявка: ID=${data[0].id}, length=${data[0].length}, adr=${data[0].adr}`);
+                    updateStatus(`Завантажено ${data.length} заявок. Готово до тестування.`, 'success');
                 }
                 
                 return data;
             } catch (error) {
-                log(`❌ Помилка завантаження: ${error.message}`);
+                log(`❌ Помилка завантаження: ${error.message}`, 'error');
+                updateStatus(`Помилка завантаження: ${error.message}`, 'error');
                 throw error;
+            }
+        }
+
+        async function testMinimalUpdate() {
+            try {
+                await loadProductionData();
+                if (requests.length === 0) {
+                    log('❌ Немає заявок для тестування', 'error');
+                    return;
+                }
+
+                const testRequest = requests[0];
+                log(`🧪 Мінімальний тест для ID: ${testRequest.id}`);
+                
+                // Тестуємо лише одне поле
+                const updateData = {
+                    length: testRequest.length + 0.1
+                };
+
+                log(`📤 Відправляємо мінімальний PUT: ${JSON.stringify(updateData)}`);
+
+                const response = await fetch(`${API_BASE}/requests/${testRequest.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updateData)
+                });
+
+                log(`📡 Статус: ${response.status}`);
+                const result = await response.json();
+                log(`📋 Відповідь: ${JSON.stringify(result)}`);
+
+                // Перевіряємо зміни
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const fresh = await loadProductionData();
+                const updated = fresh.find(r => r.id === testRequest.id);
+                
+                if (updated && updated.length === updateData.length) {
+                    log('✅ Мінімальне оновлення працює!', 'success');
+                    updateStatus('Сервер працює правильно!', 'success');
+                } else {
+                    log('❌ Мінімальне оновлення не працює', 'error');
+                    updateStatus('Проблема з сервером виявлена', 'error');
+                }
+
+            } catch (error) {
+                log(`❌ Помилка тесту: ${error.message}`, 'error');
+            }
+        }
+
+        async function diagnoseServerIssue() {
+            try {
+                log('🔍 Початок діагностики сервера...');
+                await loadProductionData();
+                
+                if (requests.length === 0) return;
+
+                const testRequest = requests[0];
+                log(`🎯 Діагностика для заявки ID: ${testRequest.id}`);
+                log(`📊 Поточні дані: length=${testRequest.length}, adr=${testRequest.adr}`);
+
+                // Тест 1: Оновлення тільки length
+                log('🧪 Тест 1: Оновлення тільки довжини...');
+                let response = await fetch(`${API_BASE}/requests/${testRequest.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ length: testRequest.length + 1 })
+                });
+                log(`  Статус: ${response.status}, Результат: ${JSON.stringify(await response.json())}`);
+
+                // Тест 2: Оновлення з усіма полями
+                log('🧪 Тест 2: Оновлення з усіма полями...');
+                response = await fetch(`${API_BASE}/requests/${testRequest.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        length: testRequest.length + 2,
+                        width: testRequest.width,
+                        height: testRequest.height,
+                        adr: testRequest.adr
+                    })
+                });
+                log(`  Статус: ${response.status}, Результат: ${JSON.stringify(await response.json())}`);
+
+                // Перевіряємо результати
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                const fresh = await loadProductionData();
+                const updated = fresh.find(r => r.id === testRequest.id);
+                
+                log(`📊 Фінальні дані: length=${updated.length} (очікувалося: ${testRequest.length + 2})`);
+                
+                if (updated.length !== testRequest.length + 2) {
+                    log('🔥 ДІАГНОЗ: Сервер не зберігає зміни в базі даних!', 'error');
+                    updateStatus('Проблема: Сервер отримує запити, але не зберігає зміни', 'error');
+                } else {
+                    log('✅ Сервер працює правильно', 'success');
+                    updateStatus('Сервер працює правильно', 'success');
+                }
+
+            } catch (error) {
+                log(`❌ Помилка діагностики: ${error.message}`, 'error');
             }
         }
 
@@ -104,26 +244,22 @@
             try {
                 log('🧪 Початок тесту Production API...');
                 
-                // Спочатку завантажимо дані
                 await loadProductionData();
-                
                 if (requests.length === 0) {
-                    log('❌ Немає заявок для тестування');
+                    log('❌ Немає заявок для тестування', 'error');
                     return;
                 }
 
                 const testRequest = requests[0];
                 const originalLength = testRequest.length;
-                const newLength = originalLength + 0.5; // Додаємо 0.5 для тесту
+                const newLength = originalLength + 0.5;
                 
                 log(`🎯 Тестування заявки ID: ${testRequest.id}`);
                 log(`📐 Поточна довжина: ${originalLength}`);
                 log(`📐 Нова довжина: ${newLength}`);
 
-                // Виконуємо PUT запит
                 const updateData = {
                     length: newLength,
-                    // Зберігаємо інші важливі поля
                     width: testRequest.width,
                     height: testRequest.height,
                     weight: testRequest.weight,
@@ -134,20 +270,17 @@
 
                 const response = await fetch(`${API_BASE}/requests/${testRequest.id}`, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updateData)
                 });
 
                 log(`📡 Статус відповіді: ${response.status}`);
-                
                 const result = await response.json();
                 log(`📋 Результат: ${JSON.stringify(result)}`);
 
-                // Перевіряємо чи оновилися дані
-                log('🔄 Перевіряємо оновлені дані...');
-                await new Promise(resolve => setTimeout(resolve, 1000)); // Чекаємо 1 секунду
+                // Перевірка через кілька секунд
+                log('🔄 Перевіряємо оновлені дані через 2 секунди...');
+                await new Promise(resolve => setTimeout(resolve, 2000));
 
                 const updatedData = await loadProductionData();
                 const updatedRequest = updatedData.find(r => r.id === testRequest.id);
@@ -158,22 +291,101 @@
                     log(`   Фактична довжина: ${updatedRequest.length}`);
                     
                     if (updatedRequest.length === newLength) {
-                        log('✅ УСПІХ! Дані оновилися правильно');
+                        log('✅ УСПІХ! Дані оновилися правильно', 'success');
+                        updateStatus('Тест пройшов успішно! Сервер працює.', 'success');
                     } else {
-                        log('❌ ПОМИЛКА! Дані не оновилися');
+                        log('❌ ПОМИЛКА! Дані не оновилися', 'error');
+                        updateStatus('Тест не пройшов. Сервер не зберігає зміни.', 'error');
                     }
                 } else {
-                    log('❌ Не знайдено оновлену заявку');
+                    log('❌ Не знайдено оновлену заявку', 'error');
                 }
 
             } catch (error) {
-                log(`❌ Помилка тесту: ${error.message}`);
+                log(`❌ Помилка тесту: ${error.message}`, 'error');
+                updateStatus(`Помилка тестування: ${error.message}`, 'error');
+            }
+        }
+
+        async function testADRUpdate() {
+            try {
+                log('🧪 Тестування оновлення ADR...');
+                await loadProductionData();
+                
+                if (requests.length === 0) return;
+
+                const testRequest = requests[0];
+                const newAdrState = !testRequest.adr;
+                
+                log(`🎯 Заявка ID: ${testRequest.id}`);
+                log(`📋 Поточний ADR: ${testRequest.adr}`);
+                log(`📋 Новий ADR: ${newAdrState}`);
+
+                const updateData = {
+                    adr: newAdrState,
+                    adrClass: newAdrState ? 'Клас 3' : null
+                };
+
+                const response = await fetch(`${API_BASE}/requests/${testRequest.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updateData)
+                });
+
+                log(`📡 Статус: ${response.status}`);
+                log(`📋 Результат: ${JSON.stringify(await response.json())}`);
+
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const fresh = await loadProductionData();
+                const updated = fresh.find(r => r.id === testRequest.id);
+                
+                if (updated.adr === newAdrState) {
+                    log('✅ ADR оновлення працює!', 'success');
+                } else {
+                    log('❌ ADR оновлення не працює', 'error');
+                }
+
+            } catch (error) {
+                log(`❌ Помилка тесту ADR: ${error.message}`, 'error');
+            }
+        }
+
+        async function testMultipleUpdates() {
+            try {
+                log('🚀 Тестування множинних оновлень...');
+                await loadProductionData();
+                
+                if (requests.length === 0) return;
+
+                for (let i = 0; i < Math.min(3, requests.length); i++) {
+                    const request = requests[i];
+                    log(`📝 Оновлення заявки ${i + 1}: ID ${request.id}`);
+                    
+                    const response = await fetch(`${API_BASE}/requests/${request.id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            length: request.length + (i + 1) * 0.1
+                        })
+                    });
+                    
+                    log(`  Статус: ${response.status}`);
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+
+                log('🔄 Перевіряємо результати...');
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                await loadProductionData();
+
+            } catch (error) {
+                log(`❌ Помилка множинного тесту: ${error.message}`, 'error');
             }
         }
 
         // Автоматично завантажити дані при завантаженні сторінки
         window.addEventListener('load', () => {
             log('🚀 Тестова сторінка завантажена');
+            updateStatus('Завантаження...', 'info');
             loadProductionData();
         });
     </script>
