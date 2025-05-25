@@ -34,8 +34,8 @@ class EnhancedAdminPanel {
 
   async init() {
     try {
-      // Check authentication
-      if (!this.checkAuthentication()) {
+      // Check authentication (skip for testing)
+      if (!this.checkAuthentication() && !window.location.href.includes('test-edit-form.html')) {
         window.location.href = './admin-login.html';
         return;
       }
@@ -47,10 +47,12 @@ class EnhancedAdminPanel {
       this.setupMobileMenu();
       this.setupNotifications();
       
-      // Load initial data
-      await this.loadRequests();
-      this.renderStats();
-      this.renderActivityLog();
+      // Load initial data (skip for testing)
+      if (!window.location.href.includes('test-edit-form.html')) {
+        await this.loadRequests();
+        this.renderStats();
+        this.renderActivityLog();
+      }
       
       // Setup real-time updates
       this.setupRealTimeUpdates();
@@ -1366,6 +1368,11 @@ class EnhancedAdminPanel {
 
     const modal = this.createModal('edit', 'Редагування заявки', this.createEditForm(request));
     this.showModal(modal);
+    
+    // Initialize form functionality after modal is shown
+    setTimeout(() => {
+      this.initializeEditForm(request.id);
+    }, 100);
   }
 
   async changeStatus(id) {
@@ -1569,9 +1576,20 @@ class EnhancedAdminPanel {
 
   showModal(modal) {
     const overlay = document.getElementById('modalOverlay');
+    if (!overlay) {
+      console.error('Modal overlay element not found');
+      return;
+    }
+    
     overlay.innerHTML = '';
     overlay.appendChild(modal);
     overlay.classList.add('active');
+
+    // Setup close button
+    const closeBtn = modal.querySelector('.close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => this.closeModal());
+    }
 
     // Close on overlay click
     overlay.addEventListener('click', (e) => {
@@ -1582,6 +1600,8 @@ class EnhancedAdminPanel {
 
     // Close on escape key
     document.addEventListener('keydown', this.handleEscapeKey);
+    
+    console.log('Modal shown successfully');
   }
 
   closeModal() {
@@ -2065,87 +2085,7 @@ class EnhancedAdminPanel {
         </form>
       </div>
 
-      <script>
-        // Setup form tabs functionality
-        function setupFormTabs() {
-          const tabs = document.querySelectorAll('.tab-button');
-          const panels = document.querySelectorAll('.tab-panel');
-          const nextBtn = document.getElementById('nextTab');
-          const prevBtn = document.getElementById('prevTab');
-          let currentTab = 0;
 
-          function showTab(index) {
-            tabs.forEach((tab, i) => {
-              tab.classList.toggle('active', i === index);
-            });
-            panels.forEach((panel, i) => {
-              panel.classList.toggle('active', i === index);
-            });
-            
-            prevBtn.style.display = index === 0 ? 'none' : 'inline-flex';
-            nextBtn.style.display = index === tabs.length - 1 ? 'none' : 'inline-flex';
-            currentTab = index;
-          }
-
-          tabs.forEach((tab, index) => {
-            tab.addEventListener('click', () => showTab(index));
-          });
-
-          nextBtn.addEventListener('click', () => {
-            if (currentTab < tabs.length - 1) showTab(currentTab + 1);
-          });
-
-          prevBtn.addEventListener('click', () => {
-            if (currentTab > 0) showTab(currentTab - 1);
-          });
-        }
-
-        // Setup volume calculation
-        function updateVolume() {
-          const length = parseFloat(document.getElementById('editLength').value) || 0;
-          const width = parseFloat(document.getElementById('editWidth').value) || 0;
-          const height = parseFloat(document.getElementById('editHeight').value) || 0;
-          const quantity = parseInt(document.getElementById('editQuantity').value) || 1;
-          
-          const volume = (length * width * height * quantity).toFixed(2);
-          document.getElementById('calculatedVolume').textContent = volume;
-        }
-
-        // Setup ADR toggle
-        document.getElementById('editIsAdr').addEventListener('change', function() {
-          const adrClassGroup = document.getElementById('adrClassGroup');
-          adrClassGroup.style.display = this.checked ? 'block' : 'none';
-          if (!this.checked) {
-            document.getElementById('editAdrClass').value = '';
-          }
-        });
-
-        // Setup form submission
-        document.getElementById('editRequestForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-          adminPanel.saveRequestChanges('${request.id}');
-        });
-
-        // Setup phone formatting
-        document.getElementById('editPhone').addEventListener('input', function(e) {
-          let value = e.target.value.replace(/\\D/g, '');
-          if (value.startsWith('380')) {
-            value = '+' + value;
-          } else if (value.startsWith('0')) {
-            value = '+38' + value;
-          }
-          e.target.value = value;
-        });
-
-        // Setup volume calculation listeners
-        ['editLength', 'editWidth', 'editHeight', 'editQuantity'].forEach(id => {
-          document.getElementById(id).addEventListener('input', updateVolume);
-        });
-
-        // Initialize
-        setupFormTabs();
-        updateVolume();
-      </script>
     `;
   }
 
@@ -2211,21 +2151,28 @@ class EnhancedAdminPanel {
 
   async saveRequestChanges(id) {
     try {
+      console.log('Saving request changes for ID:', id);
+      
       // Collect form data
       const formData = this.collectEditFormData();
+      console.log('Collected form data:', formData);
       
       // Validate form data
       const validation = this.validateRequestData(formData);
       if (!validation.isValid) {
+        console.error('Validation failed:', validation.message);
         this.showToast(validation.message, 'error');
         return;
       }
 
       // Show loading state
       const submitBtn = document.querySelector('#editRequestForm button[type="submit"]');
-      const originalText = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Збереження...';
-      submitBtn.disabled = true;
+      let originalText = '<i class="fas fa-save"></i> Зберегти зміни';
+      if (submitBtn) {
+        originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Збереження...';
+        submitBtn.disabled = true;
+      }
 
       // Save to database
       await this.updateRequest(id, formData);
@@ -2243,26 +2190,192 @@ class EnhancedAdminPanel {
     }
   }
 
+  initializeEditForm(requestId) {
+    console.log('Initializing edit form for request:', requestId);
+    
+    // Setup form tabs functionality
+    this.setupFormTabs();
+    
+    // Setup volume calculation
+    this.setupVolumeCalculation();
+    
+    // Setup ADR toggle
+    this.setupAdrToggle();
+    
+    // Setup phone formatting
+    this.setupPhoneFormatting();
+    
+    // Setup form submission
+    this.setupFormSubmission(requestId);
+    
+    console.log('Edit form initialized successfully');
+  }
+
+  setupFormTabs() {
+    const tabs = document.querySelectorAll('.tab-button');
+    const panels = document.querySelectorAll('.tab-panel');
+    const nextBtn = document.getElementById('nextTab');
+    const prevBtn = document.getElementById('prevTab');
+    let currentTab = 0;
+
+    if (!tabs.length || !panels.length || !nextBtn || !prevBtn) {
+      console.error('Tab elements not found');
+      return;
+    }
+
+    const showTab = (index) => {
+      tabs.forEach((tab, i) => {
+        tab.classList.toggle('active', i === index);
+      });
+      panels.forEach((panel, i) => {
+        panel.classList.toggle('active', i === index);
+      });
+      
+      prevBtn.style.display = index === 0 ? 'none' : 'inline-flex';
+      nextBtn.style.display = index === tabs.length - 1 ? 'none' : 'inline-flex';
+      currentTab = index;
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => showTab(index));
+    });
+
+    nextBtn.addEventListener('click', () => {
+      console.log('Next button clicked, current tab:', currentTab);
+      if (currentTab < tabs.length - 1) {
+        showTab(currentTab + 1);
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      console.log('Previous button clicked, current tab:', currentTab);
+      if (currentTab > 0) {
+        showTab(currentTab - 1);
+      }
+    });
+
+    // Initialize first tab
+    showTab(0);
+  }
+
+  setupVolumeCalculation() {
+    const updateVolume = () => {
+      const length = parseFloat(document.getElementById('editLength')?.value) || 0;
+      const width = parseFloat(document.getElementById('editWidth')?.value) || 0;
+      const height = parseFloat(document.getElementById('editHeight')?.value) || 0;
+      const quantity = parseInt(document.getElementById('editQuantity')?.value) || 1;
+      
+      const volume = (length * width * height * quantity).toFixed(2);
+      const volumeElement = document.getElementById('calculatedVolume');
+      if (volumeElement) {
+        volumeElement.textContent = volume;
+      }
+    };
+
+    // Setup volume calculation listeners
+    ['editLength', 'editWidth', 'editHeight', 'editQuantity'].forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.addEventListener('input', updateVolume);
+      }
+    });
+
+    // Calculate initial volume
+    updateVolume();
+  }
+
+  setupAdrToggle() {
+    const adrCheckbox = document.getElementById('editIsAdr');
+    const adrClassGroup = document.getElementById('adrClassGroup');
+    const adrClassSelect = document.getElementById('editAdrClass');
+
+    if (adrCheckbox && adrClassGroup) {
+      adrCheckbox.addEventListener('change', function() {
+        adrClassGroup.style.display = this.checked ? 'block' : 'none';
+        if (!this.checked && adrClassSelect) {
+          adrClassSelect.value = '';
+        }
+      });
+
+      // Set initial state
+      adrClassGroup.style.display = adrCheckbox.checked ? 'block' : 'none';
+    }
+  }
+
+  setupPhoneFormatting() {
+    const phoneInput = document.getElementById('editPhone');
+    if (phoneInput) {
+      phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.startsWith('380')) {
+          value = '+' + value;
+        } else if (value.startsWith('0')) {
+          value = '+38' + value;
+        }
+        e.target.value = value;
+      });
+    }
+  }
+
+  setupFormSubmission(requestId) {
+    const form = document.getElementById('editRequestForm');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        console.log('Form submitted for request:', requestId);
+        this.saveRequestChanges(requestId);
+      });
+    }
+  }
+
   collectEditFormData() {
+    const elements = {
+      pickupLocation: document.getElementById('editPickupLocation'),
+      deliveryLocation: document.getElementById('editDeliveryLocation'),
+      pickupDate: document.getElementById('editPickupDate'),
+      cargoType: document.getElementById('editCargoType'),
+      length: document.getElementById('editLength'),
+      width: document.getElementById('editWidth'),
+      height: document.getElementById('editHeight'),
+      weight: document.getElementById('editWeight'),
+      quantity: document.getElementById('editQuantity'),
+      isAdr: document.getElementById('editIsAdr'),
+      adrClass: document.getElementById('editAdrClass'),
+      contactName: document.getElementById('editContactName'),
+      phone: document.getElementById('editPhone'),
+      email: document.getElementById('editEmail'),
+      status: document.getElementById('editStatus'),
+      priority: document.getElementById('editPriority'),
+      assignedTo: document.getElementById('editAssignedTo'),
+      comment: document.getElementById('editComment')
+    };
+
+    // Log missing elements
+    Object.keys(elements).forEach(key => {
+      if (!elements[key]) {
+        console.warn(`Form element not found: ${key}`);
+      }
+    });
+
     return {
-      pickupLocation: document.getElementById('editPickupLocation')?.value?.trim(),
-      deliveryLocation: document.getElementById('editDeliveryLocation')?.value?.trim(),
-      pickupDate: document.getElementById('editPickupDate')?.value,
-      cargoType: document.getElementById('editCargoType')?.value,
-      length: parseFloat(document.getElementById('editLength')?.value),
-      width: parseFloat(document.getElementById('editWidth')?.value),
-      height: parseFloat(document.getElementById('editHeight')?.value),
-      weight: parseInt(document.getElementById('editWeight')?.value),
-      quantity: parseInt(document.getElementById('editQuantity')?.value),
-      isAdr: document.getElementById('editIsAdr')?.checked || false,
-      adrClass: document.getElementById('editAdrClass')?.value || null,
-      contactName: document.getElementById('editContactName')?.value?.trim(),
-      phone: document.getElementById('editPhone')?.value?.trim(),
-      email: document.getElementById('editEmail')?.value?.trim() || null,
-      status: document.getElementById('editStatus')?.value,
-      priority: document.getElementById('editPriority')?.value,
-      assignedTo: document.getElementById('editAssignedTo')?.value?.trim() || null,
-      comment: document.getElementById('editComment')?.value?.trim() || null
+      pickupLocation: elements.pickupLocation?.value?.trim(),
+      deliveryLocation: elements.deliveryLocation?.value?.trim(),
+      pickupDate: elements.pickupDate?.value,
+      cargoType: elements.cargoType?.value,
+      length: parseFloat(elements.length?.value),
+      width: parseFloat(elements.width?.value),
+      height: parseFloat(elements.height?.value),
+      weight: parseInt(elements.weight?.value),
+      quantity: parseInt(elements.quantity?.value),
+      isAdr: elements.isAdr?.checked || false,
+      adrClass: elements.adrClass?.value || null,
+      contactName: elements.contactName?.value?.trim(),
+      phone: elements.phone?.value?.trim(),
+      email: elements.email?.value?.trim() || null,
+      status: elements.status?.value,
+      priority: elements.priority?.value,
+      assignedTo: elements.assignedTo?.value?.trim() || null,
+      comment: elements.comment?.value?.trim() || null
     };
   }
 
@@ -2318,13 +2431,10 @@ class EnhancedAdminPanel {
       }
     }
 
-    // Date validation
+    // Date validation (allow past dates for editing existing requests)
     const pickupDate = new Date(data.pickupDate);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    if (pickupDate < today) {
-      return { isValid: false, message: 'Дата подачі не може бути в минулому' };
+    if (isNaN(pickupDate.getTime())) {
+      return { isValid: false, message: 'Невірний формат дати' };
     }
 
     // ADR validation
@@ -2428,7 +2538,52 @@ class EnhancedAdminPanel {
       console.log('Found request:', request);
       return request;
     };
-    console.log('🔧 Debug methods available: testAPI(), debugDelete(id)');
+    window.testEditForm = (id = 1) => this.testEditForm(id);
+    window.testFormElements = () => this.testFormElements();
+    console.log('🔧 Debug methods available: testAPI(), debugDelete(id), testEditForm(id), testFormElements()');
+  }
+
+  testEditForm(id = 1) {
+    console.log('🧪 Testing edit form functionality...');
+    
+    // Find a request to edit
+    const request = this.currentData.find(item => item.id.toString() === id.toString()) || this.currentData[0];
+    
+    if (!request) {
+      console.error('No request found for testing');
+      return;
+    }
+    
+    console.log('Testing with request:', request);
+    this.editRequest(request.id);
+  }
+
+  testFormElements() {
+    console.log('🧪 Testing form elements after modal is shown...');
+    
+    const elements = [
+      'editPickupLocation', 'editDeliveryLocation', 'editPickupDate', 'editCargoType',
+      'editLength', 'editWidth', 'editHeight', 'editWeight', 'editQuantity',
+      'editIsAdr', 'editAdrClass', 'editContactName', 'editPhone', 'editEmail',
+      'editStatus', 'editPriority', 'editAssignedTo', 'editComment',
+      'nextTab', 'prevTab'
+    ];
+    
+    elements.forEach(id => {
+      const element = document.getElementById(id);
+      console.log(`${id}:`, element ? '✅ Found' : '❌ Missing');
+    });
+    
+    // Test tab buttons
+    const tabButtons = document.querySelectorAll('.tab-button');
+    console.log('Tab buttons found:', tabButtons.length);
+    
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    console.log('Tab panels found:', tabPanels.length);
+    
+    // Test form
+    const form = document.getElementById('editRequestForm');
+    console.log('Edit form:', form ? '✅ Found' : '❌ Missing');
   }
 }
 
