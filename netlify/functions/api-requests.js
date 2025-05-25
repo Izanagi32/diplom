@@ -2,10 +2,58 @@ require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-// Ініціалізація Supabase клієнта
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function sendTelegramMessage(message) {
+  try {
+    console.log('Sending Telegram notification...');
+    const telegramResponse = await fetch(
+      'https://api.telegram.org/bot7378979804:AAGyD5lmlzbQ7v2CV6-VNocZAtMpn7XFqcA/sendMessage',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: 1693054209,
+          text: message,
+          parse_mode: 'HTML'
+        }),
+      }
+    );
+    const telegramResult = await telegramResponse.json();
+    console.log('Telegram API result:', telegramResult);
+    if (!telegramResult.ok) {
+      console.error('Telegram send error:', telegramResult);
+    } else {
+      console.log('Telegram notification sent successfully');
+    }
+  } catch (err) {
+    console.error('Error sending Telegram notification:', err);
+  }
+}
+
+function getStatusEmoji(status) {
+  const statusEmojis = {
+    'pending': '⏳',
+    'approved': '✅',
+    'rejected': '❌',
+    'in-progress': '🚛',
+    'completed': '🏁'
+  };
+  return statusEmojis[status] || '📋';
+}
+
+function getStatusNameUkr(status) {
+  const statusNames = {
+    'pending': 'В очікуванні',
+    'approved': 'Схвалена',
+    'rejected': 'Відхилена',
+    'in-progress': 'В процесі',
+    'completed': 'Завершена'
+  };
+  return statusNames[status] || status;
+}
 
 exports.handler = async function(event, context) {
   try {
@@ -34,7 +82,6 @@ exports.handler = async function(event, context) {
 
       let insertResult;
       try {
-        // Вставка даних в Supabase
         const { data, error } = await supabase
           .from('requests')
           .insert([
@@ -72,42 +119,30 @@ exports.handler = async function(event, context) {
       }
 
       const insertedId = insertResult.id;
-      const fileNameToShow = 'немає';
       const volume = (length * width * height * quantity).toFixed(2);
-      const message =
-        `🚚 Нова заявка з форми\n\n` +
-        `📍 Звідки: ${pickupLocation}\n` +
-        `📍 Куди: ${deliveryLocation}\n\n` +
-        `📅 Дата подачі: ${pickupDate}\n\n` +
-        `📐 Габарити: ${length} x ${width} x ${height} м\n` +
-        `📦 Кількість: ${quantity}\n` +
-        `⚖️ Вага: ${weight} кг\n\n` +
-        `Об'єм: ${volume} м³\n` +
-        `📂 Тип вантажу: ${cargoType}\n\n` +
-        `💬 Коментар: ${comment}\n\n` +
-        `📞 Контакт: ${contactName}, ${phone}\n` +
-        `✉️ Email: ${email}\n` +
-        `📎 Файл: ${fileNameToShow}`;
+      const adrInfo = adr ? `Так${adrClass ? ` (${adrClass})` : ''}` : 'Ні';
       
-      try {
-        console.log('Sending Telegram via POST');
-        const telegramResponse = await fetch(
-          'https://api.telegram.org/bot7378979804:AAGuviiwgUsrUprTP_NBm_wZn8iSH8l4a5U/sendMessage',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: 1693054209,
-              text: message
-            }),
-          }
-        );
-        const telegramResult = await telegramResponse.json();
-        console.log('Telegram API result:', telegramResult);
-        if (!telegramResult.ok) console.error('Telegram send error:', telegramResult);
-      } catch (err) {
-        console.error('Error sending Telegram notification:', err);
-      }
+      const message = 
+        `🚚 <b>Нова заявка #${insertedId}</b>\n\n` +
+        `📍 <b>Маршрут:</b>\n` +
+        `   • Звідки: <i>${pickupLocation}</i>\n` +
+        `   • Куди: <i>${deliveryLocation}</i>\n\n` +
+        `📅 <b>Дата подачі:</b> ${pickupDate}\n\n` +
+        `📦 <b>Характеристики вантажу:</b>\n` +
+        `   • Габарити: <code>${length} × ${width} × ${height}</code> м\n` +
+        `   • Об'єм: <code>${volume}</code> м³\n` +
+        `   • Вага: <code>${weight}</code> кг\n` +
+        `   • Кількість: <code>${quantity}</code>\n` +
+        `   • Тип: <i>${cargoType || 'Не вказано'}</i>\n` +
+        `   • ADR: <code>${adrInfo}</code>\n\n` +
+        `💬 <b>Коментар:</b> <i>${comment || 'Немає коментарів'}</i>\n\n` +
+        `👤 <b>Контактна інформація:</b>\n` +
+        `   • Ім'я: <b>${contactName}</b>\n` +
+        `   • Телефон: <code>${phone}</code>\n` +
+        `   • Email: <code>${email}</code>\n\n` +
+                `⏰ <i>Заявка створена: ${new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' })}</i>`;
+        
+      await sendTelegramMessage(message);
 
       return {
         statusCode: 200,
@@ -115,7 +150,6 @@ exports.handler = async function(event, context) {
       };
 
     } else if (event.httpMethod === 'GET') {
-      // Отримання всіх заявок з Supabase
       const { data, error } = await supabase
         .from('requests')
         .select('*')
@@ -126,7 +160,6 @@ exports.handler = async function(event, context) {
         throw error;
       }
 
-      // Перетворення назв полів для сумісності з фронтендом
       const rows = data.map(row => ({
         id: row.id,
         pickupLocation: row.pickup_location,
@@ -157,7 +190,6 @@ exports.handler = async function(event, context) {
       };
 
     } else if (event.httpMethod === 'PUT') {
-      // Оновлення заявки (статус, пріоритет тощо)
       const body = JSON.parse(event.body);
       console.log('PUT /api/requests body:', body);
       const { id, ...updateData } = body;
@@ -170,7 +202,20 @@ exports.handler = async function(event, context) {
       }
 
       try {
-        // Перетворення назв полів для Supabase
+        const { data: currentData, error: selectError } = await supabase
+          .from('requests')
+          .select('*')
+          .eq('id', id)
+          .single();
+
+        if (selectError || !currentData) {
+          console.error('Error fetching current request data:', selectError);
+          return {
+            statusCode: 404,
+            body: JSON.stringify({ error: 'Request not found' }),
+          };
+        }
+
         const supabaseData = {};
         if (updateData.status !== undefined) supabaseData.status = updateData.status;
         if (updateData.priority !== undefined) supabaseData.priority = updateData.priority;
@@ -211,6 +256,25 @@ exports.handler = async function(event, context) {
 
         console.log('Supabase update result:', data[0]);
 
+        if (updateData.status !== undefined && updateData.status !== currentData.status) {
+          const statusEmoji = getStatusEmoji(updateData.status);
+          const statusName = getStatusNameUkr(updateData.status);
+          const oldStatusName = getStatusNameUkr(currentData.status || 'pending');
+          
+          const statusMessage = 
+            `${statusEmoji} <b>Зміна статусу заявки #${id}</b>\n\n` +
+            `📍 <b>Маршрут:</b> ${currentData.pickup_location} → ${currentData.delivery_location}\n\n` +
+            `📋 <b>Статус змінено:</b>\n` +
+            `   • Було: <i>${oldStatusName}</i>\n` +
+            `   • Стало: <b>${statusName}</b>\n\n` +
+            `👤 <b>Клієнт:</b> ${currentData.contact_name}\n` +
+            `📞 <b>Телефон:</b> <code>${currentData.phone}</code>\n\n` +
+            (updateData.statusComment ? `💬 <b>Коментар:</b> <i>${updateData.statusComment}</i>\n\n` : '') +
+            `⏰ <i>Оновлено: ${new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' })}</i>`;
+
+          await sendTelegramMessage(statusMessage);
+        }
+
         return {
           statusCode: 200,
           body: JSON.stringify({ 
@@ -234,7 +298,6 @@ exports.handler = async function(event, context) {
       }
 
     } else if (event.httpMethod === 'DELETE') {
-      // Видалення заявки
       const url = new URL(event.rawUrl || `https://example.com${event.path}`);
       const id = url.searchParams.get('id');
 
@@ -246,6 +309,19 @@ exports.handler = async function(event, context) {
       }
 
       try {
+        const { data: requestData, error: selectError } = await supabase
+          .from('requests')
+          .select('*')
+          .eq('id', id)
+          .single();
+
+        if (selectError || !requestData) {
+          return {
+            statusCode: 404,
+            body: JSON.stringify({ error: 'Request not found' }),
+          };
+        }
+
         const { data, error } = await supabase
           .from('requests')
           .delete()
@@ -265,6 +341,14 @@ exports.handler = async function(event, context) {
         }
 
         console.log('Supabase delete result:', data[0]);
+        const deleteMessage = 
+          `🗑️ <b>Заявка #${id} видалена</b>\n\n` +
+          `📍 <b>Маршрут:</b> ${requestData.pickup_location} → ${requestData.delivery_location}\n\n` +
+          `👤 <b>Клієнт:</b> ${requestData.contact_name}\n` +
+          `📞 <b>Телефон:</b> <code>${requestData.phone}</code>\n\n` +
+          `⏰ <i>Видалено: ${new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' })}</i>`;
+
+        await sendTelegramMessage(deleteMessage);
 
         return {
           statusCode: 200,
