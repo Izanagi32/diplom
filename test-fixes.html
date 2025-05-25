@@ -82,6 +82,7 @@
     <button onclick="testEditPriorityUrgent()" class="urgent">🚨 Тест "Терміново"</button>
     <button onclick="testDimensionsChange()">📐 Тест зміни габаритів</button>
     <button onclick="testADRToggle()">✅ Тест ADR перемикання</button>
+    <button onclick="testSaveChanges()" class="urgent">💾 Тест збереження</button>
     <button onclick="clearConsole()" class="success">🧹 Очистити</button>
   </div>
   
@@ -286,28 +287,76 @@
       setTimeout(() => {
         const adrCheckbox = document.getElementById('editIsAdr');
         const adrGroup = document.getElementById('adrClassGroup');
+        const adrSelect = document.getElementById('editAdrClass');
         
         if (adrCheckbox && adrGroup) {
           console.log('✅ ADR елементи знайдені');
           console.log('📋 Поточний стан:', {
             checked: adrCheckbox.checked,
-            groupVisible: adrGroup.style.display !== 'none'
+            groupVisible: adrGroup.style.display !== 'none',
+            selectValue: adrSelect?.value
           });
           
           // Симуляція кліку
           console.log('🎯 Симулюємо перемикання ADR...');
+          console.log('📋 Стан ПЕРЕД кліком:', adrCheckbox.checked);
+          
+          // Trigger both click and change events
           adrCheckbox.click();
           
+          // Force change event
+          const changeEvent = new Event('change', { bubbles: true });
+          adrCheckbox.dispatchEvent(changeEvent);
+          
           setTimeout(() => {
-            console.log('📋 Стан після перемикання:', {
+            console.log('📋 Стан ПІСЛЯ перемикання:', {
               checked: adrCheckbox.checked,
-              groupVisible: adrGroup.style.display !== 'none'
+              groupVisible: adrGroup.style.display !== 'none',
+              selectValue: adrSelect?.value
             });
+            
+            // Test collecting form data
+            console.log('🔍 Тестуємо збір даних форми...');
+            if (adminPanel) {
+              const formData = adminPanel.collectEditFormData();
+              console.log('📋 Зібрані дані ADR:', {
+                adr: formData.adr,
+                adrClass: formData.adrClass
+              });
+            }
           }, 100);
         } else {
           console.log('⚠️ ADR елементи не знайдені, спочатку відкрийте форму редагування');
         }
       }, 500);
+    }
+    
+    function testSaveChanges() {
+      console.log('🧪 Тест збереження змін - форма повинна бути відкрита');
+      
+      const form = document.getElementById('editRequestForm');
+      if (!form) {
+        console.log('❌ Форма не знайдена, спочатку відкрийте заявку для редагування');
+        return;
+      }
+      
+      console.log('✅ Форма знайдена, збираємо дані...');
+      
+      // Test current form state
+      const adrCheckbox = document.getElementById('editIsAdr');
+      const lengthInput = document.getElementById('editLength');
+      const prioritySelect = document.getElementById('editPriority');
+      
+      console.log('📋 Поточний стан форми перед збереженням:', {
+        adr: adrCheckbox?.checked,
+        length: lengthInput?.value,
+        priority: prioritySelect?.value
+      });
+      
+      // Trigger form submission
+      console.log('🚀 Відправка форми...');
+      const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+      form.dispatchEvent(submitEvent);
     }
   </script>
 </body>

@@ -1600,12 +1600,27 @@ class EnhancedAdminPanel {
       // Update local data immediately to reflect changes
       const requestIndex = this.currentData.findIndex(item => item.id.toString() === id.toString());
       if (requestIndex !== -1) {
+        const oldData = { ...this.currentData[requestIndex] };
         this.currentData[requestIndex] = {
           ...this.currentData[requestIndex],
           ...updates,
           updatedAt: new Date().toISOString()
         };
-        console.log('📝 Updated local data for ID:', id, this.currentData[requestIndex]);
+        
+        console.log('📝 Updated local data for ID:', id);
+        console.log('📋 Old data:', oldData);
+        console.log('📋 New data:', this.currentData[requestIndex]);
+        console.log('📋 Changes applied:', updates);
+        
+        // Update filtered data as well
+        const filteredIndex = this.filteredData.findIndex(item => item.id.toString() === id.toString());
+        if (filteredIndex !== -1) {
+          this.filteredData[filteredIndex] = { ...this.currentData[requestIndex] };
+        }
+        
+        // Re-render table to show changes immediately
+        this.renderTable();
+        console.log('🔄 Table re-rendered with updated data');
       }
 
       this.showToast('Заявку оновлено', 'success');
@@ -2369,13 +2384,38 @@ class EnhancedAdminPanel {
     });
 
     if (adrCheckbox && adrClassGroup) {
-      adrCheckbox.addEventListener('change', function() {
-        console.log('🔄 ADR checkbox changed:', this.checked);
-        adrClassGroup.style.display = this.checked ? 'block' : 'none';
-        if (!this.checked && adrClassSelect) {
+      // Remove any existing listeners
+      adrCheckbox.removeEventListener('change', this.adrChangeHandler);
+      
+      // Create handler function
+      this.adrChangeHandler = function(event) {
+        const isChecked = event.target.checked;
+        console.log('🔄 ADR checkbox changed:', isChecked);
+        console.log('🔄 Event target:', event.target);
+        console.log('🔄 Checkbox element:', adrCheckbox);
+        
+        // Update group visibility
+        adrClassGroup.style.display = isChecked ? 'block' : 'none';
+        
+        if (!isChecked && adrClassSelect) {
           adrClassSelect.value = '';
           console.log('🧹 Cleared ADR class select');
         }
+        
+        // Force update of form state
+        console.log('💾 ADR state after change:', {
+          checked: adrCheckbox.checked,
+          groupVisible: adrClassGroup.style.display !== 'none',
+          classValue: adrClassSelect?.value
+        });
+      };
+      
+      // Add event listener
+      adrCheckbox.addEventListener('change', this.adrChangeHandler);
+      
+      // Also add click handler as backup
+      adrCheckbox.addEventListener('click', function(event) {
+        console.log('👆 ADR checkbox clicked:', event.target.checked);
       });
 
       // Set initial state
@@ -2447,6 +2487,18 @@ class EnhancedAdminPanel {
     console.log('Height element:', elements.height, 'value:', elements.height?.value);
     console.log('Weight element:', elements.weight, 'value:', elements.weight?.value);
     console.log('ADR checkbox element:', elements.isAdr, 'checked:', elements.isAdr?.checked);
+    console.log('ADR class element:', elements.adrClass, 'value:', elements.adrClass?.value);
+    
+    // Additional ADR debugging
+    if (elements.isAdr) {
+      console.log('🔍 ADR checkbox details:', {
+        type: elements.isAdr.type,
+        checked: elements.isAdr.checked,
+        value: elements.isAdr.value,
+        classList: Array.from(elements.isAdr.classList),
+        id: elements.isAdr.id
+      });
+    }
 
     const formData = {
       pickupLocation: elements.pickupLocation?.value?.trim(),
