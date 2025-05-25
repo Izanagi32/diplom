@@ -637,7 +637,8 @@ class EnhancedAdminPanel {
       this.currentData = data.map(item => ({
         ...item,
         status: item.status || 'pending',
-        priority: this.determinePriority(item),
+        // Only auto-determine priority if not already set
+        priority: item.priority || this.determinePriority(item),
         assignedTo: item.assignedTo || null,
         route: `${item.pickupLocation} → ${item.deliveryLocation}`,
         client: item.contactName || 'Невідомо'
@@ -1596,8 +1597,19 @@ class EnhancedAdminPanel {
       const result = await response.json();
       console.log('Update result:', result);
 
+      // Update local data immediately to reflect changes
+      const requestIndex = this.currentData.findIndex(item => item.id.toString() === id.toString());
+      if (requestIndex !== -1) {
+        this.currentData[requestIndex] = {
+          ...this.currentData[requestIndex],
+          ...updates,
+          updatedAt: new Date().toISOString()
+        };
+        console.log('📝 Updated local data for ID:', id, this.currentData[requestIndex]);
+      }
+
       this.showToast('Заявку оновлено', 'success');
-      await this.loadRequests();
+      await this.loadRequests(); // Reload from server to ensure sync
       this.closeModal();
     } catch (error) {
       console.error('Update error details:', {
@@ -2349,16 +2361,27 @@ class EnhancedAdminPanel {
     const adrClassGroup = document.getElementById('adrClassGroup');
     const adrClassSelect = document.getElementById('editAdrClass');
 
+    console.log('🔧 Setting up ADR toggle:', {
+      checkbox: !!adrCheckbox,
+      group: !!adrClassGroup,
+      select: !!adrClassSelect,
+      checked: adrCheckbox?.checked
+    });
+
     if (adrCheckbox && adrClassGroup) {
       adrCheckbox.addEventListener('change', function() {
+        console.log('🔄 ADR checkbox changed:', this.checked);
         adrClassGroup.style.display = this.checked ? 'block' : 'none';
         if (!this.checked && adrClassSelect) {
           adrClassSelect.value = '';
+          console.log('🧹 Cleared ADR class select');
         }
       });
 
       // Set initial state
-      adrClassGroup.style.display = adrCheckbox.checked ? 'block' : 'none';
+      const initialState = adrCheckbox.checked;
+      adrClassGroup.style.display = initialState ? 'block' : 'none';
+      console.log('🎯 Initial ADR state:', initialState);
     }
   }
 
@@ -2417,17 +2440,25 @@ class EnhancedAdminPanel {
       }
     });
 
-    return {
+    // Debug collected values
+    console.log('🔍 Collecting form values:');
+    console.log('Length element:', elements.length, 'value:', elements.length?.value);
+    console.log('Width element:', elements.width, 'value:', elements.width?.value);
+    console.log('Height element:', elements.height, 'value:', elements.height?.value);
+    console.log('Weight element:', elements.weight, 'value:', elements.weight?.value);
+    console.log('ADR checkbox element:', elements.isAdr, 'checked:', elements.isAdr?.checked);
+
+    const formData = {
       pickupLocation: elements.pickupLocation?.value?.trim(),
       deliveryLocation: elements.deliveryLocation?.value?.trim(),
       pickupDate: elements.pickupDate?.value,
       cargoType: elements.cargoType?.value,
-      length: parseFloat(elements.length?.value),
-      width: parseFloat(elements.width?.value),
-      height: parseFloat(elements.height?.value),
-      weight: parseInt(elements.weight?.value),
-      quantity: parseInt(elements.quantity?.value),
-      adr: elements.isAdr?.checked || false, // ✅ Виправлено: використовуємо 'adr' замість 'isAdr'
+      length: parseFloat(elements.length?.value) || 0,
+      width: parseFloat(elements.width?.value) || 0,
+      height: parseFloat(elements.height?.value) || 0,
+      weight: parseInt(elements.weight?.value) || 0,
+      quantity: parseInt(elements.quantity?.value) || 1,
+      adr: elements.isAdr?.checked || false,
       adrClass: elements.adrClass?.value || null,
       contactName: elements.contactName?.value?.trim(),
       phone: elements.phone?.value?.trim(),
@@ -2437,6 +2468,9 @@ class EnhancedAdminPanel {
       assignedTo: elements.assignedTo?.value?.trim() || null,
       comment: elements.comment?.value?.trim() || null
     };
+
+    console.log('📋 Collected form data:', formData);
+    return formData;
   }
 
   validateRequestData(data) {
@@ -2456,24 +2490,37 @@ class EnhancedAdminPanel {
       }
     }
 
-    // Numeric fields validation
+    // Numeric fields validation with detailed logging
+    console.log('🧮 Validating numeric fields:', {
+      length: data.length,
+      width: data.width,
+      height: data.height,
+      weight: data.weight,
+      quantity: data.quantity
+    });
+
     if (isNaN(data.length) || data.length <= 0 || data.length > 15) {
+      console.error('❌ Length validation failed:', data.length);
       return { isValid: false, message: 'Довжина має бути числом від 0.1 до 15 метрів' };
     }
 
     if (isNaN(data.width) || data.width <= 0 || data.width > 15) {
+      console.error('❌ Width validation failed:', data.width);
       return { isValid: false, message: 'Ширина має бути числом від 0.1 до 15 метрів' };
     }
 
     if (isNaN(data.height) || data.height <= 0 || data.height > 15) {
+      console.error('❌ Height validation failed:', data.height);
       return { isValid: false, message: 'Висота має бути числом від 0.1 до 15 метрів' };
     }
 
     if (isNaN(data.weight) || data.weight <= 0 || data.weight > 50000) {
+      console.error('❌ Weight validation failed:', data.weight);
       return { isValid: false, message: 'Вага має бути числом від 1 до 50000 кг' };
     }
 
     if (isNaN(data.quantity) || data.quantity <= 0 || data.quantity > 1000) {
+      console.error('❌ Quantity validation failed:', data.quantity);
       return { isValid: false, message: 'Кількість має бути числом від 1 до 1000' };
     }
 

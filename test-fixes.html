@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест виправлень форми редагування</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./src/css/admin-enhanced.css" />
+  <style>
+    body {
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    .test-buttons {
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .test-buttons button {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .test-buttons button:hover {
+      background: #0056b3;
+    }
+    .test-buttons button.urgent {
+      background: #dc3545;
+    }
+    .test-buttons button.success {
+      background: #28a745;
+    }
+    .console-output {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 20px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .test-info {
+      background: #e7f3ff;
+      border: 1px solid #bee5eb;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .test-info h3 {
+      margin: 0 0 10px 0;
+      color: #0c5460;
+    }
+    .test-info ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 Тест виправлень форми редагування</h1>
+  
+  <div class="test-info">
+    <h3>📋 Виправлені проблеми:</h3>
+    <ul>
+      <li><strong>Проблема 1:</strong> Довжина не зберігалась - додано детальне логування</li>
+      <li><strong>Проблема 2:</strong> ADR галочка не знімалась - покращена обробка</li>
+      <li><strong>Проблема 3:</strong> Пріоритет "терміново" змінювався на "високий" - виправлено логіку</li>
+    </ul>
+  </div>
+  
+  <div class="test-buttons">
+    <button onclick="loadAndShowData()">📋 Завантажити дані</button>
+    <button onclick="testEditNormalRequest()">✏️ Тест звичайної заявки</button>
+    <button onclick="testEditADRRequest()">⚠️ Тест ADR заявки</button>
+    <button onclick="testEditPriorityUrgent()" class="urgent">🚨 Тест "Терміново"</button>
+    <button onclick="testDimensionsChange()">📐 Тест зміни габаритів</button>
+    <button onclick="testADRToggle()">✅ Тест ADR перемикання</button>
+    <button onclick="clearConsole()" class="success">🧹 Очистити</button>
+  </div>
+  
+  <div id="consoleOutput" class="console-output">
+    Консоль буде відображена тут...
+  </div>
+
+  <!-- Modal Placeholder -->
+  <div class="modal-overlay" id="modalOverlay">
+    <!-- Modals will be created dynamically -->
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="./src/js/config.js"></script>
+  <script src="./src/js/admin-enhanced.js"></script>
+  
+  <script>
+    // Override console.log to display in page
+    const originalLog = console.log;
+    const originalError = console.error;
+    const originalWarn = console.warn;
+    
+    const consoleOutput = document.getElementById('consoleOutput');
+    
+    function addToConsole(message, type = 'log') {
+      const timestamp = new Date().toLocaleTimeString();
+      const prefix = type === 'error' ? '❌' : type === 'warn' ? '⚠️' : 'ℹ️';
+      consoleOutput.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+    
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      addToConsole(args.join(' '), 'log');
+    };
+    
+    console.error = function(...args) {
+      originalError.apply(console, args);
+      addToConsole(args.join(' '), 'error');
+    };
+    
+    console.warn = function(...args) {
+      originalWarn.apply(console, args);
+      addToConsole(args.join(' '), 'warn');
+    };
+    
+    function clearConsole() {
+      consoleOutput.textContent = 'Консоль очищена...\n';
+    }
+    
+    // Initialize admin panel
+    let adminPanel;
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('🚀 Ініціалізація тестової сторінки виправлень...');
+      
+      try {
+        adminPanel = new EnhancedAdminPanel();
+        await loadAndShowData();
+        console.log('✅ Тестова сторінка готова до використання');
+      } catch (error) {
+        console.error('❌ Помилка ініціалізації:', error);
+      }
+    });
+    
+    async function loadAndShowData() {
+      if (!adminPanel) {
+        console.error('Адміністративна панель не ініціалізована');
+        return;
+      }
+      
+      console.log('🔄 Завантаження даних з API...');
+      
+      try {
+        const response = await fetch('/api/requests');
+        if (response.ok) {
+          const realData = await response.json();
+          adminPanel.currentData = realData;
+          adminPanel.filteredData = realData;
+          
+          console.log('✅ Завантажено заявок:', realData.length);
+          console.log('📊 Доступні ID:', realData.map(r => r.id));
+          console.log('🎯 Пріоритети:', realData.map(r => `${r.id}: ${r.priority || 'не встановлено'}`));
+          console.log('⚠️ ADR заявки:', realData.filter(r => r.adr).map(r => `${r.id}: ${r.adrClass || 'без класу'}`));
+          
+          return realData;
+        } else {
+          throw new Error('Не вдалося завантажити дані');
+        }
+      } catch (error) {
+        console.error('❌ Помилка завантаження:', error);
+        return [];
+      }
+    }
+    
+    function testEditNormalRequest() {
+      if (!adminPanel || !adminPanel.currentData.length) {
+        console.error('Немає даних для тестування');
+        return;
+      }
+      
+      const request = adminPanel.currentData[0];
+      console.log('🧪 Тестування звичайної заявки ID:', request.id);
+      console.log('📋 Поточні дані:', {
+        length: request.length,
+        width: request.width,
+        height: request.height,
+        weight: request.weight,
+        adr: request.adr,
+        priority: request.priority
+      });
+      
+      adminPanel.editRequest(request.id);
+    }
+    
+    function testEditADRRequest() {
+      if (!adminPanel || !adminPanel.currentData.length) {
+        console.error('Немає даних для тестування');
+        return;
+      }
+      
+      let adrRequest = adminPanel.currentData.find(r => r.adr === true);
+      if (!adrRequest) {
+        adrRequest = adminPanel.currentData[0];
+        console.log('⚠️ ADR заявку не знайдено, використовуємо першу');
+      }
+      
+      console.log('🧪 Тестування ADR заявки ID:', adrRequest.id);
+      console.log('📋 ADR статус:', adrRequest.adr, 'клас:', adrRequest.adrClass);
+      
+      adminPanel.editRequest(adrRequest.id);
+      
+      // Перевіримо ADR функціональність через 1 секунду
+      setTimeout(() => {
+        const checkbox = document.getElementById('editIsAdr');
+        const group = document.getElementById('adrClassGroup');
+        console.log('🔍 ADR елементи після відкриття:', {
+          checkbox: !!checkbox,
+          checked: checkbox?.checked,
+          group: !!group,
+          visible: group?.style.display !== 'none'
+        });
+      }, 1000);
+    }
+    
+    function testEditPriorityUrgent() {
+      if (!adminPanel || !adminPanel.currentData.length) {
+        console.error('Немає даних для тестування');
+        return;
+      }
+      
+      let urgentRequest = adminPanel.currentData.find(r => r.priority === 'urgent');
+      if (!urgentRequest) {
+        urgentRequest = adminPanel.currentData[0];
+        console.log('⚠️ Термінову заявку не знайдено, використовуємо першу');
+      }
+      
+      console.log('🧪 Тестування пріоритету "Терміново" ID:', urgentRequest.id);
+      console.log('📋 Поточний пріоритет:', urgentRequest.priority);
+      
+      adminPanel.editRequest(urgentRequest.id);
+      
+      // Перевіримо поле пріоритету через 1 секунду
+      setTimeout(() => {
+        const prioritySelect = document.getElementById('editPriority');
+        console.log('🔍 Поле пріоритету:', {
+          element: !!prioritySelect,
+          value: prioritySelect?.value,
+          options: Array.from(prioritySelect?.options || []).map(o => o.value)
+        });
+      }, 1000);
+    }
+    
+    function testDimensionsChange() {
+      console.log('🧪 Тест зміни габаритів - відкрийте форму редагування та змініть довжину');
+      console.log('📋 Очікуваний результат: нові значення повинні зберігатися');
+      
+      // Симуляція збору даних з форми (для демонстрації)
+      setTimeout(() => {
+        const lengthInput = document.getElementById('editLength');
+        const widthInput = document.getElementById('editWidth');
+        const heightInput = document.getElementById('editHeight');
+        
+        if (lengthInput && widthInput && heightInput) {
+          console.log('📐 Поточні габарити з форми:', {
+            length: lengthInput.value,
+            width: widthInput.value,
+            height: heightInput.value
+          });
+        } else {
+          console.log('⚠️ Форма не відкрита, спочатку відкрийте заявку для редагування');
+        }
+      }, 500);
+    }
+    
+    function testADRToggle() {
+      console.log('🧪 Тест перемикання ADR - відкрийте форму та поміняйте галочку ADR');
+      
+      setTimeout(() => {
+        const adrCheckbox = document.getElementById('editIsAdr');
+        const adrGroup = document.getElementById('adrClassGroup');
+        
+        if (adrCheckbox && adrGroup) {
+          console.log('✅ ADR елементи знайдені');
+          console.log('📋 Поточний стан:', {
+            checked: adrCheckbox.checked,
+            groupVisible: adrGroup.style.display !== 'none'
+          });
+          
+          // Симуляція кліку
+          console.log('🎯 Симулюємо перемикання ADR...');
+          adrCheckbox.click();
+          
+          setTimeout(() => {
+            console.log('📋 Стан після перемикання:', {
+              checked: adrCheckbox.checked,
+              groupVisible: adrGroup.style.display !== 'none'
+            });
+          }, 100);
+        } else {
+          console.log('⚠️ ADR елементи не знайдені, спочатку відкрийте форму редагування');
+        }
+      }, 500);
+    }
+  </script>
+</body>
+</html> 
