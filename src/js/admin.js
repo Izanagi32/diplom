@@ -1,4 +1,3 @@
-// Admin Panel Application
 class AdminPanel {
   constructor() {
     this.currentData = [];
@@ -18,7 +17,6 @@ class AdminPanel {
   }
 
   async init() {
-    // Check authentication first
     if (!this.checkAuthentication()) {
       window.location.href = './admin-login.html';
       return;
@@ -30,7 +28,6 @@ class AdminPanel {
     this.renderStats();
   }
 
-  // Authentication
   checkAuthentication() {
     const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
     const isSessionLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true';
@@ -73,9 +70,7 @@ class AdminPanel {
     }
   }
 
-  // Event Listeners
   setupEventListeners() {
-    // Search
     const searchInput = document.getElementById('searchRequests');
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
@@ -84,7 +79,6 @@ class AdminPanel {
       });
     }
 
-    // Items per page
     const itemsPerPageSelect = document.getElementById('itemsPerPage');
     if (itemsPerPageSelect) {
       itemsPerPageSelect.addEventListener('change', (e) => {
@@ -95,13 +89,10 @@ class AdminPanel {
       });
     }
 
-    // Filters
     this.setupFilterListeners();
     
-    // Bulk actions
     this.setupBulkActions();
     
-    // Export button
     const exportBtn = document.querySelector('[data-action="export"]');
     if (exportBtn) {
       exportBtn.addEventListener('click', () => this.exportData());
@@ -160,7 +151,6 @@ class AdminPanel {
     }
   }
 
-  // Data Loading
   async loadRequests() {
     try {
       this.showLoading();
@@ -176,7 +166,6 @@ class AdminPanel {
         throw new Error('Invalid data format received');
       }
       
-      // Add status field if missing
       this.currentData = data.map(item => ({
         ...item,
         status: item.status || 'pending',
@@ -196,10 +185,8 @@ class AdminPanel {
     }
   }
 
-  // Filtering and Sorting
   applyFilters() {
     this.filteredData = this.currentData.filter(item => {
-      // Search filter
       if (this.filters.search) {
         const searchTerm = this.filters.search.toLowerCase();
         const searchFields = [
@@ -212,12 +199,10 @@ class AdminPanel {
         }
       }
 
-      // Status filter
       if (this.filters.status && item.status !== this.filters.status) {
         return false;
       }
 
-      // Date filters
       if (this.filters.dateFrom || this.filters.dateTo) {
         const itemDate = new Date(item.createdAt);
         if (this.filters.dateFrom && itemDate < new Date(this.filters.dateFrom)) {
@@ -248,7 +233,6 @@ class AdminPanel {
       let valueA = a[column];
       let valueB = b[column];
 
-      // Handle different data types
       if (typeof valueA === 'string') {
         valueA = valueA.toLowerCase();
         valueB = valueB.toLowerCase();
@@ -277,7 +261,6 @@ class AdminPanel {
     });
   }
 
-  // Rendering
   renderStats() {
     const stats = this.calculateStats();
     const statsContainer = document.getElementById('statsContainer');
@@ -441,7 +424,6 @@ class AdminPanel {
       </td>
     `;
 
-    // Add event listener for checkbox
     const checkbox = tr.querySelector('.row-checkbox');
     checkbox.addEventListener('change', () => this.updateBulkActions());
 
@@ -510,7 +492,6 @@ class AdminPanel {
       </div>
     `;
 
-    // Re-attach event listener for items per page
     const itemsPerPageSelect = document.getElementById('itemsPerPage');
     if (itemsPerPageSelect) {
       itemsPerPageSelect.addEventListener('change', (e) => {
@@ -531,7 +512,6 @@ class AdminPanel {
     }
   }
 
-  // CRUD Operations
   async viewRequest(id) {
     const request = this.currentData.find(item => item.id == id);
     if (!request) return;
@@ -590,7 +570,6 @@ class AdminPanel {
     }
   }
 
-  // Modal Management
   createModal(size, title, content, footer = null) {
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';
@@ -619,14 +598,12 @@ class AdminPanel {
     document.body.appendChild(modalOverlay);
     setTimeout(() => modalOverlay.classList.add('active'), 10);
     
-    // Close on overlay click
     modalOverlay.addEventListener('click', (e) => {
       if (e.target === modalOverlay) {
         this.closeModal();
       }
     });
     
-    // Close on Escape key
     document.addEventListener('keydown', this.handleEscapeKey);
   }
 
@@ -645,7 +622,6 @@ class AdminPanel {
     }
   }
 
-  // Form Content Creators
   createViewContent(request) {
     return `
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
@@ -898,7 +874,6 @@ class AdminPanel {
     `;
   }
 
-  // Utility Functions
   formatDateTime(dateString) {
     if (!dateString) return 'Не вказано';
     
@@ -924,7 +899,6 @@ class AdminPanel {
     return text.substring(0, maxLength) + '...';
   }
 
-  // UI Feedback
   showLoading() {
     const container = document.querySelector('.admin-table-container');
     if (container) {
@@ -968,7 +942,6 @@ class AdminPanel {
     }
   }
 
-  // Export functionality
   exportData() {
     const csvContent = this.generateCSV();
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -1020,13 +993,11 @@ class AdminPanel {
   }
 }
 
-// Initialize the application
 let adminPanel;
 
 document.addEventListener('DOMContentLoaded', () => {
   adminPanel = new AdminPanel();
   
-  // Handle form submissions
   document.addEventListener('submit', async (e) => {
     if (e.target.id === 'editRequestForm') {
       e.preventDefault();
@@ -1038,22 +1009,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Form submission handlers
 async function handleEditSubmit(form) {
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
   
   try {
-    // Get request ID from modal title
     const requestId = parseInt(document.querySelector('.modal h3').textContent.match(/\d+/)[0]);
     
-    // Show loading state
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Збереження...';
     submitBtn.disabled = true;
     
-    // Prepare data for API
     const updateData = {
       id: requestId,
       pickupLocation: data.pickupLocation,
@@ -1073,7 +1040,6 @@ async function handleEditSubmit(form) {
       email: data.email
     };
     
-    // Send update request to API
     const response = await fetch('/api/requests', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -1088,7 +1054,6 @@ async function handleEditSubmit(form) {
     const result = await response.json();
     console.log('Edit update result:', result);
     
-    // Update local data
     const requestIndex = adminPanel.currentData.findIndex(item => item.id === requestId);
     
     if (requestIndex !== -1) {
@@ -1108,7 +1073,6 @@ async function handleEditSubmit(form) {
     console.error('Edit update error:', error);
     adminPanel.showError('Помилка при оновленні заявки: ' + error.message);
     
-    // Restore button state
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) {
       submitBtn.innerHTML = '<i class="fas fa-save"></i> Зберегти зміни';
@@ -1122,16 +1086,13 @@ async function handleStatusSubmit(form) {
   const data = Object.fromEntries(formData.entries());
   
   try {
-    // Get request ID from modal title
     const requestId = parseInt(document.querySelector('.modal h3').textContent.match(/\d+/)[0]);
     
-    // Show loading state
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Оновлення...';
     submitBtn.disabled = true;
     
-    // Send update request to API
     const response = await fetch('/api/requests', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -1151,7 +1112,6 @@ async function handleStatusSubmit(form) {
     const result = await response.json();
     console.log('Status update result:', result);
     
-    // Update local data
     const requestIndex = adminPanel.currentData.findIndex(item => item.id === requestId);
     
     if (requestIndex !== -1) {
@@ -1173,7 +1133,6 @@ async function handleStatusSubmit(form) {
     console.error('Status update error:', error);
     adminPanel.showError('Помилка при оновленні статусу: ' + error.message);
     
-    // Restore button state
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) {
       submitBtn.innerHTML = '<i class="fas fa-check"></i> Оновити статус';
