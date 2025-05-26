@@ -1441,16 +1441,92 @@
   gap: 12px;
 }
 
-.shipping-form__volume-output {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 0;
+.shipping-form__volume-section {
+  margin-top: 24px;
+  width: 100%;
 }
 
-.shipping-form__volume-output span {
+.shipping-form__volume-input-group {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.shipping-form__input--volume {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-bottom: 0;
+  padding-right: 50px;
   font-weight: 600;
   color: #005bbb;
+  border: 2px solid #005bbb;
+  background: rgba(0, 91, 187, 0.05);
+}
+
+.shipping-form__input--volume:focus {
+  border-color: #004694;
+  background: #fff;
+  -webkit-box-shadow: 0 0 0 3px rgba(0, 91, 187, 0.15);
+          box-shadow: 0 0 0 3px rgba(0, 91, 187, 0.15);
+}
+
+.shipping-form__input--volume::-webkit-input-placeholder {
+  color: rgba(0, 91, 187, 0.6);
+  font-weight: 500;
+}
+
+.shipping-form__input--volume:-ms-input-placeholder {
+  color: rgba(0, 91, 187, 0.6);
+  font-weight: 500;
+}
+
+.shipping-form__input--volume::-ms-input-placeholder {
+  color: rgba(0, 91, 187, 0.6);
+  font-weight: 500;
+}
+
+.shipping-form__input--volume::placeholder {
+  color: rgba(0, 91, 187, 0.6);
+  font-weight: 500;
+}
+
+.shipping-form__volume-unit {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  font-weight: 700;
+  color: #005bbb;
+  font-size: 14px;
+  pointer-events: none;
+  background: rgba(0, 91, 187, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.shipping-form__volume-hint {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.shipping-form__dimensions-hint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 0;
+  font-style: italic;
+  line-height: 1.4;
 }
 
 .shipping-form__weight, .shipping-form__quantity, .shipping-form__type, .shipping-form__comment, .shipping-form__email {

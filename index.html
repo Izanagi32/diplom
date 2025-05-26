@@ -425,21 +425,33 @@
 
                 <section class="shipping-form__section shipping-form__section--cargo-info">
                   <h2 class="shipping-form__section-title">Інформація про вантаж</h2>
+                  
+                  <div class="shipping-form__volume-section">
+                    <h3 class="shipping-form__section-subtitle">Загальний об'єм вантажу</h3>
+                    <div class="shipping-form__volume-input-group">
+                      <input type="number" id="total-volume" name="total-volume" class="shipping-form__input shipping-form__input--volume" placeholder="Загальний об'єм" step="0.01" min="0" required />
+                      <span class="shipping-form__volume-unit">м³</span>
+                    </div>
+                    <p class="shipping-form__volume-hint">Вкажіть загальний об'єм всього вантажу в кубічних метрах</p>
+                  </div>
+
                   <div class="shipping-form__dimensions">
-                    <h3 class="shipping-form__section-subtitle">Габарити вантажу (в метрах)</h3>
+                    <h3 class="shipping-form__section-subtitle">Габарити одиниці вантажу (в метрах)</h3>
                     <div class="shipping-form__inputs shipping-form__inputs--dimensions">
                       <div class="shipping-form__dimension-fields">
-                        <input type="number" id="length" name="length" class="shipping-form__input" placeholder="Довжина" step="0.01" min="0" required />
-                        <input type="number" id="width" name="width" class="shipping-form__input" placeholder="Ширина" step="0.01" min="0" required />
-                        <input type="number" id="height" name="height" class="shipping-form__input" placeholder="Висота" step="0.01" min="0" required />
+                        <input type="number" id="length" name="length" class="shipping-form__input" placeholder="Довжина" step="0.01" min="0" />
+                        <input type="number" id="width" name="width" class="shipping-form__input" placeholder="Ширина" step="0.01" min="0" />
+                        <input type="number" id="height" name="height" class="shipping-form__input" placeholder="Висота" step="0.01" min="0" />
                       </div>
-                      <p class="shipping-form__volume-output">Об'єм вантажу: <span id="volume">0</span> м³</p>
+                      <p class="shipping-form__dimensions-hint">Габарити однієї одиниці вантажу (необов'язково)</p>
                     </div>
                   </div>
+                  
                   <div class="shipping-form__weight">
                     <h3 class="shipping-form__section-subtitle">Вага вантажу (кг)</h3>
-                    <input type="number" id="weight" name="weight" class="shipping-form__input" placeholder="Вага" step="0.01" min="0" required />
+                    <input type="number" id="weight" name="weight" class="shipping-form__input" placeholder="Загальна вага" step="0.01" min="0" required />
                   </div>
+                  
                   <div class="shipping-form__quantity">
                     <h3 class="shipping-form__section-subtitle">Кількість одиниць</h3>
                     <input type="number" id="quantity" name="quantity" class="shipping-form__input" placeholder="Кількість палет або коробок" min="1" required />

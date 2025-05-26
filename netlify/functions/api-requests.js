@@ -65,6 +65,7 @@ exports.handler = async function(event, context) {
       const {
         pickupLocation,
         deliveryLocation,
+        totalVolume,
         length,
         width,
         height,
@@ -88,6 +89,7 @@ exports.handler = async function(event, context) {
             {
               pickup_location: pickupLocation,
               delivery_location: deliveryLocation,
+              total_volume: totalVolume,
               length: length,
               width: width,
               height: height,
@@ -119,7 +121,7 @@ exports.handler = async function(event, context) {
       }
 
       const insertedId = insertResult.id;
-      const volume = (length * width * height * quantity).toFixed(2);
+      const volume = totalVolume ? totalVolume.toFixed(2) : '0.00';
       const adrInfo = adr ? `Так${adrClass ? ` (${adrClass})` : ''}` : 'Ні';
       
       const message = 
@@ -129,10 +131,10 @@ exports.handler = async function(event, context) {
         `   • Куди: <i>${deliveryLocation}</i>\n\n` +
         `📅 <b>Дата подачі:</b> ${pickupDate}\n\n` +
         `📦 <b>Характеристики вантажу:</b>\n` +
-        `   • Габарити: <code>${length} × ${width} × ${height}</code> м\n` +
-        `   • Об'єм: <code>${volume}</code> м³\n` +
+        `   • Загальний об'єм: <code>${volume}</code> м³\n` +
         `   • Вага: <code>${weight}</code> кг\n` +
         `   • Кількість: <code>${quantity}</code>\n` +
+        (length && width && height ? `   • Габарити одиниці: <code>${length} × ${width} × ${height}</code> м\n` : '') +
         `   • Тип: <i>${cargoType || 'Не вказано'}</i>\n` +
         `   • ADR: <code>${adrInfo}</code>\n\n` +
         `💬 <b>Коментар:</b> <i>${comment || 'Немає коментарів'}</i>\n\n` +
@@ -164,6 +166,7 @@ exports.handler = async function(event, context) {
         id: row.id,
         pickupLocation: row.pickup_location,
         deliveryLocation: row.delivery_location,
+        totalVolume: row.total_volume,
         length: row.length,
         width: row.width,
         height: row.height,
@@ -222,6 +225,7 @@ exports.handler = async function(event, context) {
         if (updateData.statusComment !== undefined) supabaseData.status_comment = updateData.statusComment;
         if (updateData.pickupLocation !== undefined) supabaseData.pickup_location = updateData.pickupLocation;
         if (updateData.deliveryLocation !== undefined) supabaseData.delivery_location = updateData.deliveryLocation;
+        if (updateData.totalVolume !== undefined) supabaseData.total_volume = updateData.totalVolume;
         if (updateData.length !== undefined) supabaseData.length = updateData.length;
         if (updateData.width !== undefined) supabaseData.width = updateData.width;
         if (updateData.height !== undefined) supabaseData.height = updateData.height;

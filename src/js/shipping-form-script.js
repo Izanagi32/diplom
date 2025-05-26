@@ -29,24 +29,46 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal1 = document.getElementById("formModal");
   const closeModalBtn = document.getElementById("closeModal");
 
+  // Поле для загального об'єму (основне)
+  const totalVolumeInput = document.getElementById('total-volume');
+  
+  // Поля габаритів (додаткові, необов'язкові)
   const lengthInput = document.getElementById('length');
   const widthInput = document.getElementById('width');
   const heightInput = document.getElementById('height');
   const quantityInput = document.getElementById('quantity');
-  const volumeOutput = document.getElementById('volume');
-  function updateVolume() {
+
+  // Функція для розрахунку об'єму одиниці (якщо заповнені габарити)
+  function calculateUnitVolume() {
+    if (!lengthInput || !widthInput || !heightInput) return 0;
+    
     const l = parseFloat(lengthInput.value) || 0;
     const w = parseFloat(widthInput.value) || 0;
     const h = parseFloat(heightInput.value) || 0;
-    const q = parseInt(quantityInput.value) || 0;
-    const vol = (l * w * h * q) || 0;
-    volumeOutput.textContent = parseFloat(vol.toFixed(2));
+    
+    return l * w * h;
   }
-  if (lengthInput && widthInput && heightInput && quantityInput && volumeOutput) {
+
+  // Автозаповнення загального об'єму при введенні габаритів
+  function autoFillTotalVolume() {
+    if (!totalVolumeInput) return;
+    
+    const unitVolume = calculateUnitVolume();
+    const quantity = parseInt(quantityInput?.value) || 0;
+    
+    if (unitVolume > 0 && quantity > 0) {
+      const totalVolume = unitVolume * quantity;
+      if (!totalVolumeInput.value || totalVolumeInput.value === '0') {
+        totalVolumeInput.value = totalVolume.toFixed(2);
+      }
+    }
+  }
+
+  // Додаємо обробники подій для автозаповнення
+  if (lengthInput && widthInput && heightInput && quantityInput && totalVolumeInput) {
     [lengthInput, widthInput, heightInput, quantityInput].forEach(el =>
-      el.addEventListener('input', updateVolume)
+      el.addEventListener('input', autoFillTotalVolume)
     );
-    updateVolume();
   }
 
   const adrCheckbox = document.getElementById('adr');
@@ -72,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const h = parseFloat(heightInput.value) || 0;
     const q = parseInt(quantityInput.value) || 0;
     const weight = parseFloat(document.getElementById('weight').value) || 0;
-    const volume = (l * w * h * q).toFixed(2);
+    const totalVolume = parseFloat(totalVolumeInput.value) || 0;
 
     const date = document.getElementById('pickup-date').value;
 
@@ -95,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const formData = {
       pickupLocation: pickup,
       deliveryLocation: delivery,
+      totalVolume: totalVolume,
       length: l,
       width: w,
       height: h,
@@ -124,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       modal1?.classList.add("modal--active");
       form1.reset();
-      volumeOutput.textContent = '0';
+      if (totalVolumeInput) totalVolumeInput.value = '';
       adrSelect.hidden = true;
       adrSelect.disabled = true;
     } catch (err) {

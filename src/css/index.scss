@@ -1165,16 +1165,69 @@
         gap: 12px;
     }
 
-    &__volume-output {
-        margin-top: 10px;
+    &__volume-section {
+        margin-top: 24px;
+        width: 100%;
+    }
+
+    &__volume-input-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    &__input--volume {
+        flex: 1;
+        margin-bottom: 0;
+        padding-right: 50px;
+        font-weight: 600;
+        color: #005bbb;
+        border: 2px solid #005bbb;
+        background: rgba(0, 91, 187, 0.05);
+
+        &:focus {
+            border-color: #004694;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 91, 187, 0.15);
+        }
+
+        &::placeholder {
+            color: rgba(0, 91, 187, 0.6);
+            font-weight: 500;
+        }
+    }
+
+    &__volume-unit {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 700;
+        color: #005bbb;
         font-size: 14px;
+        pointer-events: none;
+        background: rgba(0, 91, 187, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+    &__volume-hint {
+        font-size: 13px;
+        color: #666;
+        margin: 0;
+        font-style: italic;
+        line-height: 1.4;
+    }
+
+    &__dimensions-hint {
+        margin-top: 8px;
+        font-size: 13px;
         color: #666;
         margin-bottom: 0;
-
-        span {
-            font-weight: 600;
-            color: #005bbb;
-        }
+        font-style: italic;
+        line-height: 1.4;
     }
 
     &__weight,
