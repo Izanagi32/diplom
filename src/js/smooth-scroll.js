@@ -1,14 +1,1 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const smoothLinks = document.querySelectorAll('a[href^="#"]');
-
-  smoothLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute("href");
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: "smooth" });
-      }
-    });
-  });
-});
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll('a[href^="#"]').forEach(t=>{t.addEventListener("click",e=>{e.preventDefault();e=t.getAttribute("href"),e=document.querySelector(e);e&&e.scrollIntoView({behavior:"smooth"})})})});
