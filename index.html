@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Euro Tandem — Надійні логістичні рішення</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#005bbb" />
+    <title>Euro Tandem — Надійні логістичні рішення по всій Європі</title>
     <link rel="stylesheet" href="./src/css/nullstyle.css" />
     <link rel="stylesheet" href="./src/css/header&footer.css" />
     <link rel="stylesheet" href="./src/css/index.css" />
@@ -14,17 +17,67 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <link rel="icon" href="./src/img/fav.png" type="image/png">
-    <meta name="description" content="Euro Tandem — надійні логістичні рішення для вашого бізнесу. Міжнародні перевезення, оптимізація маршрутів, GPS-трекінг." />
-    <meta name="keywords" content="логістика, перевезення, доставка, Україна, ЄС, вантаж, маршрути" />
-    <meta property="og:title" content="Euro Tandem — логістичні послуги" />
-    <meta property="og:description" content="Надійні логістичні рішення для вашого бізнесу." />
+    <meta name="description" content="Euro Tandem ⭐ Надійні логістичні рішення Україна-ЄС. Міжнародні перевезення до Німеччини, Бельгії, Нідерландів. Власний автопарк ✅ GPS-трекінг ✅ Страхування вантажів" />
+    <meta name="keywords" content="логістика Україна ЄС, перевезення Німеччина, доставка Бельгія Нідерланди, міжнародні перевезення, вантажні перевезення, Euro Tandem" />
+    <meta name="author" content="Euro Tandem LLC" />
+    <meta name="language" content="Ukrainian" />
+    <meta property="og:title" content="Euro Tandem — Міжнародні перевезення Україна-ЄС" />
+    <meta property="og:description" content="⭐ Надійні вантажні перевезення до Німеччини, Бельгії, Нідерландів. Власний автопарк 17 фур ✅ GPS-трекінг ✅ Страхування" />
     <meta property="og:image" content="https://eurotandem.com/src/img/Logo.avif" />
     <meta property="og:url" content="https://eurotandem.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Euro Tandem" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Euro Tandem — Міжнародні перевезення Україна-ЄС" />
+    <meta name="twitter:description" content="⭐ Надійні вантажні перевезення до Німеччини, Бельгії, Нідерландів. Власний автопарк 17 фур ✅ GPS-трекінг ✅ Страхування" />
+    <meta name="twitter:image" content="https://eurotandem.com/src/img/Logo.avif" />
     <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://eurotandem.com/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="./src/img/Logo.avif" as="image" />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style" />
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        page_title: 'Euro Tandem - Головна',
+        page_location: window.location.href,
+        custom_map: {'custom_parameter_1': 'page_type'},
+        page_type: 'homepage'
+      });
+      
+      // Track form submissions
+      document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+          form.addEventListener('submit', function() {
+            gtag('event', 'form_submit', {
+              form_id: this.id || 'unknown',
+              page_location: window.location.href
+            });
+          });
+        });
+        
+        // Track social media clicks
+        const socialLinks = document.querySelectorAll('.navbar__social-link, .site-footer__social-link');
+        socialLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            const platform = this.getAttribute('aria-label') || 'unknown';
+            gtag('event', 'social_click', {
+              social_platform: platform,
+              page_location: window.location.href,
+              event_category: 'Social Media',
+              event_label: platform + '_click'
+            });
+          });
+        });
+      });
+    </script>
+    
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -60,17 +113,11 @@
       <div class="container">
         <div class="navbar__top">
           <div class="navbar__social">
-            <a href="#" class="navbar__social-link">
+            <a href="https://www.facebook.com/eurotandem.logistics" class="navbar__social-link" target="_blank" rel="noopener noreferrer">
               <img src="./src/svg/facebook.svg" alt="Facebook" />
             </a>
-            <a href="#" class="navbar__social-link">
-              <img src="./src/svg/instagram.svg" alt="Instagram" />
-            </a>
-            <a href="#" class="navbar__social-link">
-              <img src="./src/svg/linkedin.svg" alt="LinkedIn" />
-            </a>
-            <a href="#" class="navbar__social-link">
-              <img src="./src/svg/twitter.svg" alt="Twitter" />
+            <a href="https://www.tiktok.com/@eurotandem_logistics" class="navbar__social-link" target="_blank" rel="noopener noreferrer">
+              <img src="./src/svg/logotiktok.svg" alt="TikTok" />
             </a>
           </div>
           <div class="navbar__info">
@@ -853,36 +900,24 @@
             aria-label="Social Media Links"
           >
             <a
-              href="#"
+              href="https://www.facebook.com/eurotandem.logistics"
               class="site-footer__social-link"
               aria-label="Facebook"
               tabindex="0"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <img src="./src/svg/facebook.svg" alt="Facebook" />
             </a>
             <a
-              href="#"
+              href="https://www.tiktok.com/@eurotandem_logistics"
               class="site-footer__social-link"
-              aria-label="Instagram"
+              aria-label="TikTok"
               tabindex="0"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <img src="./src/svg/instagram.svg" alt="Instagram" />
-            </a>
-            <a
-              href="#"
-              class="site-footer__social-link"
-              aria-label="LinkedIn"
-              tabindex="0"
-            >
-              <img src="./src/svg/linkedin.svg" alt="LinkedIn" />
-            </a>
-            <a
-              href="#"
-              class="site-footer__social-link"
-              aria-label="Twitter"
-              tabindex="0"
-            >
-              <img src="./src/svg/twitter.svg" alt="Twitter" />
+              <img src="./src/svg/logotiktok.svg" alt="TikTok" />
             </a>
           </nav>
         </div>
@@ -1020,5 +1055,63 @@
     <script src="./src/js/services-carousel.js"></script>
     <script src="./src/js/feedback-modal.js"></script>
     <script src="./src/js/hero-background.js"></script>
+    
+    <!-- GDPR Cookie Banner -->
+    <div id="cookieBanner" class="cookie-banner" style="position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.95); color: white; padding: 20px; z-index: 9999; transform: translateY(100%); transition: transform 0.3s ease; border-top: 3px solid #ffd500;">
+      <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+        <div style="flex: 1; min-width: 300px;">
+          <p style="margin: 0; font-size: 14px; line-height: 1.4;">
+            🍪 Ми використовуємо файли cookie для покращення роботи сайту та аналітики. Продовжуючи користуватися сайтом, ви погоджуєтеся з нашою 
+            <a href="./privacy-policy.html" style="color: #ffd500; text-decoration: underline;">Політикою конфіденційності</a>.
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button onclick="acceptCookies()" style="background: #005bbb; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s;">Прийняти</button>
+          <button onclick="declineCookies()" style="background: transparent; color: white; border: 1px solid #666; padding: 10px 20px; border-radius: 6px; cursor: pointer; transition: all 0.3s;">Відхилити</button>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      // Cookie Banner Logic
+      function showCookieBanner() {
+        const banner = document.getElementById('cookieBanner');
+        const consent = localStorage.getItem('cookieConsent');
+        
+        if (!consent) {
+          banner.style.transform = 'translateY(0)';
+        }
+      }
+      
+      function acceptCookies() {
+        localStorage.setItem('cookieConsent', 'accepted');
+        hideCookieBanner();
+        
+        // Enable Google Analytics
+        gtag('consent', 'update', {
+          analytics_storage: 'granted'
+        });
+      }
+      
+      function declineCookies() {
+        localStorage.setItem('cookieConsent', 'declined');
+        hideCookieBanner();
+        
+        // Disable Google Analytics
+        gtag('consent', 'update', {
+          analytics_storage: 'denied'
+        });
+      }
+      
+      function hideCookieBanner() {
+        const banner = document.getElementById('cookieBanner');
+        banner.style.transform = 'translateY(100%)';
+      }
+      
+      // Show banner after page load
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(showCookieBanner, 1000);
+      });
+    </script>
   </body>
 </html>

@@ -21,6 +21,19 @@
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="./src/img/fav.png" type="image/png">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        page_title: 'Euro Tandem - Про нас',
+        page_location: window.location.href
+      });
+    </script>
+    
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -62,17 +75,11 @@
       <div class="container">
         <div class="navbar__top">
           <div class="navbar__social">
-            <a href="#" class="navbar__social-link">
+            <a href="https://www.facebook.com/eurotandem.logistics" class="navbar__social-link" target="_blank" rel="noopener noreferrer">
               <img src="./src/svg/facebook.svg" alt="Facebook" />
             </a>
-            <a href="#" class="navbar__social-link">
-              <img src="./src/svg/instagram.svg" alt="Instagram" />
-            </a>
-            <a href="#" class="navbar__social-link">
-              <img src="./src/svg/linkedin.svg" alt="LinkedIn" />
-            </a>
-            <a href="#" class="navbar__social-link">
-              <img src="./src/svg/twitter.svg" alt="Twitter" />
+            <a href="https://www.tiktok.com/@eurotandem_logistics" class="navbar__social-link" target="_blank" rel="noopener noreferrer">
+              <img src="./src/svg/logotiktok.svg" alt="TikTok" />
             </a>
           </div>
           <div class="navbar__info">
@@ -479,36 +486,24 @@
             aria-label="Social Media Links"
           >
             <a
-              href="#"
+              href="https://www.facebook.com/eurotandem.logistics"
               class="site-footer__social-link"
               aria-label="Facebook"
               tabindex="0"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <img src="./src/svg/facebook.svg" alt="Facebook" />
             </a>
             <a
-              href="#"
+              href="https://www.tiktok.com/@eurotandem_logistics"
               class="site-footer__social-link"
-              aria-label="Instagram"
+              aria-label="TikTok"
               tabindex="0"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <img src="./src/svg/instagram.svg" alt="Instagram" />
-            </a>
-            <a
-              href="#"
-              class="site-footer__social-link"
-              aria-label="LinkedIn"
-              tabindex="0"
-            >
-              <img src="./src/svg/linkedin.svg" alt="LinkedIn" />
-            </a>
-            <a
-              href="#"
-              class="site-footer__social-link"
-              aria-label="Twitter"
-              tabindex="0"
-            >
-              <img src="./src/svg/twitter.svg" alt="Twitter" />
+              <img src="./src/svg/logotiktok.svg" alt="TikTok" />
             </a>
           </nav>
         </div>
