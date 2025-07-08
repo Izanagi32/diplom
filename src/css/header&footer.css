@@ -50,30 +50,63 @@
 .navbar__contact, .navbar__mail {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(58, 151, 232, 0.1), rgba(0, 75, 135, 0.05));
+  border: 1px solid rgba(58, 151, 232, 0.2);
+  border-radius: 25px;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.navbar__contact::before, .navbar__mail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(58, 151, 232, 0.1), transparent);
+  transition: left 0.6s ease;
 }
 .navbar__contact img, .navbar__mail img {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) invert(1);
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(0.7) sepia(1) saturate(5) hue-rotate(180deg);
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 .navbar__contact:hover, .navbar__mail:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, rgba(58, 151, 232, 0.2), rgba(0, 75, 135, 0.1));
+  border-color: rgba(58, 151, 232, 0.5);
+  box-shadow: 0 8px 20px rgba(58, 151, 232, 0.2);
+}
+.navbar__contact:hover::before, .navbar__mail:hover::before {
+  left: 100%;
 }
 .navbar__contact:hover img, .navbar__mail:hover img {
-  filter: brightness(0) invert(0.8) sepia(1) saturate(5) hue-rotate(180deg);
-  transform: scale(1.1);
+  filter: brightness(0) invert(1);
+  transform: scale(1.1) rotate(-5deg);
+}
+.navbar__contact:active, .navbar__mail:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(58, 151, 232, 0.15);
 }
 .navbar__phone, .navbar__email {
   color: #ffffff;
   font-size: 14px;
   text-decoration: none;
-  transition: color 0.3s ease;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.3px;
 }
 .navbar__phone:hover, .navbar__email:hover {
-  color: #3a97e8;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(58, 151, 232, 0.6);
 }
 .navbar__social {
   display: flex;
