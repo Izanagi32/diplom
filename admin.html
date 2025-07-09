@@ -14,6 +14,20 @@
     />
     <link rel="stylesheet" href="./src/css/admin.css" />
     <link rel="icon" href="./src/img/fav.png" type="image/png" />
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZP68JTB060"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZP68JTB060', {
+        page_title: 'Euro Tandem - Admin Panel',
+        page_location: window.location.href,
+        custom_map: {'custom_parameter_1': 'page_type'},
+        page_type: 'admin'
+      });
+    </script>
   </head>
   <body>
     <div class="admin-container">

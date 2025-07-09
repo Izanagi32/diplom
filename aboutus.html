@@ -8,10 +8,10 @@
     <meta name="keywords" content="про нас, логістична компанія, перевезення, Україна-ЄС, команда, історія">
     <meta property="og:title" content="Euro Tandem — Про нас" />
     <meta property="og:description" content="Дізнайте більше про нашу компанію, команду та переваги." />
-    <meta property="og:image" content="https://eurotandem.com/src/img/about-us-hero.jpg" />
-    <meta property="og:url" content="https://eurotandem.com/aboutus.html" />
+    <meta property="og:image" content="https://eurotandem.com.ua/src/img/about-us-hero.jpg" />
+    <meta property="og:url" content="https://eurotandem.com.ua/aboutus.html" />
     <meta property="og:type" content="website" />
-    <link rel="canonical" href="https://eurotandem.com/aboutus.html" />
+    <link rel="canonical" href="https://eurotandem.com.ua/aboutus.html" />
     <link rel="stylesheet" href="./src/css/nullstyle.css" />
     <link rel="stylesheet" href="./src/css/header&footer.css" />
     <link rel="stylesheet" href="./src/css/aboutus.css" />
@@ -23,14 +23,29 @@
     <link rel="icon" href="./src/img/fav.png" type="image/png">
     
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZP68JTB060"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX', {
+      gtag('config', 'G-ZP68JTB060', {
         page_title: 'Euro Tandem - Про нас',
-        page_location: window.location.href
+        page_location: window.location.href,
+        custom_map: {'custom_parameter_1': 'page_type'},
+        page_type: 'aboutus'
+      });
+      
+      // Track button clicks
+      document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('button, .navbar__cta-button');
+        buttons.forEach(button => {
+          button.addEventListener('click', function() {
+            gtag('event', 'button_click', {
+              button_text: this.textContent || 'unknown',
+              page_location: window.location.href
+            });
+          });
+        });
       });
     </script>
     
@@ -38,34 +53,34 @@
     {
       "@context": "https://schema.org",
       "@graph": [
-        {
-          "@type": "Organization",
-          "name": "Euro Tandem",
-          "url": "https://eurotandem.com",
-          "logo": "https://eurotandem.com/src/img/New%20logo.png",
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+380977777568",
-            "contactType": "Customer Service"
-          }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Головна",
-              "item": "https://eurotandem.com/"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Про нас",
-              "item": "https://eurotandem.com/aboutus.html"
-            }
-          ]
+              {
+        "@type": "Organization",
+        "name": "Euro Tandem",
+        "url": "https://eurotandem.com.ua",
+        "logo": "https://eurotandem.com.ua/src/img/Logo.avif",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+380977777568",
+          "contactType": "Customer Service"
         }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Головна",
+            "item": "https://eurotandem.com.ua/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Про нас",
+            "item": "https://eurotandem.com.ua/aboutus.html"
+          }
+        ]
+      }
       ]
     }
     </script>
@@ -76,10 +91,10 @@
         <div class="navbar__top">
           <div class="navbar__social">
             <a href="https://www.facebook.com/profile.php?id=61577922161284" class="navbar__social-link" target="_blank" rel="noopener noreferrer">
-              <img src="./src/svg/facebook.svg" alt="Facebook" />
+              <img src="./src/svg/facebook.svg" alt="Іконка Facebook для слідкування за Euro Tandem" />
             </a>
             <a href="https://www.tiktok.com/@eurotandem?_t=ZM-8xpYuzxJHPx&_r=1" class="navbar__social-link" target="_blank" rel="noopener noreferrer">
-              <img src="./src/svg/logotiktok.svg" alt="TikTok" />
+              <img src="./src/svg/logotiktok.svg" alt="Іконка TikTok для слідкування за Euro Tandem" />
             </a>
             <a href="https://lardi-trans.com/log/user/12164342612/" class="navbar__social-text-link" target="_blank" rel="noopener noreferrer">
               Lardi-Trans
@@ -87,13 +102,13 @@
           </div>
           <div class="navbar__info">
             <div class="navbar__contact">
-              <img src="./src/svg/phone.svg" alt="Phone" />
+              <img src="./src/svg/phone.svg" alt="Іконка телефону для зв'язку з Euro Tandem" />
               <a href="tel:+380977777568" class="navbar__phone"
                 >+380 (97) 777-75-68</a
               >
             </div>
             <div class="navbar__mail">
-              <img src="./src/svg/mail.svg" alt="Mail" />
+              <img src="./src/svg/mail.svg" alt="Іконка електронної пошти для зв'язку з Euro Tandem" />
               <a href="mailto:eurotandem@ukr.net" class="navbar__email"
                 >eurotandem@ukr.net</a
               >
@@ -104,7 +119,7 @@
           <div class="navbar__logo">
             <img
               src="./src/img/Logo.avif"  
-              alt="Logo"
+              alt="Логотип компанії Euro Tandem - вантажні перевезення по Україні"
               class="navbar__logo-image"
             />
           </div>
@@ -234,10 +249,10 @@
         </div>
 
         <div class="trust-stats__collage">
-          <img src="./src/img/DAF-trust1.avif" class="trust-stats__collage-item item-1" alt="Доставка 1" />
-          <img src="./src/img/DAF-trust2.avif" class="trust-stats__collage-item item-2" alt="Доставка 2" />
-          <img src="./src/img/DAF-trust3.avif" class="trust-stats__collage-item item-3" alt="Доставка 3" />
-          <img src="./src/img/DAF-trust4.avif" class="trust-stats__collage-item item-4" alt="Доставка 4" />
+          <img src="./src/img/DAF-trust1.avif" class="trust-stats__collage-item item-1" alt="Вантажівка DAF з вантажем - надійна доставка по Україні" />
+          <img src="./src/img/DAF-trust2.avif" class="trust-stats__collage-item item-2" alt="Вантажівка DAF в дорозі - швидка доставка вантажів" />
+          <img src="./src/img/DAF-trust3.avif" class="trust-stats__collage-item item-3" alt="Вантажівка DAF на завантаженні - професійна логістика" />
+          <img src="./src/img/DAF-trust4.avif" class="trust-stats__collage-item item-4" alt="Вантажівка DAF на розвантаженні - якісний сервіс" />
         </div>
       </section>
 
@@ -252,14 +267,14 @@
 
           <div class="fleet-collage">
             <div class="fleet-collage__main">
-              <img src="./src/img/MERC3477.avif" alt="Фура DAF" class="fleet-collage__img fleet-collage__img--main">
+              <img src="./src/img/MERC3477.avif" alt="Головна вантажівка Mercedes-Benz автопарку Euro Tandem" class="fleet-collage__img fleet-collage__img--main">
             </div>
             
             <div class="fleet-collage__secondary">
-              <img src="./src/img/DAF7488.avif" alt="Фура 1" class="fleet-collage__img fleet-collage__img--1">
-              <img src="./src/img/MERC3522.avif" alt="Фура 2" class="fleet-collage__img fleet-collage__img--2">
-              <img src="./src/img/DAF7100.avif" alt="Фура 3" class="fleet-collage__img fleet-collage__img--3">
-              <img src="./src/img/DAF7066.avif" alt="Фура 4" class="fleet-collage__img fleet-collage__img--4">
+              <img src="./src/img/DAF7488.avif" alt="Вантажівка DAF 7488 з автопарку Euro Tandem" class="fleet-collage__img fleet-collage__img--1">
+              <img src="./src/img/MERC3522.avif" alt="Вантажівка Mercedes-Benz 3522 з автопарку Euro Tandem" class="fleet-collage__img fleet-collage__img--2">
+              <img src="./src/img/DAF7100.avif" alt="Вантажівка DAF 7100 з автопарку Euro Tandem" class="fleet-collage__img fleet-collage__img--3">
+              <img src="./src/img/DAF7066.avif" alt="Вантажівка DAF 7066 з автопарку Euro Tandem" class="fleet-collage__img fleet-collage__img--4">
             </div>
             
             <button class="fleet-collage__view-all">
@@ -374,13 +389,13 @@
           <h2 class="services__title">Наші партнери</h2>
           <div class="services__grid">
             <div class="partner-card">
-              <img src="./src/img/Logo rio-trans.avif" alt="Company Rio-trans" class="partner-card__logo">
+              <img src="./src/img/Logo rio-trans.avif" alt="Логотип партнера Rio-trans - логістична компанія" class="partner-card__logo">
             </div>
             <div class="partner-card">
-              <img src="./src/img/Logo ALLY LOGISTICS.avif" alt="Company ALLY LOGISTICS" class="partner-card__logo">
+              <img src="./src/img/Logo ALLY LOGISTICS.avif" alt="Логотип партнера ALLY LOGISTICS - транспортна компанія" class="partner-card__logo">
             </div>
             <div class="partner-card">
-              <img src="./src/img/prtn7.png" alt="Volvo Trucks" class="partner-card__logo">
+              <img src="./src/img/prtn7.png" alt="Логотип Volvo Trucks - партнер Euro Tandem" class="partner-card__logo">
             </div>
           </div>
         </div>
@@ -393,7 +408,7 @@
           <div class="site-footer__logo-wrapper">
             <img
               src="./src/img/Logo.avif"
-              alt="Company Logo"
+              alt="Логотип компанії Euro Tandem - вантажні перевезення по Україні"
               class="site-footer__brand-logo"
             />
           </div>
@@ -448,15 +463,15 @@
             <h2 class="site-footer__info-heading">Контакти</h2>
             <div class="site-footer__contact-list">
               <div class="site-footer__contact-item">
-                <img src="./src/svg/mail.svg" alt="Email" />
+                <img src="./src/svg/mail.svg" alt="Іконка електронної пошти для зв'язку з Euro Tandem" />
                 <a href="mailto:eurotandem@ukr.net">eurotandem@ukr.net</a>
               </div>
               <div class="site-footer__contact-item">
-                <img src="./src/svg/phone.svg" alt="Phone" />
+                <img src="./src/svg/phone.svg" alt="Іконка телефону для зв'язку з Euro Tandem" />
                 <a href="tel:+380977777568">+380 (97) 777-75-68</a>
               </div>
               <div class="site-footer__contact-item">
-                <img src="./src/svg/phone.svg" alt="Phone" />
+                <img src="./src/svg/phone.svg" alt="Іконка телефону для зв'язку з Euro Tandem" />
                 <a href="tel:+380977770758">+380 (97) 777-07-58</a>
               </div>
             </div>
@@ -496,7 +511,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img src="./src/svg/facebook.svg" alt="Facebook" />
+              <img src="./src/svg/facebook.svg" alt="Іконка Facebook для слідкування за Euro Tandem" />
             </a>
             <a
               href="https://www.tiktok.com/@eurotandem?_t=ZM-8xpYuzxJHPx&_r=1"
@@ -506,7 +521,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img src="./src/svg/logotiktok.svg" alt="TikTok" />
+              <img src="./src/svg/logotiktok.svg" alt="Іконка TikTok для слідкування за Euro Tandem" />
             </a>
           </nav>
         </div>
