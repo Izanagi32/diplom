@@ -21,29 +21,35 @@
     <meta name="keywords" content="логістика Україна ЄС, перевезення Німеччина, доставка Бельгія Нідерланди, міжнародні перевезення, вантажні перевезення, Euro Tandem" />
     <meta name="author" content="Euro Tandem LLC" />
     <meta name="language" content="Ukrainian" />
+    <meta name="geo.region" content="UA-VO" />
+    <meta name="geo.placename" content="Горохів, Волинська область" />
+    <meta name="geo.position" content="50.5;25.75" />
+    <meta name="ICBM" content="50.5, 25.75" />
+    <meta name="dcterms.subject" content="логістика, перевезення, Україна, ЄС, Німеччина, Бельгія, Нідерланди" />
+    <meta name="revisit-after" content="3 days" />
     <meta property="og:title" content="Euro Tandem — Міжнародні перевезення Україна-ЄС" />
     <meta property="og:description" content="⭐ Надійні вантажні перевезення до Німеччини, Бельгії, Нідерландів. Власний автопарк 17 фур ✅ GPS-трекінг ✅ Страхування" />
-    <meta property="og:image" content="https://eurotandem.com/src/img/Logo.avif" />
-    <meta property="og:url" content="https://eurotandem.com" />
+    <meta property="og:image" content="https://eurotandem.com.ua/src/img/Logo.avif" />
+    <meta property="og:url" content="https://eurotandem.com.ua" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Euro Tandem" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Euro Tandem — Міжнародні перевезення Україна-ЄС" />
     <meta name="twitter:description" content="⭐ Надійні вантажні перевезення до Німеччини, Бельгії, Нідерландів. Власний автопарк 17 фур ✅ GPS-трекінг ✅ Страхування" />
-    <meta name="twitter:image" content="https://eurotandem.com/src/img/Logo.avif" />
+    <meta name="twitter:image" content="https://eurotandem.com.ua/src/img/Logo.avif" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://eurotandem.com/" />
+    <link rel="canonical" href="https://eurotandem.com.ua/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="./src/img/Logo.avif" as="image" />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style" />
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZP68JTB060"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX', {
+      gtag('config', 'G-ZP68JTB060', {
         page_title: 'Euro Tandem - Головна',
         page_location: window.location.href,
         custom_map: {'custom_parameter_1': 'page_type'},
@@ -84,14 +90,50 @@
       "@graph": [
         {
           "@type": "Organization",
+          "@id": "https://eurotandem.com.ua/#organization",
           "name": "Euro Tandem",
-          "url": "https://eurotandem.com",
-          "logo": "https://eurotandem.com/src/img/Logo.avif",
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+380977777568",
-            "contactType": "Customer Service"
-          }
+          "url": "https://eurotandem.com.ua",
+          "logo": "https://eurotandem.com.ua/src/img/Logo.avif",
+          "description": "Надійні логістичні рішення та міжнародні перевезення Україна-ЄС. Власний автопарк, GPS-трекінг, страхування вантажів.",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "вулиця Козацька, будинок 23",
+            "addressLocality": "Горохів",
+            "addressRegion": "Волинська область",
+            "addressCountry": "UA"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "telephone": "+380977777568",
+              "contactType": "Customer Service",
+              "availableLanguage": "Ukrainian"
+            },
+            {
+              "@type": "ContactPoint",
+              "email": "eurotandem@ukr.net",
+              "contactType": "Customer Service"
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/profile.php?id=61577922161284",
+            "https://www.tiktok.com/@eurotandem",
+            "https://lardi-trans.com/log/user/12164342612/"
+          ],
+          "foundingDate": "2023",
+          "areaServed": ["Ukraine", "Germany", "Belgium", "Netherlands"],
+          "serviceType": "Logistics and Transportation"
+        },
+        {
+          "@type": "Service",
+          "@id": "https://eurotandem.com.ua/#service",
+          "name": "Міжнародні логістичні перевезення",
+          "description": "Надаємо послуги міжнародних вантажних перевезень з України до країн ЄС",
+          "provider": {
+            "@id": "https://eurotandem.com.ua/#organization"
+          },
+          "areaServed": ["Ukraine", "Germany", "Belgium", "Netherlands"],
+          "serviceType": "Transportation and Logistics"
         },
         {
           "@type": "BreadcrumbList",
@@ -100,7 +142,7 @@
               "@type": "ListItem",
               "position": 1,
               "name": "Головна",
-              "item": "https://eurotandem.com/"
+              "item": "https://eurotandem.com.ua/"
             }
           ]
         }

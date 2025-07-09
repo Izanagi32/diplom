@@ -1,4 +1,8 @@
 User-agent: *
 Disallow: /api/
-Disallow: /src/
-Sitemap: https://eurotandem.com/sitemap.xml 
+Disallow: /src/data/
+Allow: /src/css/
+Allow: /src/js/
+Allow: /src/img/
+Allow: /src/svg/
+Sitemap: https://eurotandem.com.ua/sitemap.xml 
