@@ -174,7 +174,7 @@
       </li>
     </ol>
   </nav>
-  <main class="Vcontainer" id="faqApp" itemscope itemtype="https://schema.org/FAQPage">
+  <main class="Vcontainer" id="faqApp">
     <div class="faq-header">
       <h1 class="faq-title">База знань (FAQ)</h1>
     </div>
@@ -195,12 +195,12 @@
     <div class="faq-counter" v-else>
       Нічого не знайдено за вашим запитом.
     </div>
-    <div v-for="(faq, index) in filteredFaqs" :key="index" class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-      <h2 class="question" :class="{ active: activeIndex === index }" @click="toggle(index)" itemprop="name">
+    <div v-for="(faq, index) in filteredFaqs" :key="index" class="faq-item">
+      <h2 class="question" :class="{ active: activeIndex === index }" @click="toggle(index)">
         {{ formatQuestion(faq.question) }}
       </h2>
-      <div class="answer" :class="{ active: activeIndex === index }" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <p itemprop="text">{{ faq.answer }}</p>
+      <div class="answer" :class="{ active: activeIndex === index }">
+        <p>{{ faq.answer }}</p>
         <div class="faq-views">Переглядів: {{ faq.views }}</div>
       </div>
     </div>
