@@ -286,6 +286,7 @@
 }
 .navbar__menu-item {
   position: relative;
+  flex-shrink: 0;
 }
 .navbar__menu-link {
   color: #fff;
@@ -295,6 +296,7 @@
   padding: 5px 0;
   position: relative;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 .navbar__menu-link::after {
   content: "";
@@ -546,6 +548,7 @@
   transition: opacity 0.7s, transform 0.7s, color 0.4s;
   overflow: hidden;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 .navbar__mobile-menu.active .navbar__menu-link {
   opacity: 1;
@@ -687,8 +690,12 @@
   .navbar__menu-list {
     gap: 20px;
   }
+  .navbar__menu-item {
+    flex-shrink: 0;
+  }
   .navbar__menu-link {
     font-size: 15px;
+    white-space: nowrap;
   }
   .navbar__cta-button {
     padding: 8px 20px;
@@ -723,6 +730,12 @@ body.no-scroll {
 @media (max-width: 992px) {
   .navbar__menu-list {
     gap: 20px;
+  }
+  .navbar__menu-item {
+    flex-shrink: 0;
+  }
+  .navbar__menu-link {
+    white-space: nowrap;
   }
   .navbar__block-menu {
     gap: 20px;

@@ -334,6 +334,7 @@
 
         &-item {
             position: relative;
+            flex-shrink: 0;
         }
 
         &-link {
@@ -344,6 +345,7 @@
             padding: 5px 0;
             position: relative;
             transition: all 0.3s ease;
+            white-space: nowrap;
 
             &::after {
                 content: '';
@@ -602,6 +604,7 @@
             transition: opacity 0.7s, transform 0.7s, color 0.4s;
             overflow: hidden;
             text-transform: uppercase;
+            white-space: nowrap;
         }
         &.active .navbar__menu-link {
             opacity: 1;
@@ -739,8 +742,13 @@
             gap: 20px;
         }
 
+        &__menu-item {
+            flex-shrink: 0;
+        }
+
         &__menu-link {
             font-size: 15px;
+            white-space: nowrap;
         }
 
         &__cta-button {
@@ -785,6 +793,14 @@ body.no-scroll {
         &__menu {
             &-list {
                 gap: 20px;
+            }
+            
+            &-item {
+                flex-shrink: 0;
+            }
+            
+            &-link {
+                white-space: nowrap;
             }
         }
 
